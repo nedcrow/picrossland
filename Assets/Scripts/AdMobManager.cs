@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System;
-//using GoogleMobileAds.Api;
+using GoogleMobileAds.Api;
 
 public class AdMobManager : MonoBehaviour
 {
@@ -31,78 +31,78 @@ public class AdMobManager : MonoBehaviour
     public string android_interstitial_id;
     public string ios_interstitial_id;
 
-//    private BannerView bannerView;
-//    private InterstitialAd interstitialAd;
+    private BannerView bannerView;
+    private InterstitialAd interstitialAd;
 
-//    public void Start()
-//    {
-//        MobileAds.Initialize(android_banner_id);
-//        MobileAds.Initialize(ios_banner_id);
+    public void Start()
+    {
+        MobileAds.Initialize(android_banner_id);
+        MobileAds.Initialize(ios_banner_id);
 
-//        RequestBannerAd();
-//        RequestInterstitialAd();
+        RequestBannerAd();
+        RequestInterstitialAd();
 
-//        ShowBannerAd();
-//    }
+        ShowBannerAd();
+    }
 
-//    public void RequestBannerAd()
-//    {
-//        string adUnitId = string.Empty;
+    public void RequestBannerAd()
+    {
+        string adUnitId = string.Empty;
 
-//#if UNITY_ANDROID
-//        adUnitId = android_banner_id;
-//#elif UNITY_IOS
-//        adUnitId = ios_bannerAdUnitId;
-//#endif
+#if UNITY_ANDROID
+        adUnitId = android_banner_id;
+#elif UNITY_IOS
+        adUnitId = ios_bannerAdUnitId;
+#endif
 
-//        bannerView = new BannerView(adUnitId, new AdSize(576, 90), AdPosition.Bottom);
-//        AdRequest request = new AdRequest.Builder().Build();
+        bannerView = new BannerView(adUnitId, new AdSize(576, 90), AdPosition.Bottom);
+        AdRequest request = new AdRequest.Builder().Build();
 
-//        bannerView.LoadAd(request);
-//    }
+        bannerView.LoadAd(request);
+    }
 
-//    private void RequestInterstitialAd()
-//    {
-//        string adUnitId = string.Empty;
+    private void RequestInterstitialAd()
+    {
+        string adUnitId = string.Empty;
 
-//#if UNITY_ANDROID
-//        adUnitId = android_interstitial_id;
-//#elif UNITY_IOS
-//        adUnitId = ios_interstitialAdUnitId;
-//#endif
+#if UNITY_ANDROID
+        adUnitId = android_interstitial_id;
+#elif UNITY_IOS
+        adUnitId = ios_interstitialAdUnitId;
+#endif
 
-//        interstitialAd = new InterstitialAd(adUnitId);
-//        AdRequest request = new AdRequest.Builder().Build();
+        interstitialAd = new InterstitialAd(adUnitId);
+        AdRequest request = new AdRequest.Builder().Build();
 
-//        interstitialAd.LoadAd(request);
+        interstitialAd.LoadAd(request);
 
-//        interstitialAd.OnAdClosed += HandleOnInterstitialAdClosed;
-//    }
+        interstitialAd.OnAdClosed += HandleOnInterstitialAdClosed;
+    }
 
-//    public void HandleOnInterstitialAdClosed(object sender, EventArgs args)
-//    {
-//        print("HandleOnInterstitialAdClosed event received.");
+    public void HandleOnInterstitialAdClosed(object sender, EventArgs args)
+    {
+        print("HandleOnInterstitialAdClosed event received.");
 
-//        interstitialAd.Destroy();
+        interstitialAd.Destroy();
 
-//        RequestInterstitialAd();
-//    }
+        RequestInterstitialAd();
+    }
 
-//    public void ShowBannerAd()
-//    {
-//        bannerView.Show();
-//    }
+    public void ShowBannerAd()
+    {
+        bannerView.Show();
+    }
 
-//    public void ShowInterstitialAd()
-//    {
-//        if (!interstitialAd.IsLoaded())
-//        {
-//            RequestInterstitialAd();
-//            return;
-//        }
+    public void ShowInterstitialAd()
+    {
+        if (!interstitialAd.IsLoaded())
+        {
+            RequestInterstitialAd();
+            return;
+        }
 
-//        interstitialAd.Show();
-//    }
+        interstitialAd.Show();
+    }
 
 }
 

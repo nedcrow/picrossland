@@ -98,23 +98,23 @@ public class LoginManager : MonoBehaviour {
         GooglePlayServiceInitialize();
         Debug.Log("GooglePlayServiceInitialize");
 
-        //Social.localUser.Authenticate(success =>
-        //{
-        //    result = string.Format("succes : {0}, userName : {1}", success, Social.localUser.userName);
-        //    DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = result;
+        Social.localUser.Authenticate(success =>
+        {
+            result = string.Format("succes : {0}, userName : {1}", success, Social.localUser.userName);
+            DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = result;
 
-        //    if (success)
-        //    {
-        //        StartCoroutine(coLogin(clicked));
-        //    }
-        //    else
-        //    {
-        //        //GoogleLogin창 보여주기
-        //    }
+            if (success)
+            {
+                StartCoroutine(coLogin(clicked));
+            }
+            else
+            {
+                //GoogleLogin창 보여주기
+            }
 
-        //});
+        });
     }
-       
+
 
     IEnumerator coLogin(bool clicked)
     {

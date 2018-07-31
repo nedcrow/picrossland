@@ -80,7 +80,7 @@ public class PuzzleManager : MonoBehaviour {
 
         #region UI
         viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().StopDragCheck();
-        //AdMobManager.instance.ShowBannerAd();        
+        AdMobManager.instance.ShowBannerAd();        
         #endregion
     }
 
