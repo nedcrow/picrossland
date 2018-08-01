@@ -98,7 +98,7 @@ public class LoginManager : MonoBehaviour {
         GooglePlayServiceInitialize();
         Debug.Log("GooglePlayServiceInitialize");
 
-        Social.localUser.Authenticate(success =>
+        Social.localUser.Authenticate(success => // error position
         {
             Debug.Log("Try Login");
             result = string.Format("succes : {0}, userName : {1}", success, Social.localUser.userName);
@@ -110,7 +110,7 @@ public class LoginManager : MonoBehaviour {
             }
             else
             {
-                //GoogleLogin창 보여주기
+               
             }
 
         });
