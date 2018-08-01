@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CursorController : MonoBehaviour {
 
+    public AudioClip tick;
     GameObject[] lineObjs = new GameObject[4]; //Up,Right,Down,Left
     Sprite[] tiles;
 
@@ -22,6 +23,8 @@ public class CursorController : MonoBehaviour {
         Sprite[] tileSprites = Resources.LoadAll<Sprite>("Sprite/Tile");//currentPuzzleID
         tiles = new Sprite[4]{ tileSprites[3], tileSprites[0], tileSprites[2], tileSprites[1] };
         targetList = new List<GameObject>();
+
+        tick = Resources.Load<AudioClip>("SFX/cursor_tick");
     }
 
     public void ReadyPosition()
@@ -31,11 +34,15 @@ public class CursorController : MonoBehaviour {
         Debug.Log("ready");        
     }
 
+    private AudioSource source;
     public void MovePosition(Vector3 pos)
     {
         transform.position = pos;
         posForChild = CheckPosForChild();
         OnLine();
+                
+        source = GetComponent<AudioSource>();
+        source.PlayOneShot(tick, 1);
     }
 
     int firstCheck = 0;
@@ -115,5 +122,16 @@ public class CursorController : MonoBehaviour {
         int y = System.Convert.ToInt32( transform.position.y*unUnit-1 );
         cursorPos = new Vector2(x,y);        
         return x * size + y; ;
+    }
+
+    // ------ sound Test ------ //
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            source = GetComponent<AudioSource>();
+            source.PlayOneShot(tick, 1);
+        }
     }
 }

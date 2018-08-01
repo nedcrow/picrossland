@@ -55,7 +55,7 @@ public class AdMobManager : MonoBehaviour
         adUnitId = ios_bannerAdUnitId;
 #endif
 
-        bannerView = new BannerView(adUnitId, new AdSize(576, 90), AdPosition.Bottom);
+        bannerView = new BannerView(adUnitId, new AdSize(320, 50), AdPosition.Bottom);
         AdRequest request = new AdRequest.Builder().Build();
 
         bannerView.LoadAd(request);

@@ -52,7 +52,7 @@ public class MainDataBase : MonoBehaviour
         path = Application.persistentDataPath + "/Save"; // for Local
         //--------------------Set realtime database ----------------------------v
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://picrosisland.firebaseio.com/");
-        FirebaseApp.DefaultInstance.SetEditorP12FileName("picrosisland-14779ec0f8a0.p12");
+        FirebaseApp.DefaultInstance.SetEditorP12FileName("picrosisland-7901be2f0621.p12");
         FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("picrosisland@appspot.gserviceaccount.com");
         FirebaseApp.DefaultInstance.SetEditorP12Password("notasecret");
 
@@ -145,7 +145,7 @@ public class MainDataBase : MonoBehaviour
                     LandManager.instance.landList = tempLandList;
                     loadLand = true;
                 }
-                
+
             }
      );
 
@@ -185,15 +185,15 @@ public class MainDataBase : MonoBehaviour
                       tempPuzzle.spawnCount = System.Convert.ToInt32(snapshot.Child(i_).Child("6").GetValue(true));
                       tempPuzzle.maxCount = System.Convert.ToInt32(snapshot.Child(i_).Child("7").GetValue(true));
 
-                      tempPuzzleList.Add(tempPuzzle);                      
+                      tempPuzzleList.Add(tempPuzzle);
                   }//칼럼 제외 이유로 i = 1 부터 시작.
 
                   List<DataBase.Puzzle[]> PuzzleList = new List<DataBase.Puzzle[]>(); //tempPuzzleList의 것을 옮겨담을 곳.
 
-                 
+
                   int targetPuzzleListNum = 1;
                   int puzzleCount = tempPuzzleList.Count;
-                  
+
                   while (puzzleCount > 0)
                   {
                       #region tempBaseSetting
@@ -212,15 +212,15 @@ public class MainDataBase : MonoBehaviour
                           //Debug.Log(targetPuzzleListStr +", "+ puzzleCount);
                       }//Land가 같은 것 끼리 모음.1번 Land부터 시작.                      
                       DataBase.Puzzle[] tempPuzzleArr = new DataBase.Puzzle[tempTempPuzzleList.Count];
-                      for(int i=0; i<tempTempPuzzleList.Count; i++)
-                      {                         
+                      for (int i = 0; i < tempTempPuzzleList.Count; i++)
+                      {
                           tempPuzzleArr[i] = tempTempPuzzleList[i];
                       }//PuzzleList에 순차적으로 Puzzle들을 담기 위해 List를 Array로 만든다.
                       PuzzleList.Add(tempPuzzleArr);
                       tempTempPuzzleList.Clear();
                       tempTempNum.Clear();
-                      targetPuzzleListNum ++;                      
-                  }                  
+                      targetPuzzleListNum++;
+                  }
 
                   PuzzleManager.instance.puzzles = new DataBase.Puzzle[PuzzleList.Count][];// [landCount][puzzleCount]                 
                   for (int i = 0; i < PuzzleList.Count; i++)
@@ -243,7 +243,7 @@ public class MainDataBase : MonoBehaviour
               }
           }
    );
-        
+
     }
 
 
@@ -287,11 +287,11 @@ public class MainDataBase : MonoBehaviour
                    {
                        string i_ = i.ToString();
                        UserManager.Instance.currentUser.name = snapshot.Child(i_).Child("0").GetValue(true).ToString(); //snapShot에서 name 가져오기.
-                       }
+                   }
                }
                success = true;
                DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load : UserManager.Instance.currentUser.name";
-           }           
+           }
        });
         if (local == true) { success = true; }
         return success;
@@ -364,7 +364,7 @@ public class MainDataBase : MonoBehaviour
             #endregion 
             DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "save...";
             DatabaseReference currentUserDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(UserManager.Instance.currentUser.id);
-           
+
             for (int i = 0; i < childs.Length; i++)
             {
                 currentUserDatabaseRef.Child(UserManager.Instance.currentUser.id).Child(childs[i]).SetValueAsync(childsValues[i]).ContinueWith(
@@ -390,7 +390,7 @@ public class MainDataBase : MonoBehaviour
         if (OnLoadAdmin() && local == false)
         {
             DatabaseReference currentUserDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands");
-            for(int i=0; i< UserManager.Instance.currentUser.gotLandList.Count; i++)
+            for (int i = 0; i < UserManager.Instance.currentUser.gotLandList.Count; i++)
             {
                 string i_ = i.ToString();
 
@@ -404,8 +404,8 @@ public class MainDataBase : MonoBehaviour
                     }
                     if (task.IsCompleted)
                     {
-                        SaveThat(currentUserDatabaseRef.Child(i_).Child("weather"), UserManager.Instance.currentUser.gotLandList[i].weather.ToString());                       
-                        for (int j=0; j< UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList.Count; j++)
+                        SaveThat(currentUserDatabaseRef.Child(i_).Child("weather"), UserManager.Instance.currentUser.gotLandList[i].weather.ToString());
+                        for (int j = 0; j < UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList.Count; j++)
                         {
                             string j_ = j.ToString();
                             SaveThat(currentUserDatabaseRef.Child(i_).Child("ClrPuzzles").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
@@ -424,15 +424,16 @@ public class MainDataBase : MonoBehaviour
             SaveLocal_Game("UserData.save");
         }
     }
-    
 
-    void SaveThat(DatabaseReference currentUserDatabaseRef, string value) {
+
+    void SaveThat(DatabaseReference currentUserDatabaseRef, string value)
+    {
         currentUserDatabaseRef.SetValueAsync(value).ContinueWith(
             task =>
             {
                 if (!task.IsCompleted)
                 {
-                    DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "Save error : " + currentUserDatabaseRef.ToString(); 
+                    DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "Save error : " + currentUserDatabaseRef.ToString();
                     // Handle the error...
                 }
             });

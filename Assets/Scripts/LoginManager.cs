@@ -65,13 +65,13 @@ public class LoginManager : MonoBehaviour {
     void FirebaseInitialize()
     {
         DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "Setting up Firebase Auth";
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;        
+        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
     }
 
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
-    {       
+    {
         if (auth.CurrentUser != user) //현재 접속 유저가 
         {
             bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
@@ -100,6 +100,7 @@ public class LoginManager : MonoBehaviour {
 
         Social.localUser.Authenticate(success =>
         {
+            Debug.Log("Try Login");
             result = string.Format("succes : {0}, userName : {1}", success, Social.localUser.userName);
             DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = result;
 
@@ -121,7 +122,7 @@ public class LoginManager : MonoBehaviour {
         result = "try login....";
         DebugViewer.Instance.debugTextObjectList[1].GetComponent<Text>().text = result;
         while (System.String.IsNullOrEmpty(((PlayGamesLocalUser)Social.localUser).GetIdToken()))
-        {            
+        {
             yield return null;
         }
 
