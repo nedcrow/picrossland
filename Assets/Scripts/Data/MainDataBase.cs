@@ -327,26 +327,22 @@ public class MainDataBase : MonoBehaviour
         bool success = false;
 
         Debug.Log(UserManager.Instance.currentUser.id);
-        FirebaseDatabase.DefaultInstance.GetReference("users").Child(UserManager.Instance.currentUser.id).GetValueAsync().ContinueWith
+        FirebaseDatabase.DefaultInstance.GetReference("Users").Child(UserManager.Instance.currentUser.id).GetValueAsync().ContinueWith
        (
        task =>
        {
            if (task.IsFaulted || task.IsCanceled)
            {
-               DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "User, Handle the error";    //success=false;   
+               Debug.Log("OnLoadAdmin_Error");
            }
            else if (task.IsCompleted)
            {
                DataSnapshot snapshot = task.Result;
-               Debug.Log(snapshot.ChildrenCount);
+               Debug.Log("Count : "+snapshot.ChildrenCount);
                if (snapshot.ChildrenCount > 0)
                {
-                   for (int i = 0; i < snapshot.ChildrenCount; i++)
-                   {
-                       string i_ = i.ToString();
-                       Debug.Log(snapshot.Child(i_).GetValue(true).ToString());
-                       UserManager.Instance.currentUser.name = snapshot.Child(i_).Child("0").GetValue(true).ToString(); //snapShot에서 name 가져오기.
-                   }
+                   Debug.Log(snapshot.Child("username").GetValue(true).ToString());
+                   UserManager.Instance.currentUser.name = snapshot.Child("username").GetValue(true).ToString(); //snapShot에서 name 가져오기.
                }
                success = true;
                DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :"+ UserManager.Instance.currentUser.name;
