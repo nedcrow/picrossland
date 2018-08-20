@@ -71,6 +71,7 @@ public class LoginController : MonoBehaviour {
                 Btn_Local.SetActive(true);
                 break;
             }
+
             tryTime += 0.01f;
             yield return new WaitForSeconds(0.01f);
         }

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -52,22 +52,26 @@ public class LoginManager : MonoBehaviour {
 
     void GooglePlayServiceInitialize()
     {
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
+#if UNITY_ANDROID
+        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
+            .Builder()
             .RequestServerAuthCode(false)//option
+            .EnableSavedGames()
             .RequestIdToken()
             .Build();
 
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
+#endif
     }
 
     void FirebaseInitialize()
     {
-        DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "Setting up Firebase Auth";
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
+        DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "Setting up Firebase Auth";
     }
 
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
@@ -79,6 +83,7 @@ public class LoginManager : MonoBehaviour {
             if (!signedIn && user != null)
             {
                 DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = string.Format("Signed out {0}", user.UserId);
+                Debug.Log("빵꾸");
             }//접속 사용자가 없을 경우. 접속 버튼을 보게 만들자.
             user = auth.CurrentUser;
             if (signedIn)
@@ -95,10 +100,10 @@ public class LoginManager : MonoBehaviour {
     public void OnClickGoogleLogin(bool clicked)
     {
         Debug.Log("Start_Login");
-        GooglePlayServiceInitialize();
-        Debug.Log("GooglePlayServiceInitialize");
+       // GooglePlayServiceInitialize();
+       // Debug.Log("GooglePlayServiceInitialize");
 
-        Social.localUser.Authenticate(success => // error position
+        Social.localUser.Authenticate((bool success) => // error position
         {
             Debug.Log("Try Login");
             result = string.Format("succes : {0}, userName : {1}", success, Social.localUser.userName);
@@ -110,10 +115,22 @@ public class LoginManager : MonoBehaviour {
             }
             else
             {
-               
+                Debug.Log(result);
             }
 
         });
+        //Social.localUser.Authenticate(success => {
+        //    if (success)
+        //    {
+        //        Debug.Log("Authentication successful");
+        //        string userInfo = "Username: " + Social.localUser.userName +
+        //            "\nUser ID: " + Social.localUser.id +
+        //            "\nIsUnderage: " + Social.localUser.underage;
+        //        Debug.Log(userInfo);
+        //    }
+        //    else
+        //        Debug.Log("Authentication failed");
+        //});
     }
 
 
@@ -126,16 +143,17 @@ public class LoginManager : MonoBehaviour {
             yield return null;
         }
 
-        if(clicked == false)
+       
+        if (clicked == false)
         {
-            if (MainDataBase.instance.OnLoadAdmin()) { SignUp(); Debug.Log("자동 접속 시도"); } //과거 접속 기록이 있으면 자동접속.
-        }//시작 시 자동 접속은 기존에 접속기록이 있을 경우만 실행.
+            SignUp();
+            //if (MainDataBase.instance.OnLoadAdmin()) { SignUp(); Debug.Log("자동 접속 시도"); } //과거 접속 기록이 있으면 자동접속.
+        }//시작 시 자동 접속은 기존에 접속기록이 있을 경우만 실행. -> Token 저장해서 구별하던지 하고, 일단 인증 가능한 유저는 자동 접속.
         else
         {
             Debug.Log("접속 시도");
             SignUp();
-        }
-        
+        } 
 
     }
     #endregion
@@ -143,11 +161,11 @@ public class LoginManager : MonoBehaviour {
 
     void SignUp()
     {
-        string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+        string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken(); //PlayGamesPlatform.Instance.GetIdToken();
 
         DebugViewer.Instance.debugTextObjectList[1].GetComponent<Text>().text = "getToken";
 
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+
 
         Firebase.Auth.Credential credential =
            Firebase.Auth.GoogleAuthProvider.GetCredential(idToken, null);

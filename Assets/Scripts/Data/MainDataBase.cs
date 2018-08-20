@@ -19,10 +19,10 @@ public class MainDataBase : MonoBehaviour
         {
             if (!_instance)
             {
-                GameObject obj = GameObject.Find("PicrossLand");
+                GameObject obj = GameObject.Find("LandOfPicross");
                 if (obj == null)
                 {
-                    obj = new GameObject("PicrossLand");
+                    obj = new GameObject("LandOfPicross");
                     obj.AddComponent<MainDataBase>();
                 }
                 return obj.GetComponent<MainDataBase>();
@@ -51,17 +51,74 @@ public class MainDataBase : MonoBehaviour
         local = false;
         path = Application.persistentDataPath + "/Save"; // for Local
         //--------------------Set realtime database ----------------------------v
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://picrosisland.firebaseio.com/");
-        FirebaseApp.DefaultInstance.SetEditorP12FileName("picrosisland-7901be2f0621.p12");
-        FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("picrosisland@appspot.gserviceaccount.com");
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://land-of-picross-8205260.firebaseio.com/");
+        FirebaseApp.DefaultInstance.SetEditorP12FileName("land-of-picross-8205260-62de3e51bc93.p12");
+        FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("land-of-picross-8205260@appspot.gserviceaccount.com");
         FirebaseApp.DefaultInstance.SetEditorP12Password("notasecret");
 
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
 
     }
-
     #region FireBase
-   
+
+
+    //public void OnClickTransactionSave()
+    //{
+    //    const int MaxScoreRecordCount = 5;
+    //    int score = Random.Range(0, 100);
+    //    string email = "testEmail";
+
+    //    databaseReference.Child("users").RunTransaction(mutableData => {
+    //        List<object> leaders = mutableData.Value as List<object>;
+
+    //        if (leaders == null)
+    //        {
+    //            leaders = new List<object>();
+    //        }
+
+    //        // 랭킹에 등록된 점수를 비교합니다.
+    //        else if (mutableData.ChildrenCount >= MaxScoreRecordCount)
+    //        {
+    //            long minScore = long.MaxValue;
+    //            object minVal = null;
+    //            foreach (var child in leaders)
+    //            {
+    //                if (!(child is Dictionary<string, object>))
+    //                    continue;
+    //                long childScore = (long)((Dictionary<string, object>)child)["score"];
+    //                if (childScore < minScore)
+    //                {
+    //                    minScore = childScore;
+    //                    minVal = child;
+    //                }
+    //            }
+    //            if (minScore > score)
+    //            {
+    //                // 현재 점수가 최하위 점수보다 낮으면 중단합니다.(랭킹에 못오르니깐)
+    //                return TransactionResult.Abort();
+    //            }
+
+    //            // 기존 최하위 데이터를 제거합니다.(랭킹 변경)
+    //            leaders.Remove(minVal);
+    //        }
+
+    //        Dictionary<string, object> newScoreMap = new Dictionary<string, object>();
+
+    //        newScoreMap["score"] = score;
+    //        newScoreMap["email"] = email;
+
+    //        leaders.Add(newScoreMap);
+    //        mutableData.Value = leaders;
+    //        return TransactionResult.Success(mutableData);
+    //    });
+    //}
+
+    //public void OnClickRemove()
+    //{
+    //    databaseReference.Child("users").Child("노드이름").Child("노드이름")
+    //                   .RemoveValueAsync();
+    //}
+    
 
     #region BaseDB
     /// <summary>
@@ -268,8 +325,8 @@ public class MainDataBase : MonoBehaviour
     public bool OnLoadAdmin()
     {
         bool success = false;
-        
-            Debug.Log(UserManager.Instance.currentUser.id);
+
+        Debug.Log(UserManager.Instance.currentUser.id);
         FirebaseDatabase.DefaultInstance.GetReference("users").Child(UserManager.Instance.currentUser.id).GetValueAsync().ContinueWith
        (
        task =>
@@ -281,16 +338,18 @@ public class MainDataBase : MonoBehaviour
            else if (task.IsCompleted)
            {
                DataSnapshot snapshot = task.Result;
+               Debug.Log(snapshot.ChildrenCount);
                if (snapshot.ChildrenCount > 0)
                {
-                   for (int i = 1; i < snapshot.ChildrenCount; i++)
+                   for (int i = 0; i < snapshot.ChildrenCount; i++)
                    {
                        string i_ = i.ToString();
+                       Debug.Log(snapshot.Child(i_).GetValue(true).ToString());
                        UserManager.Instance.currentUser.name = snapshot.Child(i_).Child("0").GetValue(true).ToString(); //snapShot에서 name 가져오기.
                    }
                }
                success = true;
-               DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load : UserManager.Instance.currentUser.name";
+               DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :"+ UserManager.Instance.currentUser.name;
            }
        });
         if (local == true) { success = true; }
@@ -334,14 +393,14 @@ public class MainDataBase : MonoBehaviour
                         {
                             UserManager.Instance.currentUser.name = nickName;
                             DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "NickName : " + nickName;
-                            LandManager.instance.views.popupView.GetComponent<PopupViewController>().nickNamePop.SetActive(false); //close nickNamePopup
+                            LandManager.instance.views.popupView.GetComponent<PopupViewController>().nickNamePop.SetActive(false); //close nickNamePopup                            
                         }
                     }
                 );
         }
-    
 
-        
+
+
     }
 
     public void OnSaveAdmin()
@@ -350,7 +409,7 @@ public class MainDataBase : MonoBehaviour
         UserManager.Instance.currentUser.PlayTime = UserManager.Instance.currentUser.PlayTime + (System.DateTime.Now - UserManager.Instance.currentUser.loginTime).Seconds;
         DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = UserManager.Instance.currentUser.PlayTime.ToString();
 
-        if (OnLoadAdmin() && local==false)
+        if (OnLoadAdmin() && local == false)
         {
             #region SaveItem _Childs           
             string[] childs = new string[] { "gem", "ClrLndCnt", "playtime", "lastLand" }; // save item

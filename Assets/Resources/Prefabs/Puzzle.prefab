@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 114366728831770550}
   - component: {fileID: 114581308529191766}
   - component: {fileID: 114854227294709506}
-  - component: {fileID: 114029632188126070}
   m_Layer: 0
   m_Name: Puzzle
   m_TagString: Untagged
@@ -325,12 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lands: []
-  currentLand:
-    id: 0
-    name: 
-    description: 
-    puzzleList_S: 
-    puzzleList_N: 
+  currentLandObj: {fileID: 0}
   currentPuzzle:
     id: 
     name: 
@@ -338,30 +332,23 @@ MonoBehaviour:
     useSpriteNum1: 0
     useSpriteNum2: 0
     type: 
-  puzzleIDs: []
+    spawnCount: 0
+    maxCount: 0
   currentPuzzleSize: 0
   tileGroup_Rest: {fileID: 1832550253246486}
   tileGroup_Active: {fileID: 1958011705363502}
   lines: {fileID: 1400599856197928}
-  corsor: {fileID: 1675333803847686}
+  cursor: {fileID: 1675333803847686}
+  puzzleBG: {fileID: 1992843532319740}
   viewCon: {fileID: 0}
   puzzleKeyBrush: {fileID: 0}
   currentSprites: []
   currentSprite: {fileID: 0}
   currentGoal: 
+  DrawEnd: 0
+  land_base: {fileID: 0}
   tile_base: {fileID: 0}
   line_base: {fileID: 0}
---- !u!114 &114029632188126070
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1684935690881336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a33079a43e16904eb268bd24b3fb866, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114366728831770550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -385,6 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad5ed83374a7349a485c83e6159e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tick: {fileID: 0}
   ready: 0
 --- !u!114 &114581308529191766
 MonoBehaviour:

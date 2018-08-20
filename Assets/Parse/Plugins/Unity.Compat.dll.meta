@@ -27,16 +27,6 @@ PluginImporter:
       enabled: 1
       settings: {}
   - first:
-      '': Tizen
-    second:
-      enabled: 1
-      settings: {}
-  - first:
-      '': WiiU
-    second:
-      enabled: 1
-      settings: {}
-  - first:
       Android: Android
     second:
       enabled: 1
@@ -103,7 +93,17 @@ PluginImporter:
       enabled: 1
       settings: {}
   - first:
+      Tizen: Tizen
+    second:
+      enabled: 1
+      settings: {}
+  - first:
       WebGL: WebGL
+    second:
+      enabled: 1
+      settings: {}
+  - first:
+      WiiU: WiiU
     second:
       enabled: 1
       settings: {}

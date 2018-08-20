@@ -24,12 +24,13 @@ public class AdMobManager : MonoBehaviour
         }
     }
     #endregion
+    // app ID : banner : ca-app-pub-1894471406717971/1502663830   Interstitial : ca-app-pub-1894471406717971/7714200031
 
-    public string android_banner_id;
-    public string ios_banner_id;
+    public string android_banner_id = "ca-app-pub-3940256099942544/6300978111";
+    public string ios_banner_id = "a-app-pub-3940256099942544/2934735716";
 
-    public string android_interstitial_id;
-    public string ios_interstitial_id;
+    public string android_interstitial_id = "ca-app-pub-3940256099942544/1033173712";
+    public string ios_interstitial_id = "ca-app-pub-3940256099942544/4411468910";
 
     private BannerView bannerView;
     private InterstitialAd interstitialAd;
@@ -42,7 +43,8 @@ public class AdMobManager : MonoBehaviour
         RequestBannerAd();
         RequestInterstitialAd();
 
-        ShowBannerAd();
+        DontDestroyOnLoad(transform.gameObject);
+        //ShowBannerAd();
     }
 
     public void RequestBannerAd()
@@ -52,7 +54,7 @@ public class AdMobManager : MonoBehaviour
 #if UNITY_ANDROID
         adUnitId = android_banner_id;
 #elif UNITY_IOS
-        adUnitId = ios_bannerAdUnitId;
+            adUnitId = ios_bannerAdUnitId;
 #endif
 
         bannerView = new BannerView(adUnitId, new AdSize(320, 50), AdPosition.Bottom);
@@ -68,7 +70,7 @@ public class AdMobManager : MonoBehaviour
 #if UNITY_ANDROID
         adUnitId = android_interstitial_id;
 #elif UNITY_IOS
-        adUnitId = ios_interstitialAdUnitId;
+            adUnitId = ios_interstitialAdUnitId;
 #endif
 
         interstitialAd = new InterstitialAd(adUnitId);

@@ -12,10 +12,10 @@ public class UserManager : MonoBehaviour {
         {
             if (!_instance)
             {
-                GameObject obj = GameObject.Find("PicrossLand");
+                GameObject obj = GameObject.Find("LandOfPicross");
                 if (obj == null)
                 {
-                    obj = new GameObject("PicrossLand");
+                    obj = new GameObject("LandOfPicross");
                     obj.AddComponent<UserManager>();
                 }
                 return obj.GetComponent<UserManager>();

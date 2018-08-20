@@ -27,7 +27,7 @@ public class PuzzleManager : MonoBehaviour {
 
     public DataBase.Land[] lands;
    // public DataBase.Land currentLand;
-    public GameObject currentLandObj;
+   [HideInInspector] public GameObject currentLandObj;
 
     public DataBase.Puzzle[][] puzzles;
     public DataBase.Puzzle currentPuzzle;
@@ -37,7 +37,7 @@ public class PuzzleManager : MonoBehaviour {
     public GameObject tileGroup_Rest;
     public GameObject tileGroup_Active;
     public GameObject lines;
-    public GameObject cursor; // 시간 남으면 '비어있을 때 하이어락키에서 찾으라는 것'도 추가함.
+    public GameObject cursor; // 여유있으면 '비어있을 때 하이어락키에서 찾으라는 것'도 추가함.
     public GameObject puzzleBG;
     public ViewController viewCon;
     public PuzzleKeyBrush puzzleKeyBrush;

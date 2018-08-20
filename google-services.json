@@ -1,43 +1,43 @@
 {
   "project_info": {
-    "project_number": "73009771195",
-    "firebase_url": "https://picrosisland.firebaseio.com",
-    "project_id": "picrosisland",
-    "storage_bucket": "picrosisland.appspot.com"
+    "project_number": "659929732390",
+    "firebase_url": "https://land-of-picross-8205260.firebaseio.com",
+    "project_id": "land-of-picross-8205260",
+    "storage_bucket": "land-of-picross-8205260.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:73009771195:android:bc20a4ae886add95",
+        "mobilesdk_app_id": "1:659929732390:android:30ae0376d4b6f4a8",
         "android_client_info": {
-          "package_name": "com.NedCrow.PicrossLand"
+          "package_name": "com.NedCrow.LandOfPicross"
         }
       },
       "oauth_client": [
         {
-          "client_id": "73009771195-hkedqn6fo0s9r72r8id42up2lg5csf0e.apps.googleusercontent.com",
+          "client_id": "659929732390-8gt4nrir42hav02bpfo35n6vhg7ui1a7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.NedCrow.PicrossLand",
+            "package_name": "com.NedCrow.LandOfPicross",
             "certificate_hash": "10c485c516ee59150b3e193569c0b9ec0b627e23"
           }
         },
         {
-          "client_id": "73009771195-i879njhobatt8ujjaa164hc7n94f2ee8.apps.googleusercontent.com",
+          "client_id": "659929732390-ognni9taapqt4cqbct5351s5qa0a0r6q.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.NedCrow.PicrossLand",
-            "certificate_hash": "0bdb88bc0c0341e2a2d050bc0462b4ca3ff2cf9f"
+            "package_name": "com.NedCrow.LandOfPicross",
+            "certificate_hash": "bedcfe0ee9e37bc44501370283531afc87bdca66"
           }
         },
         {
-          "client_id": "73009771195-5qimo01rento1r8l3jv6jak3v2r7re9f.apps.googleusercontent.com",
+          "client_id": "659929732390-7uagab3cu5gq4pfhtf15j43bthd3itao.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBPxz_S3dEo-MuHtd7CsFKBSS_qs8HK1QE"
+          "current_key": "AIzaSyAlvHJRasqLwV5EDBDOmi2O1ohzUzWzNOk"
         }
       ],
       "services": {
@@ -48,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "73009771195-5qimo01rento1r8l3jv6jak3v2r7re9f.apps.googleusercontent.com",
+              "client_id": "659929732390-7uagab3cu5gq4pfhtf15j43bthd3itao.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -56,7 +56,8 @@
         "ads_service": {
           "status": 2
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-1894471406717971~5142633746"
     }
   ],
   "configuration_version": "1"

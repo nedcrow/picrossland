@@ -27,22 +27,17 @@
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-base-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-identifier-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-lite-15.0.1.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-11.8.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-api-phone-11.8.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-api-phone-license-11.8.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-base-11.8.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-base-license-11.8.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-15.0.1.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-api-phone-15.0.1.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-base-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-base-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-basement-15.0.1.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-drive-11.8.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-drive-license-11.8.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-drive-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-flags-15.0.1.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-games-11.8.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-games-license-11.8.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-games-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-gass-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-measurement-base-16.0.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-nearby-11.8.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.android.gms.play-services-nearby-license-11.8.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-nearby-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-stats-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-tasks-15.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.firebase.firebase-analytics-16.0.1.aar</file>

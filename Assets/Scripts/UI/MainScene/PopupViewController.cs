@@ -6,9 +6,9 @@ public class PopupViewController : MonoBehaviour {
     /// <summary>
     ///  0: clearPopup, 1: loadingPopup, 2: nickName
     /// </summary>
-    public GameObject clearPop;
-    public GameObject loadingPop;
-    public GameObject nickNamePop;
+    [HideInInspector] public GameObject clearPop;
+    [HideInInspector] public GameObject loadingPop;
+    [HideInInspector] public GameObject nickNamePop;
 
 
     void Awake () {

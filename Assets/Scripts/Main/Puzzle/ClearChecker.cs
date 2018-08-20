@@ -58,7 +58,7 @@ public class ClearChecker : MonoBehaviour {
         }
         LandManager.instance.OnLand(true);
         MainDataBase.instance.OnSaveLand();
-        AdMobManager.instance.ShowInterstitialAd();
+       // AdMobManager.instance.ShowInterstitialAd();
     }
 
 

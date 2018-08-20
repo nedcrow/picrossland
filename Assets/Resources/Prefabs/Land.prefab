@@ -54,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   views: {fileID: 0}
   landList: []
+  landObjList: []
   gotLandObjList: []
   currentLand:
     id: 0
@@ -71,3 +72,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d3c90439c3f2c4d9531475d52c1f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitList: []

@@ -9,7 +9,8 @@ FirebaseApp iOS and Android Dependencies.
     </iosPod>
   </iosPods>
   <androidPackages>
-    <androidPackage spec="com.google.android.gms:play-services-base:15.0.1">
+    
+    <androidPackage spec="com.google.android.gms:play-services-base:15.0.1"> 
     </androidPackage>
     <androidPackage spec="com.google.firebase:firebase-common:16.0.0">
     </androidPackage>
