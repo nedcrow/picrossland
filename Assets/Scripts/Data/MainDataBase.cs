@@ -333,6 +333,7 @@ public class MainDataBase : MonoBehaviour
        {
            if (task.IsFaulted || task.IsCanceled)
            {
+               EventManager.instance.NickNameCheckedFunc(false);
                Debug.Log("OnLoadAdmin_Error");
            }
            else if (task.IsCompleted)
@@ -343,6 +344,7 @@ public class MainDataBase : MonoBehaviour
                    UserManager.Instance.currentUser.name = snapshot.Child("username").GetValue(true).ToString(); //snapShot에서 name 가져오기.
                }
                success = true;
+               EventManager.instance.NickNameCheckedFunc(true);
                Debug.Log(UserManager.Instance.currentUser.name + ", success : "+success);
                DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :"+ UserManager.Instance.currentUser.name;
            }

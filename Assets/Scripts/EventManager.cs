@@ -34,6 +34,8 @@ public class EventManager : MonoBehaviour
     public delegate void LandActivated();
     public event LandActivated LandActivatedEvent;
 
+    public delegate void NickNameChecked(bool success);
+    public event NickNameChecked NickNameCheckedEvent;
 
     //--------------------------------------------------------------------Event
 
@@ -49,7 +51,12 @@ public class EventManager : MonoBehaviour
     {
         try { LandActivatedEvent(); }
         catch { }
+    }
 
+    public void NickNameCheckedFunc(bool success)
+    {
+        try { NickNameCheckedEvent(success); }
+        catch { }
     }
 
 }

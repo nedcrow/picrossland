@@ -7,8 +7,10 @@ public class FirstViewController : MonoBehaviour {
 
     private void Start()
     {
+        EventManager.instance.NickNameCheckedEvent += (NickNameCheck);
+
         SetFirsttVuewButton();
-        NickNameCheck();
+        MainDataBase.instance.OnLoadAdmin();        
     }
 
     void SetFirsttVuewButton()
@@ -21,18 +23,17 @@ public class FirstViewController : MonoBehaviour {
         });
     }
 
-    void NickNameCheck()
+    void NickNameCheck(bool success)
     {
-        bool gotNickname = MainDataBase.instance.OnLoadAdmin();
-        Debug.Log(gotNickname);
-        if (gotNickname == false)
+        Debug.Log("success :"+ success);
+        if (success == false || MainDataBase.instance.local == true)
         {
-            LandManager.instance.views.GetComponent<PopupViewController>().nickNamePop.SetActive(true);
+            LandManager.instance.views.popupView.GetComponent<PopupViewController>().nickNamePop.SetActive(true);
         }
         else
         {
             LandManager.instance.views.popupView.GetComponent<PopupViewController>().nickNamePop.SetActive(false);
         }
-    }//Nickname Popup
+    }//NicknameCheck 성공 시 Popup 안 띄움.
 
 }
