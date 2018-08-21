@@ -9,7 +9,8 @@ public class WeatherController : MonoBehaviour {
     Dictionary<string, string> weatherDic = new Dictionary<string, string>()
     {
         {"0101","GoodMorning"},
-        {"0103","GoodNight" }
+        {"0103","GoodNight" },
+        {"0108","GoodNight" }
     };
 
     public void OnWeather(string skillId)

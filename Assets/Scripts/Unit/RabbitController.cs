@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RabbitController : MonoBehaviour {
 
-    Vector3 firstPos = new Vector3(-1f, -0.7f, -3.7f);//-20~20, -3f+y;
+    Vector3 firstPos = new Vector3(1.5f, -0.7f, -3.7f);//-20~20, -3f+y;
     
     void Start()
     {

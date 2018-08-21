@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanController : MonoBehaviour
-{
+public class HouseController : MonoBehaviour {
 
-    Vector3 firstPos = new Vector3(-0.2f, -1.2f, -4.2f);//-20~20, -3f+y;
+
+    Vector3 firstPos = new Vector3(-1.2f, -1.0f, -4.0f);//-20~20, -3f+y;
 
     void Start()
-    {       
+    {
         SetTransform();
-        EventManager.instance.WeatherChangedEvent += (IdleSelect);
     }
 
     void SetTransform()
     {
         IdleSelect();
         int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
-        Debug.Log("unitSameCount : "+sameCount);
+        Debug.Log("unitSameCount : " + sameCount);
         if (sameCount == 1)
         {
             transform.localPosition = firstPos;
@@ -45,14 +44,7 @@ public class HumanController : MonoBehaviour
 
     public void IdleSelect()
     {
-        if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 0)//Day
-        {
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "1");
-        }
-        else
-        {
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "2");
-        }
+            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject);
     }
 
 }

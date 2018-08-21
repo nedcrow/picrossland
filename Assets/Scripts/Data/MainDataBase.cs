@@ -338,13 +338,12 @@ public class MainDataBase : MonoBehaviour
            else if (task.IsCompleted)
            {
                DataSnapshot snapshot = task.Result;
-               Debug.Log("Count : "+snapshot.ChildrenCount);
                if (snapshot.ChildrenCount > 0)
                {
-                   Debug.Log(snapshot.Child("username").GetValue(true).ToString());
                    UserManager.Instance.currentUser.name = snapshot.Child("username").GetValue(true).ToString(); //snapShot에서 name 가져오기.
                }
                success = true;
+               Debug.Log(UserManager.Instance.currentUser.name + ", success : "+success);
                DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :"+ UserManager.Instance.currentUser.name;
            }
        });

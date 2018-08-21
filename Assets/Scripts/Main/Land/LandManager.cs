@@ -37,8 +37,9 @@ public class LandManager : MonoBehaviour {
         DontDestroyOnLoad(transform.gameObject);
     }
 
+   
+
     public void BaseSetting() {
-        if (MainDataBase.instance.OnLoadAdmin() == false) { views.popupView.GetComponent<PopupViewController>().nickNamePop.SetActive(true); }//Nickname Popup
         views.popupView.GetComponent<PopupViewController>().loadingPop.SetActive(true);
         views.popupView.GetComponent<PopupViewController>().loadingPop.GetComponent<LoadingController>().WaitLoading();
 
@@ -47,6 +48,8 @@ public class LandManager : MonoBehaviour {
 
         OnLand(false);
     }
+
+   
 
     /// <summary>
     ///  실행 시기 : 게임 실행 후, Puzzle Clear 후.
@@ -200,12 +203,13 @@ public class LandManager : MonoBehaviour {
             if(firstGame == true) { PuzzleManager.instance.viewCon.againView.SetActive(false); firstGame = false; }            
         }
 
-                
-        GameObject units = PuzzleManager.instance.currentLandObj.GetComponent<LandController>().units;
-        for (int i = 0; i < units.transform.childCount; i++)
-        {
-            if (units.transform.GetChild(i).GetComponent<MoveupController>()) { units.transform.GetChild(i).GetComponent<MoveupController>().MoveUp(); }
-        }//활성화 유닛들에게 움직이라고 강요.
+
+        EventManager.instance.LandActivatedFunc();
+        //GameObject units = PuzzleManager.instance.currentLandObj.GetComponent<LandController>().units;
+        //for (int i = 0; i < units.transform.childCount; i++)
+        //{
+        //    if (units.transform.GetChild(i).GetComponent<MoveupController>()) { units.transform.GetChild(i).GetComponent<MoveupController>().MoveUp(); }
+        //}//활성화 유닛들에게 움직이라고 강요.
         #endregion
     }//Canvas + Camera + PuzzleIcon + unit
 

@@ -3195,8 +3195,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnGoal
+      - m_Target: {fileID: 1342090683}
+        m_MethodName: OnGoal_For_Editor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5176,6 +5176,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c9887554e2a1384d84337021a3d0f00, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1342090683 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114854227294709506, guid: 1c9887554e2a1384d84337021a3d0f00,
+    type: 2}
+  m_PrefabInternal: {fileID: 1342090682}
+  m_Script: {fileID: 11500000, guid: eaa67df721779a048b43f08747a4bdcb, type: 3}
 --- !u!1 &1362833586
 GameObject:
   m_ObjectHideFlags: 0
@@ -7053,6 +7059,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1342090683}
+        m_MethodName: ClosePuzzle
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1972477493
@@ -7065,6 +7082,7 @@ GameObject:
   - component: {fileID: 1972477494}
   - component: {fileID: 1972477496}
   - component: {fileID: 1972477495}
+  - component: {fileID: 1972477497}
   m_Layer: 5
   m_Name: FirstVisit
   m_TagString: Untagged
@@ -7124,6 +7142,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1972477493}
+--- !u!114 &1972477497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1972477493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd3eb11db695c1428463a2ce05ae6bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1984522046
 GameObject:
   m_ObjectHideFlags: 0

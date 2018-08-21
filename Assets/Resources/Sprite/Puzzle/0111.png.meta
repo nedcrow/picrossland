@@ -11,8 +11,17 @@ TextureImporter:
     21300012: 0110_6
     21300014: 0110_7
     21300016: 0110_8
+    21300018: 0111_0
+    21300020: 0111_1
+    21300022: 0111_2
+    21300024: 0111_3
+    21300026: 0111_4
+    21300028: 0111_5
+    21300030: 0111_6
+    21300032: 0111_7
+    21300034: 0111_8
   externalObjects: {}
-  serializedVersion: 5
+  serializedVersion: 4
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -60,13 +69,11 @@ TextureImporter:
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
-  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
-    buildTarget: DefaultTexturePlatform
+  - buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -76,8 +83,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
-    buildTarget: Standalone
+  - buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -87,8 +93,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
-    buildTarget: Android
+  - buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -102,193 +107,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 0110_0
+      name: 0111_0
       rect:
         serializedVersion: 2
         x: 0
         y: 60
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: 21cfd85aaef55a9468c05ad36db57a4e
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     - serializedVersion: 2
-      name: 0110_1
+      name: 0111_1
       rect:
         serializedVersion: 2
         x: 30
         y: 60
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: 0ad8773e361846345ba862389880cc9d
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     - serializedVersion: 2
-      name: 0110_2
+      name: 0111_2
       rect:
         serializedVersion: 2
         x: 60
         y: 60
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: 0ae54b20be797e04a8852d7f5fa9cca2
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     - serializedVersion: 2
-      name: 0110_3
+      name: 0111_3
       rect:
         serializedVersion: 2
         x: 0
         y: 30
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: e1d15acdaa55f6d47a658d05e7bc2bb4
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     - serializedVersion: 2
-      name: 0110_4
+      name: 0111_4
       rect:
         serializedVersion: 2
         x: 30
         y: 30
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: f5746a233d263e74cbf14107eb4644c4
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     - serializedVersion: 2
-      name: 0110_5
+      name: 0111_5
       rect:
         serializedVersion: 2
         x: 60
         y: 30
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: b53efa79743a16f429955fcb6eb84a8a
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     - serializedVersion: 2
-      name: 0110_6
+      name: 0111_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: 5e47de9bd55dd5e489fa870339206f93
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     - serializedVersion: 2
-      name: 0110_7
+      name: 0111_7
       rect:
         serializedVersion: 2
         x: 30
         y: 0
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: 83030750b40825849878c1debec7785c
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     - serializedVersion: 2
-      name: 0110_8
+      name: 0111_8
       rect:
         serializedVersion: 2
         x: 60
         y: 0
         width: 30
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
-      bones: []
-      spriteID: 3fe8fc5124e5afd48b420f10c2f6f43b
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     physicsShape: []
-    bones: []
-    spriteID: 
-    vertices: []
-    indices: 
-    edges: []
-    weights: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

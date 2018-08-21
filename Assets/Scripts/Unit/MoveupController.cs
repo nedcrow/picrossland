@@ -6,6 +6,12 @@ public class MoveupController : MonoBehaviour {
     public float speed=1;
     int coroutineCnt = 0;
 
+
+    private void Start()
+    {
+        EventManager.instance.LandActivatedEvent += (MoveUp);
+    }
+
     public void MoveUp()
     {        
         if (coroutineCnt > 0) { StopAllCoroutines(); coroutineCnt = 0; }

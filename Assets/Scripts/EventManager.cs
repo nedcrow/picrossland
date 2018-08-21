@@ -31,6 +31,9 @@ public class EventManager : MonoBehaviour
     public delegate void WeatherChanged();
     public event WeatherChanged WeatherChangedEvent;
 
+    public delegate void LandActivated();
+    public event LandActivated LandActivatedEvent;
+
 
     //--------------------------------------------------------------------Event
 
@@ -39,6 +42,12 @@ public class EventManager : MonoBehaviour
     public void WeatherChangedFunc()//---------------메뉴명 확인
     {
         try { WeatherChangedEvent(); }
+        catch { }
+    }
+
+    public void LandActivatedFunc()//---------------메뉴명 확인
+    {
+        try { LandActivatedEvent(); }
         catch { }
 
     }

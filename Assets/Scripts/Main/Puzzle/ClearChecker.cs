@@ -106,6 +106,9 @@ public class ClearChecker : MonoBehaviour {
         MainDataBase.instance.OnSaveAdmin();
     }
 
-
+    public void OnGoal_For_Editor()
+    {
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) { OnGoal(); }
+    }
 
 }

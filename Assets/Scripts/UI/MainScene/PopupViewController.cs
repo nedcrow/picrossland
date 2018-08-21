@@ -22,6 +22,7 @@ public class PopupViewController : MonoBehaviour {
     public void ClosePopup(int popupNum)
     {
         transform.GetChild(popupNum).gameObject.SetActive(false); //used Onclick() in clearPopup.
+        
     }
 
 }
