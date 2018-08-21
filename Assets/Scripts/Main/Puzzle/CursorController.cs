@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CursorController : MonoBehaviour {
 
-    public AudioClip tick;
+    [HideInInspector] public AudioClip tick;
     GameObject[] lineObjs = new GameObject[4]; //Up,Right,Down,Left
     Sprite[] tiles;
 

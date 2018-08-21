@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad5ed83374a7349a485c83e6159e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tick: {fileID: 0}
+  tick: {fileID: 8300000, guid: f85e1dc9c5f03924c951bfea8b391e85, type: 3}
   ready: 0
 --- !u!114 &114581308529191766
 MonoBehaviour:
