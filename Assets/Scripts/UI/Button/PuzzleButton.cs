@@ -65,10 +65,10 @@ public class PuzzleButton : MonoBehaviour {
                 for (int i = 0; i < Input.touchCount; i++)
                 {
                     List<RaycastResult> results = TouchedObjs(i);
-                    switch (System.Convert.ToInt32 (tempTouch.phase))
+                    switch (System.Convert.ToInt32 (tempTouch.phase)) 
                     {
                         case 0:
-                            MoveButtonCheck(results);
+                            //MoveButtonCheck(results);
                             if (PuzzleManager.instance.cursor.GetComponent<CursorController>().ready == true)
                             {
                                 MarkButtonCheck(results);

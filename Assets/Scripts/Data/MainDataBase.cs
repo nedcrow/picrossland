@@ -376,7 +376,6 @@ public class MainDataBase : MonoBehaviour
 
 
             DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
-            //        DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = mDatabaseRef.ToString();
             mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("username").SetValueAsync(newNickName).ContinueWith(
                     task =>
                     {
@@ -406,7 +405,7 @@ public class MainDataBase : MonoBehaviour
         UserManager.Instance.currentUser.PlayTime = UserManager.Instance.currentUser.PlayTime + (System.DateTime.Now - UserManager.Instance.currentUser.loginTime).Seconds;
         DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = UserManager.Instance.currentUser.PlayTime.ToString();
 
-        if (OnLoadAdmin() && local == false)
+        if (local == false)
         {
             #region SaveItem _Childs           
             string[] childs = new string[] { "gem", "ClrLndCnt", "playtime", "lastLand" }; // save item
@@ -419,11 +418,11 @@ public class MainDataBase : MonoBehaviour
             }; // save itme value
             #endregion 
             DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "save...";
-            DatabaseReference currentUserDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(UserManager.Instance.currentUser.id);
 
+            DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
             for (int i = 0; i < childs.Length; i++)
             {
-                currentUserDatabaseRef.Child(UserManager.Instance.currentUser.id).Child(childs[i]).SetValueAsync(childsValues[i]).ContinueWith(
+                mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child(childs[i]).SetValueAsync(childsValues[i]).ContinueWith(
                 task =>
                 {
                     if (task.IsFaulted)
@@ -443,14 +442,14 @@ public class MainDataBase : MonoBehaviour
 
     public void OnSaveLand()
     {
-        if (OnLoadAdmin() && local == false)
+        if (local == false)
         {
-            DatabaseReference currentUserDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands");
+            DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference; 
             for (int i = 0; i < UserManager.Instance.currentUser.gotLandList.Count; i++)
             {
                 string i_ = i.ToString();
 
-                currentUserDatabaseRef.Child(i_).SetValueAsync(UserManager.Instance.currentUser.gotLandList[i].id.ToString()).ContinueWith(
+                mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).SetValueAsync(UserManager.Instance.currentUser.gotLandList[i].id.ToString()).ContinueWith(
                 task =>
                 {
                     if (task.IsFaulted)
@@ -460,16 +459,16 @@ public class MainDataBase : MonoBehaviour
                     }
                     if (task.IsCompleted)
                     {
-                        SaveThat(currentUserDatabaseRef.Child(i_).Child("weather"), UserManager.Instance.currentUser.gotLandList[i].weather.ToString());
+                        SaveThat(mDatabaseRef.Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).Child("weather"), UserManager.Instance.currentUser.gotLandList[i].weather.ToString());
                         for (int j = 0; j < UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList.Count; j++)
                         {
                             string j_ = j.ToString();
-                            SaveThat(currentUserDatabaseRef.Child(i_).Child("ClrPuzzles").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
+                            SaveThat(mDatabaseRef.Child(i_).Child("ClrPuzzles").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
                         }
                         for (int j = 0; j < UserManager.Instance.currentUser.gotLandList[i].unitList.Count; j++)
                         {
                             string j_ = j.ToString();
-                            SaveThat(currentUserDatabaseRef.Child(i_).Child("units").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
+                            SaveThat(mDatabaseRef.Child(i_).Child("units").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
                         }
                     }
                 });
