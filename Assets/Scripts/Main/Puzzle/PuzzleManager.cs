@@ -79,6 +79,7 @@ public class PuzzleManager : MonoBehaviour {
         #endregion
 
         #region UI
+        viewCon.puzzleView.transform.GetChild(1).GetChild(0).GetChild(4).gameObject.SetActive(true); //btn_cover
         viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().StopDragCheck();
         AdMobManager.instance.ShowBannerAd();        
         #endregion

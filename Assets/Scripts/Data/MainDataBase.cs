@@ -449,7 +449,7 @@ public class MainDataBase : MonoBehaviour
             {
                 string i_ = i.ToString();
 
-                mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).SetValueAsync(UserManager.Instance.currentUser.gotLandList[i].id.ToString()).ContinueWith(
+                mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).Child("id").SetValueAsync(UserManager.Instance.currentUser.gotLandList[i].id.ToString()).ContinueWith(
                 task =>
                 {
                     if (task.IsFaulted)
@@ -459,16 +459,16 @@ public class MainDataBase : MonoBehaviour
                     }
                     if (task.IsCompleted)
                     {
-                        SaveThat(mDatabaseRef.Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).Child("weather"), UserManager.Instance.currentUser.gotLandList[i].weather.ToString());
+                        SaveThat(mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).Child("weather"), UserManager.Instance.currentUser.gotLandList[i].weather.ToString());
                         for (int j = 0; j < UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList.Count; j++)
                         {
                             string j_ = j.ToString();
-                            SaveThat(mDatabaseRef.Child(i_).Child("ClrPuzzles").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
+                            SaveThat(mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).Child("clrPuzzles").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
                         }
                         for (int j = 0; j < UserManager.Instance.currentUser.gotLandList[i].unitList.Count; j++)
                         {
                             string j_ = j.ToString();
-                            SaveThat(mDatabaseRef.Child(i_).Child("units").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
+                            SaveThat(mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).Child("units").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
                         }
                     }
                 });

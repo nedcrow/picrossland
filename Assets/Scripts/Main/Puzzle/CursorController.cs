@@ -48,7 +48,7 @@ public class CursorController : MonoBehaviour {
     int firstCheck = 0;
     List<GameObject> targetList; 
     public void CheckOn(int num, float checkTime) {
-        posForChild = CheckPosForChild();
+        posForChild = CheckPosForChild();Debug.Log(posForChild);
         GameObject target = PuzzleManager.instance.tileGroup_Active.transform.GetChild(posForChild).gameObject;
         //Debug.Log(target.transform.position+", "+  target.GetComponent<TileController>().check+ " / targetList Count : " + targetList.Count);
         int sametile = 0;        
@@ -115,7 +115,7 @@ public class CursorController : MonoBehaviour {
     }
 
     int CheckPosForChild()
-    {
+    {//world 기준 0.5f씩 이동.
         int size = PuzzleManager.instance.currentPuzzleSize;
         float unUnit = 2;// = 1/0.5f
         int x = System.Convert.ToInt32( transform.position.x*unUnit-1 );

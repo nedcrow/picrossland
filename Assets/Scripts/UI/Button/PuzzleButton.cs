@@ -68,7 +68,7 @@ public class PuzzleButton : MonoBehaviour {
                     switch (System.Convert.ToInt32 (tempTouch.phase)) 
                     {
                         case 0:
-                            //MoveButtonCheck(results);
+                            MoveButtonCheck(results);
                             if (PuzzleManager.instance.cursor.GetComponent<CursorController>().ready == true)
                             {
                                 MarkButtonCheck(results);
@@ -77,7 +77,7 @@ public class PuzzleButton : MonoBehaviour {
 
                         case 1:
                         case 2 :
-                            if (mouseTime > mouseFirstTime) { MoveButtonCheck(results); } else { Debug.Log(mouseTime); mouseTime+=0.01f; }                            
+                            if (mouseTime > mouseFirstTime) { MoveButtonCheck(results); } else { mouseTime+=0.01f; }                            
                             if (PuzzleManager.instance.cursor.GetComponent<CursorController>().ready == true)
                             {
                                 MarkButtonCheck(results);
@@ -147,6 +147,7 @@ public class PuzzleButton : MonoBehaviour {
 
     void MoveButtonCheck(List<RaycastResult> results)
     {
+        Debug.Log("moveCheck");
         GameObject obj = results[0].gameObject;
         if (obj.name == "Btn_Cover")
         {
