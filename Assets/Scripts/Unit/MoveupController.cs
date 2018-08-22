@@ -15,7 +15,7 @@ public class MoveupController : MonoBehaviour {
     public void MoveUp()
     {        
         if (coroutineCnt > 0) { StopAllCoroutines(); coroutineCnt = 0; }
-        StartCoroutine(MoveUp_U());
+        if(gameObject.activeSelf == true) { StartCoroutine(MoveUp_U()); }
     }
 
     IEnumerator MoveUp_U()
