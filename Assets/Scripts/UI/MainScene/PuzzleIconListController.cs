@@ -202,7 +202,7 @@ public class PuzzleIconListController : MonoBehaviour {
         {
             for (int i = 0; i < skillCount; i++)
             {
-                string puzzleID = LandManager.instance.currentLand.puzzleList_S[i]; Debug.Log(puzzleID);
+                string puzzleID = LandManager.instance.currentLand.puzzleList_S[i]; 
                 puzzleIconList_S_Active[i].transform.GetComponent<RectTransform>().localScale = Vector3.one;
                 puzzleIconList_S_Active[i].transform.GetComponent<Image>().color = Vector4.one;
                 puzzleIconList_S_Active[i].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, imgSize);// *addScreenX);

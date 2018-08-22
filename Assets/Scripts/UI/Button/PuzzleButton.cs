@@ -25,15 +25,22 @@ public class PuzzleButton : MonoBehaviour {
         yDist = new int[]{1,0,-1,0}; //URDL       
     }
 
+    List<Coroutine> playCoList = new List<Coroutine>();
     Coroutine playedCoroutine;
     public void OnButtonChecker_Puzzle()
     {
-        playedCoroutine = StartCoroutine(ButtonTouched()); // mobile
+        if (playCoList.Count < 1)
+        {
+            playedCoroutine = StartCoroutine(ButtonTouched()); // mobile
+            playCoList.Add(playedCoroutine);
+            Debug.Log("playCoList.Count(add) : " + playCoList.Count);
+        }
     }
 
     public void EndButtonChecker_Puzzle()
     {
-        if (playedCoroutine!=null) { StopCoroutine(playedCoroutine); }
+        if (playedCoroutine!=null) { StopCoroutine(playedCoroutine); if(playCoList.Count>0) playCoList.RemoveAt(playCoList.Count - 1); }
+        Debug.Log("playCoList.Count(remove) : "+playCoList.Count);
     }
 
     void ReStartButtonChecker_Puzzle()
@@ -103,7 +110,7 @@ public class PuzzleButton : MonoBehaviour {
                 mouseTime = 0;
                 checkTime = 0;
                 PuzzleManager.instance.cursor.GetComponent<CursorController>().CheckOut();
-                if (touched == true) { touched = false; ReStartButtonChecker_Puzzle(); }
+                if (touched == true) { touched = false; }
             }
             yield return null;
         }

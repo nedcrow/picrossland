@@ -97,7 +97,7 @@ public class PuzzleManager : MonoBehaviour {
     }
 
     public void StopPuzzle() {
-        if (DrawEnd == true) { GetComponent<ClearChecker>().ClosePuzzle(false); }
+        if (DrawEnd == true) { GetComponent<ClearChecker>().ClosePuzzle(false); viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().EndButtonChecker_Puzzle(); }
     }//Used Onclick() in Back_Button
 
     void CheckCurrentPuzzle(string puzzleID) {
