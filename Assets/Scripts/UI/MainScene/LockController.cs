@@ -29,8 +29,10 @@ public class LockController : MonoBehaviour {
             lockBG.SetActive(true);
 
             lockButton.SetActive(true);
-
-            lockButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            lockButton.GetComponent <Button> (). onClick = new Button.ButtonClickedEvent ();
+            
+            //lockButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            
             lockButton.GetComponent<Button>().onClick.AddListener(delegate {
                 PuzzleManager.instance.viewCon.SceneOn(2);
             });

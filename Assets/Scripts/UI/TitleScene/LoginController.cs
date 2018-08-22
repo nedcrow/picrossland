@@ -19,8 +19,10 @@ public class LoginController : MonoBehaviour {
 
     public void TryLoginGP(bool clicked)
     {
-        LoginManager.instance.OnClickGoogleLogin(clicked);
-        StartCoroutine(LoginGPGS(clicked));
+        if(Application.platform != RuntimePlatform.WindowsEditor && Application.platform != RuntimePlatform.WindowsPlayer) {
+            LoginManager.instance.OnClickGoogleLogin(clicked);
+            StartCoroutine(LoginGPGS(clicked));
+        }
     }//log in googlePlay admin. Save on GooglePlay
 
     public void LoginLocal()

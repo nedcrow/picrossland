@@ -216,6 +216,7 @@ public class LandManager : MonoBehaviour {
 
     public void LandChange(string dir)
     {
+        Debug.Log("Try_LandChange");
         int landNum = currentLand.id;
 
         if (dir == "R" || dir == "r") { landNum++; }

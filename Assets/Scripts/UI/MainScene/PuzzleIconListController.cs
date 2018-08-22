@@ -198,6 +198,7 @@ public class PuzzleIconListController : MonoBehaviour {
         int skillCount = skillList.Count; Debug.Log("currentLand ID : "+LandManager.instance.currentLand.id);
         int imgSize=98;
         Debug.Log(skillCount+ ", vs " +puzzleIconList_S_Active.Count);
+
         if (skillCount == puzzleIconList_S_Active.Count)
         {
             for (int i = 0; i < skillCount; i++)

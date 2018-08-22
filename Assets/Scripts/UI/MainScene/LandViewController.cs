@@ -10,8 +10,7 @@ public class LandViewController : MonoBehaviour {
 
     private void Start()
     {
-        LandChangeButton_R = transform.GetChild(2).GetComponent<Button>();
-        LandChangeButton_L = transform.GetChild(3).GetComponent<Button>();
+        SetLandChangeButton();
     }
 
     public void SetLandName(int currentLandID)
@@ -29,6 +28,9 @@ public class LandViewController : MonoBehaviour {
 
     public void SetLandChangeButton()
     {
+        LandChangeButton_R = transform.GetChild(2).GetComponent<Button>();
+        LandChangeButton_L = transform.GetChild(3).GetComponent<Button>();
+
         LandChangeButton_R.onClick.AddListener(delegate {
             LandManager.instance.LandChange("R");
         }); // Right Button
