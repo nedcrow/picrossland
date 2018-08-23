@@ -35,11 +35,12 @@ public class MainDataBase : MonoBehaviour
     string path; // for Local
 
     #region forFirebasse
+    public bool loadAdmin;
     public bool loadAll;
     public bool local;
     bool loadLand;
     bool loadPuzzle;
-    bool loadAdmin;
+
 
     //--------------nickName-------------- v
     bool notJunk = false; 
@@ -324,8 +325,7 @@ public class MainDataBase : MonoBehaviour
 
     public bool OnLoadAdmin()
     {
-        bool success = false;
-
+        bool firstTime = true;
         Debug.Log(UserManager.Instance.currentUser.id);
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(UserManager.Instance.currentUser.id).GetValueAsync().ContinueWith
        (
@@ -333,7 +333,6 @@ public class MainDataBase : MonoBehaviour
        {
            if (task.IsFaulted || task.IsCanceled)
            {
-               EventManager.instance.NickNameCheckedFunc(false);
                Debug.Log("OnLoadAdmin_Error");
            }
            else if (task.IsCompleted)
@@ -379,16 +378,15 @@ public class MainDataBase : MonoBehaviour
                    
                }
 
-               success = true;
+               if (UserManager.Instance.currentUser.PlayTime > 0) { firstTime = true; }
 
-
-               Debug.Log(UserManager.Instance.currentUser.name + ", success : " + success);
+               Debug.Log(UserManager.Instance.currentUser.name + ", firstTime : " + firstTime);
                DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :" + UserManager.Instance.currentUser.name;
            }
-
+           loadAdmin = true;
        });
-        if (local == true) { success = true; }
-        return success;
+
+        return firstTime;
     }
 
 //    void OnLoadLand() { }

@@ -31,7 +31,8 @@ public class LandManager : MonoBehaviour {
     public List<GameObject> landObjList = new List<GameObject>();
     public List<GameObject> gotLandObjList = new List<GameObject>();
     public DataBase.Land currentLand;
-    bool firstGame=false;
+
+    public bool firstGame=false;
 
     void Awake () {
         DontDestroyOnLoad(transform.gameObject);
@@ -45,7 +46,7 @@ public class LandManager : MonoBehaviour {
 
         MainDataBase.instance.LoadLands();
         MainDataBase.instance.LoadPuzzles();
-
+        MainDataBase.instance.OnLoadAdmin();
         OnLand(false);
     }
 
@@ -70,22 +71,26 @@ public class LandManager : MonoBehaviour {
 
     IEnumerator _OnLand()
     {
+
         while (true)
         {
-            if (MainDataBase.instance.loadAll == true)
+            bool passAddWait=true;
+            if(MainDataBase.instance.local == true) { passAddWait = true; } else { passAddWait = MainDataBase.instance.loadAdmin; } // local 아니면 admin 불러올때까지 더 기다려야함.
+            if (MainDataBase.instance.loadAll == true && passAddWait==true)
             {               
                 Debug.Log("coroutine : _OnLand / "+"PlayTime : "+ UserManager.Instance.currentUser.PlayTime);
                 if(UserManager.Instance.currentUser.PlayTime == 0)
                 {
-                    GameObject.Find("Canvas").GetComponent<ViewController>().firstView.SetActive(true);
-                    GameObject.Find("Canvas").GetComponent<ViewController>().againView.SetActive(false);
+                    views.firstView.SetActive(true);
+                    views.againView.SetActive(false);
                     firstGame = true;
+
                     Debug.Log("firstGame");
                 }
                 else
                 {                   
-                    GameObject.Find("Canvas").GetComponent<ViewController>().firstView.SetActive(false);
-                    GameObject.Find("Canvas").GetComponent<ViewController>().againView.SetActive(true);                    
+                    views.firstView.SetActive(false);
+                    views.againView.SetActive(true);                    
                     //views.againView.transform.GetChild(1).GetComponent<PuzzleIconListController>().StartDragCheck();
                 }
                 LandObjectSetting();

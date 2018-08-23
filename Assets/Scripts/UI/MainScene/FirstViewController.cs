@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class FirstViewController : MonoBehaviour {
 
+
     private void Start()
     {
-        EventManager.instance.NickNameCheckedEvent += (NickNameCheck);
-
         SetFirsttVuewButton();
-        MainDataBase.instance.OnLoadAdmin();        
+        NickNameCheck();
     }
 
     void SetFirsttVuewButton()
@@ -23,10 +22,11 @@ public class FirstViewController : MonoBehaviour {
         });
     }
 
-    void NickNameCheck(bool success)
+    void NickNameCheck()
     {
-        Debug.Log("success :"+ success);
-        if (success == false || MainDataBase.instance.local == true)
+        bool firstTime = LandManager.instance.firstGame;
+        Debug.Log("success :"+ firstTime);
+        if (firstTime == true && MainDataBase.instance.local == false)
         {
             LandManager.instance.views.popupView.GetComponent<PopupViewController>().nickNamePop.SetActive(true);
         }
