@@ -341,13 +341,51 @@ public class MainDataBase : MonoBehaviour
                DataSnapshot snapshot = task.Result;
                if (snapshot.ChildrenCount > 0)
                {
+                   #region Admin
                    UserManager.Instance.currentUser.name = snapshot.Child("username").GetValue(true).ToString(); //snapShot에서 name 가져오기.
+                   EventManager.instance.NickNameCheckedFunc(true);
+
+                   UserManager.Instance.currentUser.gem = Convert.ToInt32(snapshot.Child("gem").GetValue(true));
+                   UserManager.Instance.currentUser.ClearLandCount = Convert.ToInt32(snapshot.Child("clrLndCnt").GetValue(true));
+                   UserManager.Instance.currentUser.PlayTime = Convert.ToInt32(snapshot.Child("playTime").GetValue(true));
+                   UserManager.Instance.currentUser.lastLand = Convert.ToInt32(snapshot.Child("lastLand").GetValue(true));
+                   #endregion
+
+                   #region Land
+                   if (UserManager.Instance.currentUser.gotLandList.Count > 0) { UserManager.Instance.currentUser.gotLandList.Clear(); }
+                   for (int i = 0; i < snapshot.Child("gotLands").ChildrenCount; i++)
+                   {
+                       string i_ = i.ToString();
+                       SaveData.GotLand tempGotLand = new SaveData.GotLand();                       
+
+                       tempGotLand.id = Convert.ToInt32(snapshot.Child("gotLands").Child(i_).Child("id").GetValue(true));
+                       tempGotLand.weather = Convert.ToInt32(snapshot.Child("gotLands").Child(i_).Child("weather").GetValue(true));
+
+                       for (int j = 0; j < snapshot.Child("gotLands").Child(i_).Child("clrPuzzles").ChildrenCount; j++)
+                       {
+                           string j_ = j.ToString();
+                           tempGotLand.clearPuzzleList.Add(snapshot.Child("gotLands").Child(i_).Child("clrPuzzles").Child(j_).GetValue(true).ToString());
+                       }
+                       for (int j = 0; j < snapshot.Child("gotLands").Child(i_).Child("units").ChildrenCount; j++)
+                       {
+                           string j_ = j.ToString();
+                           tempGotLand.clearPuzzleList.Add(snapshot.Child("gotLands").Child(i_).Child("units").Child(j_).GetValue(true).ToString());
+                       }
+
+                       UserManager.Instance.currentUser.gotLandList.Add(tempGotLand);
+                       #endregion
+                   }
+
+                   
                }
+
                success = true;
-               EventManager.instance.NickNameCheckedFunc(true);
-               Debug.Log(UserManager.Instance.currentUser.name + ", success : "+success);
-               DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :"+ UserManager.Instance.currentUser.name;
+
+
+               Debug.Log(UserManager.Instance.currentUser.name + ", success : " + success);
+               DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :" + UserManager.Instance.currentUser.name;
            }
+
        });
         if (local == true) { success = true; }
         return success;
@@ -470,7 +508,7 @@ public class MainDataBase : MonoBehaviour
                 for (int j = 0; j < UserManager.Instance.currentUser.gotLandList[i].unitList.Count; j++)
                 {
                     string j_ = j.ToString();
-                    SaveThat(mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).Child("units").Child(j_), UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList[j].ToString());
+                    SaveThat(mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("gotLands").Child(i_).Child("units").Child(j_), UserManager.Instance.currentUser.gotLandList[i].unitList[j].ToString());
                 }
 
             }
