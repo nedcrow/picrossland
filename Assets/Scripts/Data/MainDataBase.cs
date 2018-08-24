@@ -32,7 +32,8 @@ public class MainDataBase : MonoBehaviour
     }
     #endregion
 
-    string path; // for Local
+    string savePath; // for Local
+    string loginDataPath;
 
     #region forFirebasse
     public bool loadAdmin=false;
@@ -50,7 +51,8 @@ public class MainDataBase : MonoBehaviour
     void Awake()
     {
         local = false;
-        path = Application.persistentDataPath + "/Save"; // for Local
+        savePath = Application.persistentDataPath + "/Save"; // for Local
+        loginDataPath = Application.persistentDataPath + "/loginData"; // for Local
         //--------------------Set realtime database ----------------------------v
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://land-of-picross-8205260.firebaseio.com/");
         FirebaseApp.DefaultInstance.SetEditorP12FileName("land-of-picross-8205260-62de3e51bc93.p12");
@@ -331,7 +333,7 @@ public class MainDataBase : MonoBehaviour
        (
        task =>
        {
-           if (task.IsFaulted || task.IsCanceled)
+           if (!task.IsCompleted)
            {
                Debug.Log("OnLoadAdmin_Error");
            }
@@ -375,7 +377,6 @@ public class MainDataBase : MonoBehaviour
                        UserManager.Instance.currentUser.gotLandList.Add(tempGotLand);
                        #endregion
                    }
-
                    
                }
 
@@ -383,8 +384,8 @@ public class MainDataBase : MonoBehaviour
 
                Debug.Log(UserManager.Instance.currentUser.name + ", firstTime : " + firstTime);
                DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :" + UserManager.Instance.currentUser.name;
-           }
-           loadAdmin = true;
+               loadAdmin = true;
+           }           
        });
 
         return firstTime;
@@ -538,11 +539,11 @@ public class MainDataBase : MonoBehaviour
     {
         try
         {
-            FileInfo fi = new FileInfo(path + "/UserData.save");
+            FileInfo fi = new FileInfo(savePath + "/UserData.save");
             if (fi.Exists)
             {
                 BinaryFormatter bf = new BinaryFormatter();
-                FileStream fs = new FileStream(path + "/UserData.save", FileMode.OpenOrCreate, FileAccess.Read);
+                FileStream fs = new FileStream(savePath + "/UserData.save", FileMode.OpenOrCreate, FileAccess.Read);
 
                 //var LoadFile = JsonUtility.FromJson<SaveData.User>((string)bf.Deserialize(fs));
                 SaveData.User user = (SaveData.User)bf.Deserialize(fs);
@@ -562,7 +563,7 @@ public class MainDataBase : MonoBehaviour
     void SaveLocal_Game(string fileName)
     {
 
-        DirectoryInfo di = new DirectoryInfo(path);
+        DirectoryInfo di = new DirectoryInfo(savePath);
         if (di.Exists == false)
         {
             di.Create();
@@ -570,13 +571,32 @@ public class MainDataBase : MonoBehaviour
         }//폴더 없으면 만듦.
 
         BinaryFormatter bf = new BinaryFormatter();
-        if (System.IO.File.Exists(path + "/" + fileName)) { Debug.Log("double"); }//덮어쓸거야?}
-        FileStream fs = new FileStream(path + "/" + fileName, FileMode.Create);
+        if (System.IO.File.Exists(savePath + "/" + fileName)) { Debug.Log("double"); }//덮어쓸거야?}
+        FileStream fs = new FileStream(savePath + "/" + fileName, FileMode.Create);
         bf.Serialize(fs, UserManager.Instance.currentUser);
         fs.Close();
 
         Debug.Log(UserManager.Instance.currentUser);
-    }    
+    }
+
+    public void SaveLocal_LoginData(string fileName)
+    {
+        DirectoryInfo di = new DirectoryInfo(loginDataPath);
+        if (di.Exists == false)
+        {
+            di.Create();
+            Debug.Log("newFolder");
+        }//폴더 없으면 만듦.
+
+        BinaryFormatter bf = new BinaryFormatter();
+        if (System.IO.File.Exists(loginDataPath + "/" + fileName)) { Debug.Log("double"); }//덮어쓸거야?}
+        FileStream fs = new FileStream(loginDataPath + "/" + fileName, FileMode.Create);
+        bf.Serialize(fs, System.DateTime.Now);
+        fs.Close();
+
+        Debug.Log(UserManager.Instance.currentUser);
+    }
+
     #endregion
 
 

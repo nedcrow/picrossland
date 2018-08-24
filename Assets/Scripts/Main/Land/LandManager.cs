@@ -71,7 +71,7 @@ public class LandManager : MonoBehaviour {
 
     IEnumerator _OnLand()
     {
-
+        float waitTime = 0;
         while (true)
         {
             bool passAddWait=false;
@@ -99,6 +99,8 @@ public class LandManager : MonoBehaviour {
                 break;                
             }
             yield return new WaitForSeconds(0.02f);
+            waitTime += 0.02f;
+            if (waitTime > 2.0f) { Debug.Log("Need_DB_Check"); }
         }
 
     }

@@ -182,6 +182,7 @@ public class LoginManager : MonoBehaviour {
                 DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = user.DisplayName.ToString() + " / " + Social.localUser.userName;
 
                 googleLoginSuccess = true;
+                MainDataBase.instance.SaveLocal_LoginData("LoginData");
             }
         });
 
