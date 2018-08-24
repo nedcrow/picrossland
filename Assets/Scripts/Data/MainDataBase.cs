@@ -35,7 +35,7 @@ public class MainDataBase : MonoBehaviour
     string path; // for Local
 
     #region forFirebasse
-    public bool loadAdmin;
+    public bool loadAdmin=false;
     public bool loadAll;
     public bool local;
     bool loadLand;
@@ -296,7 +296,7 @@ public class MainDataBase : MonoBehaviour
                       //foreach (DataBase.Puzzle x in PuzzleList[i])  { Debug.Log(x.id); }
                   }
                   loadPuzzle = true;
-                  Debug.Log(PuzzleManager.instance.puzzles.Length);
+                  Debug.Log("Kind of Puzzle : Land Count : "+ PuzzleManager.instance.puzzles.Length);
                   // Debug.Log(snapshot.Child("1").Child("0").GetValue(true));
               }
           }
@@ -346,7 +346,8 @@ public class MainDataBase : MonoBehaviour
 
                    UserManager.Instance.currentUser.gem = Convert.ToInt32(snapshot.Child("gem").GetValue(true));
                    UserManager.Instance.currentUser.ClearLandCount = Convert.ToInt32(snapshot.Child("clrLndCnt").GetValue(true));
-                   UserManager.Instance.currentUser.PlayTime = Convert.ToInt32(snapshot.Child("playTime").GetValue(true)); Debug.Log("playTime : "+UserManager.Instance.currentUser.PlayTime);
+                   UserManager.Instance.currentUser.PlayTime = Convert.ToInt32(snapshot.Child("playTime").GetValue(true));
+                   Debug.Log("playTime : "+UserManager.Instance.currentUser.PlayTime);
                    UserManager.Instance.currentUser.lastLand = Convert.ToInt32(snapshot.Child("lastLand").GetValue(true));
                    #endregion
 
@@ -368,7 +369,7 @@ public class MainDataBase : MonoBehaviour
                        for (int j = 0; j < snapshot.Child("gotLands").Child(i_).Child("units").ChildrenCount; j++)
                        {
                            string j_ = j.ToString();
-                           tempGotLand.clearPuzzleList.Add(snapshot.Child("gotLands").Child(i_).Child("units").Child(j_).GetValue(true).ToString());
+                           tempGotLand.unitList.Add(snapshot.Child("gotLands").Child(i_).Child("units").Child(j_).GetValue(true).ToString());
                        }
 
                        UserManager.Instance.currentUser.gotLandList.Add(tempGotLand);
@@ -444,7 +445,7 @@ public class MainDataBase : MonoBehaviour
         if (local == false)
         {
             #region SaveItem _Childs           
-            string[] childs = new string[] { "gem", "ClrLndCnt", "playtime", "lastLand" }; // save item
+            string[] childs = new string[] { "gem", "clrLndCnt", "playTime", "lastLand" }; // save item
             string[] childsValues = new string[]
             {
                 UserManager.Instance.currentUser.gem.ToString(),
