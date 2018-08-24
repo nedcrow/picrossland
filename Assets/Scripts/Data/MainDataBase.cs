@@ -326,7 +326,7 @@ public class MainDataBase : MonoBehaviour
     public bool OnLoadAdmin()
     {
         bool firstTime = true;
-        Debug.Log(UserManager.Instance.currentUser.id);
+        Debug.Log("default ID : "+ UserManager.Instance.currentUser.id);
         FirebaseDatabase.DefaultInstance.GetReference("Users").Child(UserManager.Instance.currentUser.id).GetValueAsync().ContinueWith
        (
        task =>
@@ -346,7 +346,7 @@ public class MainDataBase : MonoBehaviour
 
                    UserManager.Instance.currentUser.gem = Convert.ToInt32(snapshot.Child("gem").GetValue(true));
                    UserManager.Instance.currentUser.ClearLandCount = Convert.ToInt32(snapshot.Child("clrLndCnt").GetValue(true));
-                   UserManager.Instance.currentUser.PlayTime = Convert.ToInt32(snapshot.Child("playTime").GetValue(true));
+                   UserManager.Instance.currentUser.PlayTime = Convert.ToInt32(snapshot.Child("playTime").GetValue(true)); Debug.Log("playTime : "+UserManager.Instance.currentUser.PlayTime);
                    UserManager.Instance.currentUser.lastLand = Convert.ToInt32(snapshot.Child("lastLand").GetValue(true));
                    #endregion
 

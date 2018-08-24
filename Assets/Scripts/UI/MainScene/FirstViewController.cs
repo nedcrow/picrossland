@@ -9,7 +9,7 @@ public class FirstViewController : MonoBehaviour {
     private void Start()
     {
         SetFirsttVuewButton();
-        NickNameCheck();
+        //NickNameCheck();
     }
 
     void SetFirsttVuewButton()
@@ -22,9 +22,8 @@ public class FirstViewController : MonoBehaviour {
         });
     }
 
-    void NickNameCheck()
+    public void NickNameCheck(bool firstTime)
     {
-        bool firstTime = LandManager.instance.firstGame;
         Debug.Log("success :"+ firstTime);
         if (firstTime == true && MainDataBase.instance.local == false)
         {

@@ -74,7 +74,7 @@ public class LandManager : MonoBehaviour {
 
         while (true)
         {
-            bool passAddWait=true;
+            bool passAddWait=false;
             if(MainDataBase.instance.local == true) { passAddWait = true; } else { passAddWait = MainDataBase.instance.loadAdmin; } // local 아니면 admin 불러올때까지 더 기다려야함.
             if (MainDataBase.instance.loadAll == true && passAddWait==true)
             {               
@@ -82,6 +82,7 @@ public class LandManager : MonoBehaviour {
                 if(UserManager.Instance.currentUser.PlayTime == 0)
                 {
                     views.firstView.SetActive(true);
+                    views.firstView.GetComponent<FirstViewController>().NickNameCheck(true);
                     views.againView.SetActive(false);
                     firstGame = true;
 
