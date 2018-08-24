@@ -597,6 +597,31 @@ public class MainDataBase : MonoBehaviour
         Debug.Log(UserManager.Instance.currentUser);
     }
 
+    public bool LoginDataCheck()
+    {
+        bool success=false;
+        try
+        {
+            FileInfo fi = new FileInfo(loginDataPath + "/LoginData.txt");
+            if (fi.Exists)
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream fs = new FileStream(loginDataPath + "/LoginData.txt", FileMode.OpenOrCreate, FileAccess.Read);
+
+                string loginData = (string)bf.Deserialize(fs);
+                fs.Close();
+
+                success = true;
+                Debug.Log("loginData : "+ loginData);
+            }
+            else { Debug.Log("error_Local : Path"); }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("error_Local Load : LoginData.txt");
+        }
+        return success;
+    }
     #endregion
 
 
