@@ -378,7 +378,7 @@ public class MainDataBase : MonoBehaviour
                    
                }
 
-               if (UserManager.Instance.currentUser.PlayTime > 0) { firstTime = true; }
+               if (UserManager.Instance.currentUser.PlayTime > 0) { firstTime = false; }
 
                Debug.Log(UserManager.Instance.currentUser.name + ", firstTime : " + firstTime);
                DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :" + UserManager.Instance.currentUser.name;
