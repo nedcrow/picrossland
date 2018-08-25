@@ -93,7 +93,7 @@ public class ClearChecker : MonoBehaviour {
         #endregion
 
         #region ClearPuzzle In GotLandList 
-        if (!UserManager.Instance.ClearPuzzleCheck(PuzzleManager.instance.currentPuzzle.name))
+        if (!UserManager.Instance.ClearPuzzleCheck(PuzzleManager.instance.currentPuzzle.id))
         {
             SaveData.GotLand land = UserManager.Instance.GetCurrentInGotLandList(LandManager.instance.currentLand.id);
             land.clearPuzzleList.Add(PuzzleManager.instance.currentPuzzle.id);
