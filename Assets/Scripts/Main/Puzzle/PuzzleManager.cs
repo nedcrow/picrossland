@@ -63,7 +63,8 @@ public class PuzzleManager : MonoBehaviour {
         
         CheckCurrentPuzzle(puzzleID);
         if(Resources.LoadAll<Sprite>("Sprite/Puzzle/" + puzzleID)==null) {
-            StopPuzzle();
+            Debug.Log("StopPuzzle");
+            StopPuzzle();            
         }
         currentSprites = Resources.LoadAll<Sprite>("Sprite/Puzzle/"+puzzleID);//currentPuzzleID
         currentPixels = new Color[currentPuzzleSize, currentPuzzleSize]; //for test
