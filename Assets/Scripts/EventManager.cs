@@ -49,7 +49,13 @@ public class EventManager : MonoBehaviour
 
     public void LandActivatedFunc()//---------------메뉴명 확인
     {
-        try { LandActivatedEvent(); }
+        try {
+            //    foreach (LandActivated d in LandActivatedEvent.GetInvocationList())
+            //{
+            //    Debug.Log("LandActivatedFunc" + d.Method.Name);
+            //}   
+            LandActivatedEvent();
+        }
         catch { }
     }
 

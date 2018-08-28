@@ -6,6 +6,7 @@ public class UnitManager : MonoBehaviour {
 
     [SerializeField]
     public List<GameObject> unitList;
+
     public void UnitSpawn(string puzzleID, bool afterClear, int count = 0 )
     {        
         int sameCount=0;
@@ -39,4 +40,26 @@ public class UnitManager : MonoBehaviour {
         
     }
 
+    public void SetUnitsEvents(int landNum)
+    {
+        for (int i = 0; i < unitList.Count; i++)
+        {
+            int unitNum = System.Convert.ToInt32(HarimTool.EditText.EditText.Left(unitList[i].name, 2));
+            Debug.Log("landNum : " + landNum + ", " + "" + unitNum);
+            if (unitNum != landNum)
+            {
+                if (unitList[i].GetComponent<MoveupController>())
+                {
+                    EventManager.instance.LandActivatedEvent -= (unitList[i].GetComponent<MoveupController>().MoveUp);
+                }
+            }
+            else
+            {
+                if (unitList[i].GetComponent<MoveupController>())
+                {
+                    EventManager.instance.LandActivatedEvent += (unitList[i].GetComponent<MoveupController>().MoveUp);
+                }
+            }
+        }
+    }
 }

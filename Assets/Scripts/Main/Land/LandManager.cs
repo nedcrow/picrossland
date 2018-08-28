@@ -155,14 +155,17 @@ public class LandManager : MonoBehaviour {
         SelectLandOnly(currentLand.id);
         Debug.Log("gotLandCount : "+UserManager.Instance.currentUser.gotLandList.Count);
     }
+        
 
     void SelectLandOnly(int landNum)
     {
+        GetComponent<UnitManager>().SetUnitsEvents(landNum);
+
         for (int i = 0; i < landObjList.Count; i++)
         {
             if (i + 1 != landNum)
             {
-                landObjList[i].GetComponent<LandController>().weather.GetComponent<WeatherController>().OffWeather(); //먼저 날씨 obj가 있으면 지운다.
+                landObjList[i].GetComponent<LandController>().weather.GetComponent<WeatherController>().OffWeather(); //먼저 날씨 obj가 있으면 지운다.                
                 landObjList[i].SetActive(false);
             }
             else
@@ -211,9 +214,8 @@ public class LandManager : MonoBehaviour {
             }
             if(firstGame == true) { PuzzleManager.instance.viewCon.againView.SetActive(false); firstGame = false; }            
         }
-
-
         EventManager.instance.LandActivatedFunc();
+
         //GameObject units = PuzzleManager.instance.currentLandObj.GetComponent<LandController>().units;
         //for (int i = 0; i < units.transform.childCount; i++)
         //{

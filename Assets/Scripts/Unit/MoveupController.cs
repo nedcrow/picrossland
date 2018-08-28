@@ -9,7 +9,7 @@ public class MoveupController : MonoBehaviour {
 
     private void Start()
     {
-        EventManager.instance.LandActivatedEvent += (MoveUp);
+        //EventManager.instance.LandActivatedEvent += (MoveUp);
     }
 
     public void MoveUp()
