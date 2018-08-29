@@ -27,8 +27,8 @@ public class LockController : MonoBehaviour {
         if(gotIt == false)
         {
             lockBG.SetActive(true);
-
             lockButton.SetActive(true);
+            unLockButton.SetActive(true);
             lockButton.GetComponent <Button> (). onClick = new Button.ButtonClickedEvent ();
             
             //lockButton.GetComponent<Button>().onClick.RemoveAllListeners();
