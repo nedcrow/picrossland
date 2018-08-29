@@ -72,7 +72,7 @@ public class MoveupController : MonoBehaviour {
                                         
                     transform.Translate(_dir * Time.deltaTime * speed);
                     float dist = Vector3.Distance(targetPos, transform.localPosition);
-                    //Debug.Log(targetPos+ ", "+transform.localPosition+ ", " + dist);
+                    Debug.Log(targetPos+ ", "+transform.localPosition+ ", " + dist);
                     if (dist < 1f) { Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject); time = 0; Debug.Log("moveEnd"); coroutineCnt -= 1; break; }
                     yield return new WaitForSeconds(sec);
                 }

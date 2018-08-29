@@ -8,26 +8,26 @@ namespace PuzzleInfo
     {
         static Vector3[][] normalPuzzlePos_A ={
                  new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(600, 780, 0), new Vector3(650, 530, 0), new Vector3(460, 850, 0), new Vector3(-100, -100, 0), Vector3.zero, new Vector3(320, 750, 0), new Vector3(-100, 0, 0), new Vector3(170, 880, 0) }, //11
-                 new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(-100, 0, 0), new Vector3(650, 530, 0), new Vector3(460, 850, 0) ,new Vector3(200, 800, 0),  Vector3.zero, new Vector3(320, 750, 0), new Vector3(-100, 0, 0), new Vector3(-100,0,0) }, //
-                 new Vector3[]{ Vector3.zero, new Vector3(100, 400, 0) }
+                 new Vector3[]{ Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero}, //
+                 new Vector3[]{ Vector3.zero, Vector3.zero }
             };//A[land][puzzle] day
 
         static Vector3[][] normalPuzzlePos_B ={
                  new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(-100, 0, 0) , new Vector3(650, 530, 0) , new Vector3(460, 850, 0) , new Vector3(200, 1100, 0) , Vector3.zero, new Vector3(320, 750, 0), new Vector3(-100, 0, 0), new Vector3(-100, 0, 0)   },
-                 new Vector3[]{ Vector3.zero, new Vector3(100, 400, 0), new Vector3(100, 400, 0) , Vector3.zero, new Vector3(100, 400, 0), new Vector3(100, 400, 0) , Vector3.zero, new Vector3(100, 400, 0) , new Vector3(100, 400, 0) },
-                 new Vector3[]{ Vector3.zero, new Vector3(100, 400, 0) }
+                 new Vector3[]{ Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero},
+                 new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) }
             };//B night
 
         static Vector3[][] normalPuzzlePos_C ={
-                 new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(-100, 0, 0) , new Vector3(650, 530, 0) , new Vector3(460, 850, 0) , new Vector3(-100, 0, 0) , Vector3.zero, new Vector3(320, 750, 0), new Vector3(-100, 0, 0), new Vector3(-100, 0, 0)   },
-                 new Vector3[]{Vector3.zero, new Vector3(100, 400, 0), new Vector3(100, 400, 0) , Vector3.zero, new Vector3(100, 400, 0), new Vector3(100, 400, 0) , Vector3.zero, new Vector3(100, 400, 0) , new Vector3(100, 400, 0) },
-                 new Vector3[]{ Vector3.zero, new Vector3(100, 400, 0) }
+                 new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(-100, 0, 0) , new Vector3(650, 530, 0) , new Vector3(460, 850, 0) , new Vector3(-100, 0, 0) , Vector3.zero, new Vector3(320, 750, 0), new Vector3(200, 1120, 0), new Vector3(-100, 0, 0)   },
+                 new Vector3[]{ Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero},
+                 new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) }
             };//C
 
         static Vector3[][] normalPuzzlePos_D ={
-                 new Vector3[]{ new Vector3(0, 0, 0), new Vector3(400, 900, 0), new Vector3(0, 0, 0), new Vector3(200, 900, 0)  },
-                 new Vector3[]{Vector3.zero, new Vector3(100, 400, 0), new Vector3(100, 400, 0) , Vector3.zero, new Vector3(100, 400, 0), new Vector3(100, 400, 0) , Vector3.zero, new Vector3(100, 400, 0) , new Vector3(100, 400, 0) },
-                 new Vector3[]{ Vector3.zero, new Vector3(100, 400, 0) }
+                 new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(600, 780, 0), new Vector3(650, 530, 0), new Vector3(460, 850, 0), new Vector3(-100, -100, 0), Vector3.zero, new Vector3(320, 750, 0), new Vector3(-100, 0, 0), new Vector3(170, 880, 0) }, //11
+                 new Vector3[]{ Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero}, //
+                 new Vector3[]{ Vector3.zero, Vector3.zero }
             };//D
 
         /// <summary>

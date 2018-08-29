@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WolfController : MonoBehaviour {
+public class WereWolfController : MonoBehaviour {
 
 
     Vector3 firstPos = new Vector3(-1f, 0.9f, -2.1f);//-20~20, -3f+y;
 
     void Start()
-    {    
+    {
         SetTransform();
         EventManager.instance.WeatherChangedEvent += (IdleSelect);
     }
@@ -17,6 +17,7 @@ public class WolfController : MonoBehaviour {
     {
         IdleSelect();
         int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
+        Debug.Log("unitSameCount : " + sameCount);
         if (sameCount == 1)
         {
             transform.localPosition = firstPos;
@@ -43,23 +44,15 @@ public class WolfController : MonoBehaviour {
     }
 
     public void IdleSelect()
-    {        
-        if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 0)//day
-        {            
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "2");
+    {
+        if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 2)//Midnight
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject);
         }
         else
         {
-            if(UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 2 && UserManager.Instance.ClearPuzzleCheck("0110") == true)
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-            }
-            else
-            {
-                transform.GetChild(0).gameObject.SetActive(true);
-                Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "1");
-            }
+            transform.GetChild(0).gameObject.SetActive(false);
         }
     }
-
 }
