@@ -27,8 +27,9 @@ public class LockController : MonoBehaviour {
         if(gotIt == false)
         {
             lockBG.SetActive(true);
-            lockButton.SetActive(true);
-            unLockButton.SetActive(true);
+
+            #region LockButton
+            lockButton.SetActive(true);            
             lockButton.GetComponent <Button> (). onClick = new Button.ButtonClickedEvent ();
             
             //lockButton.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -42,6 +43,8 @@ public class LockController : MonoBehaviour {
             lockButton.GetComponent<Button>().onClick.AddListener(delegate {
                 PuzzleManager.instance.viewCon.SceneOff(1);
             });
+            #endregion
+
             #region LockIcon
             if (LandManager.instance.currentLand.id > 2) {
                 lockIcon.SetActive(true);
@@ -53,6 +56,9 @@ public class LockController : MonoBehaviour {
                 unLockButton.SetActive(false);
             }
             #endregion
+
+            unLockButton.transform.GetChild(0).gameObject.SetActive(true);
+            unLockButton.transform.GetChild(0).GetComponent<Image>().color = new Vector4(210 * 0.004f, 0,0,1);
         }
         else
         {
