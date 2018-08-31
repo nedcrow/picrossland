@@ -62,4 +62,20 @@ public class UnitManager : MonoBehaviour {
             }
         }
     }
+
+    public GameObject SearchUnit(string unitID)
+    {
+        if(unitList.Count > 0)
+        {
+            for (int i = 0; i < unitList.Count; i++)
+            {
+                if (unitList[i].name == unitID) { return unitList[i]; }
+            }
+            return null;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

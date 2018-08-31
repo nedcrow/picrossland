@@ -100,12 +100,12 @@ public class WeatherController : MonoBehaviour {
         {
             if (MainDataBase.instance.loadAll == true)
             {
-                r = r - 0.02f;
+                r = r - 0.028f;
                 g = g - 0.025f;                
-                a = a + 0.01f;
+                a = a + 0.015f;
             }
             tempSky.GetComponent<SpriteRenderer>().color = new Vector4(r,g,b,a);
-            if (a > 0.5f) { break; }
+            if (a > 0.35f) { break; }
             //Debug.Log("GoodNight");
             yield return new WaitForSeconds(0.08f);
         }

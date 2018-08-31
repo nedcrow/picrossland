@@ -31,7 +31,7 @@ public class EventManager : MonoBehaviour
     public delegate void WeatherChanged();
     public event WeatherChanged WeatherChangedEvent;
 
-    public delegate void LandActivated();
+    public delegate void LandActivated(GameObject target=null);
     public event LandActivated LandActivatedEvent;
 
     public delegate void NickNameChecked(bool success);

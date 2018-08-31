@@ -12,13 +12,13 @@ public class MoveupController : MonoBehaviour {
         //EventManager.instance.LandActivatedEvent += (MoveUp);
     }
 
-    public void MoveUp()
+    public void MoveUp(GameObject targetObj = null)
     {        
         if (coroutineCnt > 0) { StopAllCoroutines(); coroutineCnt = 0; }
-        if(gameObject.activeSelf == true) { StartCoroutine(MoveUp_U()); }
+        if(gameObject.activeSelf == true) { StartCoroutine(MoveUp_U(targetObj)); }
     }
 
-    IEnumerator MoveUp_U()
+    IEnumerator MoveUp_U(GameObject targetObj = null)
     {
         float sec = 0.01f;
         float time = 0;
@@ -38,20 +38,23 @@ public class MoveupController : MonoBehaviour {
                 float dir = transform.localPosition.y > 1.1f ? -0.1f : 0.1f;//y값 증감할 때 방향 정한 것.
                 for (int i = 0; i < loop; i++)
                 {
-                    targetPos = Unit.UnitBase.RandomUnitPos(20, 20);//왠만하면 고정.
-                    if (SpawnRule.SpawnPossible.UnitSpawnPossibe(transform.name, targetPos))//만약 위치해도 괜찮은 곳이면,
-                    {
-                        i = loop;  //for문 종료.
-                    }
-                    else
-                    {
-                        if (i == loop - 1) { targetPos = transform.localPosition; }
+                    if(targetObj == null) {
+                        targetPos = Unit.UnitBase.RandomUnitPos(20, 20);//왠만하면 고정.
+                        if (SpawnRule.SpawnPossible.UnitSpawnPossibe(transform.name, targetPos))//만약 위치해도 괜찮은 곳이면,
+                        {
+                            i = loop;  //for문 종료.
+                        }
                         else
                         {
-                            if (i / 2 == 0) { targetPos = new Vector3(targetPos.x, targetPos.y + dir, targetPos.z + dir); }//y값 증감.   
-                            else { targetPos = new Vector3(targetPos.x + dir, targetPos.y, targetPos.z); }//x값 증감.      
+                            if (i == loop - 1) { targetPos = transform.localPosition; }
+                            else
+                            {
+                                if (i / 2 == 0) { targetPos = new Vector3(targetPos.x, targetPos.y + dir, targetPos.z + dir); }//y값 증감.   
+                                else { targetPos = new Vector3(targetPos.x + dir, targetPos.y, targetPos.z); }//x값 증감.      
+                            }
                         }
                     }
+                    else { targetPos = targetObj.transform.position; }
                 }//10번만 시도. 
                 #endregion
 
@@ -71,7 +74,8 @@ public class MoveupController : MonoBehaviour {
                     #endregion
                                         
                     transform.Translate(_dir * Time.deltaTime * speed);
-                    float dist = Vector3.Distance(targetPos, transform.localPosition);
+                    Vector3 tempPos = new Vector3(transform.localPosition.x, transform.localPosition.y, targetPos.z);
+                    float dist = Vector3.Distance(targetPos, tempPos);
                     Debug.Log(targetPos+ ", "+transform.localPosition+ ", " + dist);
                     if (dist < 1f) { Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject); time = 0; Debug.Log("moveEnd"); coroutineCnt -= 1; break; }
                     yield return new WaitForSeconds(sec);
