@@ -47,7 +47,7 @@ public class WolfController : MonoBehaviour {
         transform.GetChild(0).gameObject.SetActive(true);
         if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 0)//day
         {            
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "2");
+            Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject, "2");
         }
         else
         {
@@ -57,7 +57,7 @@ public class WolfController : MonoBehaviour {
             }
             else
             {
-                Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "1");
+                Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject, "1");
             }
         }
     }

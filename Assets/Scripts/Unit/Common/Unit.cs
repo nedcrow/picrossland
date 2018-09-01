@@ -6,7 +6,7 @@ namespace Unit
 {
     public class UnitBase : MonoBehaviour
     {
-        public static void Idle_U(GameObject target, string IdleNum="")
+        public static void UnitIdle(GameObject target, string IdleNum="")
         {
             if (target.GetComponent<Animator>())
             {
@@ -15,7 +15,7 @@ namespace Unit
             }
         }
 
-        public static void Death_U(GameObject target)
+        public static void Unit_Death(GameObject target)
         {
             if (target.GetComponent<Animator>())
             {
@@ -93,7 +93,7 @@ namespace Unit
 
     public class Mover : MonoBehaviour
     {
-        public static void Move_U(GameObject target)
+        public static void UnitMove(GameObject target)
         {
             if (target.GetComponent<Animator>())
             {

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 
 public class EventManager : MonoBehaviour
@@ -30,38 +30,64 @@ public class EventManager : MonoBehaviour
 
     public delegate void WeatherChanged();
     public event WeatherChanged WeatherChangedEvent;
+    public event WeatherChanged TempWeatherEvent;
 
     public delegate void LandActivated(Vector3 target, float waitTime);
     public event LandActivated LandActivatedEvent;
 
     public delegate void NickNameChecked(bool success);
     public event NickNameChecked NickNameCheckedEvent;
-
+    
+    public delegate void Attacked(GameObject target);
+    public event Attacked AttackedEvent;
     //--------------------------------------------------------------------Event
 
 
 
     public void WeatherChangedFunc()//---------------메뉴명 확인
-    {
-        try { WeatherChangedEvent(); }
+    {        
+        try
+        {            
+            List<GameObject> unitList = LandManager.instance.GetComponent<UnitManager>().unitList;
+            foreach (WeatherChanged d in WeatherChangedEvent.GetInvocationList())
+            {
+                Debug.Log("ActivatedFunc :" + d.Target);
+                string unitID = HarimTool.EditText.EditText.Left(d.Target.ToString(), 4);
+                Debug.Log(LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.name);
+                if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == false) {                    
+                    WeatherChangedEvent -= d;
+                    TempWeatherEvent += d;
+                    Debug.Log("TempWeatherEvent.GetInvocationList().Length : " + TempWeatherEvent.GetInvocationList().Length);
+                }
+                
+            }
+            WeatherChangedEvent();            
+        }         
         catch { }
+        if (TempWeatherEvent != null) {
+            foreach (WeatherChanged d in TempWeatherEvent.GetInvocationList())
+            {
+                Debug.Log(d.Target);
+                WeatherChangedEvent += d;
+            }
+        }
     }
 
     public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0)//---------------메뉴명 확인
     {
-        try {
-            //    foreach (LandActivated d in LandActivatedEvent.GetInvocationList())
-            //{
-            //    Debug.Log("LandActivatedFunc" + d.Method.Name);
-            //}   
-            LandActivatedEvent(pos,waitTime);
-        }
+        try {  LandActivatedEvent(pos,waitTime); }
         catch { }
     }
 
     public void NickNameCheckedFunc(bool success)
     {
         try { NickNameCheckedEvent(success); }
+        catch { }
+    }
+
+    public void AttackedFunc(GameObject target=null)
+    {
+        try { AttackedEvent(target); }
         catch { }
     }
 

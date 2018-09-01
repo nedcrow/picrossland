@@ -32,7 +32,7 @@ public class MoveupController : MonoBehaviour {
             if (waitTime == 0) { waitTime = cutLine; }
             if (time > waitTime)
             {
-                Unit.Mover.Move_U(transform.GetChild(0).gameObject);
+                Unit.Mover.UnitMove(transform.GetChild(0).gameObject);
 
                 #region targetPos                
                 int loop = 20;
@@ -83,7 +83,7 @@ public class MoveupController : MonoBehaviour {
 //                    Debug.Log(targetPos+ ", "+ tempPos + ", " + dist);
                     if (dist < 0.2f) {
                         time = 0;
-                        Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject);
+                        Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject);
                         Debug.Log("moveEnd");
                         coroutineCnt -= 1;
                         if (firstTargetPos == Vector3.zero)

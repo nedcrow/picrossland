@@ -44,7 +44,7 @@ public class HouseController : MonoBehaviour {
 
     public void IdleSelect()
     {
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject);
+            Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject);
     }
 
 }

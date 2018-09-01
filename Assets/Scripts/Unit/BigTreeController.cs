@@ -48,11 +48,11 @@ public class BigTreeController : MonoBehaviour {
     {
         if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 2)//fullMoon
         {
-            Unit.UnitBase.Death_U(transform.GetChild(0).gameObject);
+            Unit.UnitBase.Unit_Death(transform.GetChild(0).gameObject);
         }
         else
         {
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject);
+            Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject);
         }
     }
 

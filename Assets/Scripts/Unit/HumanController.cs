@@ -41,6 +41,7 @@ public class HumanController : MonoBehaviour
         }
         //  --------------  ETC  --------------  //
         IdleSelect();
+        GetComponent<FightController>().HP = 1;
         GetComponent<FightController>().weaponID = "0105";
         GetComponent<FightController>().Search_U(Vector3.zero, "0110", "D", 0.7f);
     }
@@ -49,11 +50,11 @@ public class HumanController : MonoBehaviour
     {
         if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 0)//Day
         {
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "1");
+            Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject, "1");
         }
         else
         {
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "2");
+            Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject, "2");
         }
 
     }

@@ -8,7 +8,7 @@ public class RabbitController : MonoBehaviour {
     
     void Start()
     {
-        Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject);
+        Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject);
         SetTransform();
         GetComponent<MoveupController>().speed = 1.5f;
     }

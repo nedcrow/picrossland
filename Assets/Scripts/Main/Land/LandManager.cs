@@ -172,6 +172,7 @@ public class LandManager : MonoBehaviour {
             {
                 landObjList[i].SetActive(true);
                 landObjList[i].GetComponent<LandController>().LandSetting(landNum); //Weather, BG
+                EventManager.instance.WeatherChangedFunc();//날씨 바뀜 선언.
                 PuzzleManager.instance.currentLandObj = landObjList[i];
                 CurrentLandSetting(false);
             }

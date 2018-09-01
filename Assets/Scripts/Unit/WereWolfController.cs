@@ -9,7 +9,7 @@ public class WereWolfController : MonoBehaviour {
 
     void Start()
     {
-        SetTransform();
+        SetTransform();        
         EventManager.instance.WeatherChangedEvent += (SetTransform);
     }
 
@@ -43,6 +43,7 @@ public class WereWolfController : MonoBehaviour {
 
         //  --------------  ETC  --------------  //
         IdleSelect();
+        GetComponent<FightController>().AtkPoint = 1;
         GetComponent<FightController>().firstPos = this.firstPos;
         GetComponent<FightController>().Search_U(new Vector3(0.5f, -0.3f, -0.3f), "0109", "M", 0.7f);
     }
@@ -52,7 +53,7 @@ public class WereWolfController : MonoBehaviour {
         if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 2)//Midnight
         {
             transform.GetChild(0).gameObject.SetActive(true);
-            Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject);
+            Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject);
         }
         else
         {
