@@ -31,7 +31,7 @@ public class EventManager : MonoBehaviour
     public delegate void WeatherChanged();
     public event WeatherChanged WeatherChangedEvent;
 
-    public delegate void LandActivated(GameObject target=null);
+    public delegate void LandActivated(Vector3 target, float waitTime);
     public event LandActivated LandActivatedEvent;
 
     public delegate void NickNameChecked(bool success);
@@ -47,14 +47,14 @@ public class EventManager : MonoBehaviour
         catch { }
     }
 
-    public void LandActivatedFunc()//---------------메뉴명 확인
+    public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0)//---------------메뉴명 확인
     {
         try {
             //    foreach (LandActivated d in LandActivatedEvent.GetInvocationList())
             //{
             //    Debug.Log("LandActivatedFunc" + d.Method.Name);
             //}   
-            LandActivatedEvent();
+            LandActivatedEvent(pos,waitTime);
         }
         catch { }
     }

@@ -65,9 +65,7 @@ namespace Unit
 
     public class Fighter : MonoBehaviour
     {
-        public int atk;
-        public int hp;
-        public void Attack(GameObject target)
+        public static void Attack(GameObject target)
         {
             if (target.GetComponent<Animator>())
             {
@@ -75,11 +73,19 @@ namespace Unit
                 target.GetComponent<Animator>().Play(aniName);
             }
         }
-        public void Hit(GameObject target)
+        public static void Hit(GameObject target)
         {
             if (target.GetComponent<Animator>())
             {
                 string aniName = target.transform.parent.name + "_Death";
+                target.GetComponent<Animator>().Play(aniName);
+            }
+        }
+        public static void Afraide(GameObject target)
+        {
+            if (target.GetComponent<Animator>())
+            {
+                string aniName = target.transform.parent.name + "_Hit";
                 target.GetComponent<Animator>().Play(aniName);
             }
         }

@@ -5,17 +5,16 @@ using UnityEngine;
 public class WereWolfController : MonoBehaviour {
 
 
-    Vector3 firstPos = new Vector3(-1f, 0.9f, -2.1f);//-20~20, -3f+y;
+    Vector3 firstPos = new Vector3(1.15f, 0.9f, -2.1f);//-20~20, -3f+y;
 
     void Start()
     {
         SetTransform();
-        EventManager.instance.WeatherChangedEvent += (IdleSelect);
+        EventManager.instance.WeatherChangedEvent += (SetTransform);
     }
 
     void SetTransform()
     {
-        IdleSelect();
         int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
         Debug.Log("unitSameCount : " + sameCount);
         if (sameCount == 1)
@@ -41,6 +40,11 @@ public class WereWolfController : MonoBehaviour {
                 }
             }//10번만 시도.        
         }
+
+        //  --------------  ETC  --------------  //
+        IdleSelect();
+        GetComponent<FightController>().firstPos = this.firstPos;
+        GetComponent<FightController>().Search_U(new Vector3(0.5f, -0.3f, -0.3f), "0109", "M", 0.7f);
     }
 
     public void IdleSelect()

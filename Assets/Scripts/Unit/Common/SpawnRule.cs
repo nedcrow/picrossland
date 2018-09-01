@@ -6,7 +6,7 @@ namespace SpawnRule
     public class SpawnPossible
     { 
         static Vector4[][] unitArea = new Vector4[][]{
-            new Vector4[]{new Vector4(-0.34f, 0.74f, -0.8f, 0.2f), new Vector4(-1.5f, -0.5f, 0.4f, 1.4f), new Vector4(-2.2f, 0.2f, -2f, 0f) }, //tree(0.5), wolf(0.5), house(1)
+            new Vector4[]{new Vector4(-0.34f, 0.74f, -0.8f, 0.2f), new Vector4(-1.5f, -0.5f, 0.4f, 1.4f), new Vector4(0.15f, 2.15f, -2f, 0f) }, //tree(0.5), wolf(0.5), house(1)
             new Vector4[]{new Vector4(-1, 1, -1, 1), new Vector4(-1, 1, -1, 1) }
         };//vector4 [landNums][unitAreas]
 

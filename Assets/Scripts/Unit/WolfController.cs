@@ -5,7 +5,7 @@ using UnityEngine;
 public class WolfController : MonoBehaviour {
 
 
-    Vector3 firstPos = new Vector3(-1f, 0.9f, -2.1f);//-20~20, -3f+y;
+    Vector3 firstPos = new Vector3(1.15f, 0.9f, -2.1f);//-20~20, -3f+y;
 
     void Start()
     {    
@@ -43,7 +43,8 @@ public class WolfController : MonoBehaviour {
     }
 
     public void IdleSelect()
-    {        
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
         if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 0)//day
         {            
             Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "2");
@@ -56,7 +57,6 @@ public class WolfController : MonoBehaviour {
             }
             else
             {
-                transform.GetChild(0).gameObject.SetActive(true);
                 Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "1");
             }
         }

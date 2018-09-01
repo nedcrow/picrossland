@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class HumanController : MonoBehaviour
 {
-
     Vector3 firstPos = new Vector3(-0.2f, -1.2f, -4.2f);//-20~20, -3f+y;
 
     void Start()
-    {       
-        SetTransform();
-        EventManager.instance.WeatherChangedEvent += (IdleSelect);
+    {
+        SetTransform();        
+        EventManager.instance.WeatherChangedEvent += (SetTransform);
     }
 
     void SetTransform()
     {
-        IdleSelect();
         int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
         Debug.Log("unitSameCount : "+sameCount);
         if (sameCount == 1)
@@ -41,6 +39,10 @@ public class HumanController : MonoBehaviour
                 }
             }//10번만 시도.        
         }
+        //  --------------  ETC  --------------  //
+        IdleSelect();
+        GetComponent<FightController>().weaponID = "0105";
+        GetComponent<FightController>().Search_U(Vector3.zero, "0110", "D", 0.7f);
     }
 
     public void IdleSelect()
@@ -53,6 +55,7 @@ public class HumanController : MonoBehaviour
         {
             Unit.UnitBase.Idle_U(transform.GetChild(0).gameObject, "2");
         }
+
     }
 
 }
