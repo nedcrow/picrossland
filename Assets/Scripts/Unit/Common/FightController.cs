@@ -13,6 +13,12 @@ public class FightController : MonoBehaviour {
     GameObject target;
     bool dead=false;
 
+    private void Start()
+    {
+        EventManager.instance.AttackedEvent += (HPCheck);
+    }
+
+
     #region search
     /// <summary>
     /// mode = M,D
@@ -41,8 +47,7 @@ public class FightController : MonoBehaviour {
             else
             {
                 if(mode == "M")
-                {
-                    Debug.Log("atkMode = "+atkMode);
+                {                    
                     if(atkMode == false) {
                         Vector3 tPos = (target.transform.localPosition) + addPos;
                         GetComponent<MoveupController>().MoveUp(tPos,1);
@@ -77,7 +82,7 @@ public class FightController : MonoBehaviour {
             if (transform.GetChild(transform.GetChildCount() - 1)) {
                 if(transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>())
                 {
-                    transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>().NineTeenMotion(0.5f);
+                    transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>().NineTeenMotion(1.5f);
                 }                
             }
             Unit.UnitBase.Unit_Death(transform.GetChild(0).gameObject);
@@ -92,7 +97,7 @@ public class FightController : MonoBehaviour {
         float dist = Vector3.Distance(tPos, mPos);
         if (dist < range)
         {
-            Debug.Log(dist);
+            //Debug.Log(dist);
             return true;
         }
         else { return false; }
@@ -188,6 +193,7 @@ public class FightController : MonoBehaviour {
                         }
                         else if(target.GetComponent<FightController>().HP <= 0)
                         {
+                            yield return new WaitForSeconds(1.2f);
                             GetComponent<MoveupController>().MoveUp(firstPos, 0.1f); //귀가.
                             break;
                         }
