@@ -20,7 +20,10 @@ public class FightController : MonoBehaviour {
     /// <param name="addPos"></param>
     /// <param name="targetID"></param>
     /// <param name="mode"></param>
-    public void Search_U(Vector3 addPos, string targetID, string mode = "", float range = 0.0f) { StartCoroutine(Search_U_Co(addPos, targetID, mode, range)); }
+    public void Search_U(Vector3 addPos, string targetID, string mode = "", float range = 0.0f) {
+        StopAllCoroutines();
+        StartCoroutine(Search_U_Co(addPos, targetID, mode, range));
+    }
         
     IEnumerator Search_U_Co(Vector3 addPos, string targetID, string mode = "", float range = 0.0f)
     {
@@ -38,7 +41,8 @@ public class FightController : MonoBehaviour {
             else
             {
                 if(mode == "M")
-                {                    
+                {
+                    Debug.Log("atkMode = "+atkMode);
                     if(atkMode == false) {
                         Vector3 tPos = (target.transform.localPosition) + addPos;
                         GetComponent<MoveupController>().MoveUp(tPos,1);
@@ -53,7 +57,7 @@ public class FightController : MonoBehaviour {
                         }
                     }
                 }
-                else if(mode == "D"){                                       
+                else if(mode == "D"){
                     if (FrontTarget(range)) {
                         yield return new WaitForSeconds(0.5f);
                         Afraide_U();
@@ -88,6 +92,7 @@ public class FightController : MonoBehaviour {
         float dist = Vector3.Distance(tPos, mPos);
         if (dist < range)
         {
+            Debug.Log(dist);
             return true;
         }
         else { return false; }

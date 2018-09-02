@@ -8,10 +8,10 @@ public class SceneController : MonoBehaviour {
 
     public void LoadScene(int sceneNum)
     {
-        DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "Local Login try";
-
-        SceneManager.LoadScene(sceneNum);
-        DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "Login Login ok";
+        //DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "Local Login try";
+        Debug.Log("login");
+        SceneManager.LoadScene("MainScene");
+        //DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "Login Login ok";
 
     }
 }

@@ -19,7 +19,7 @@ namespace Unit
         {
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Idle" + target;
+                string aniName = target.transform.parent.name + "_Idle";                
                 target.GetComponent<Animator>().Play(aniName);
             }
         }

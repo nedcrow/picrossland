@@ -51,9 +51,9 @@ public class EventManager : MonoBehaviour
             List<GameObject> unitList = LandManager.instance.GetComponent<UnitManager>().unitList;
             foreach (WeatherChanged d in WeatherChangedEvent.GetInvocationList())
             {
-                Debug.Log("ActivatedFunc :" + d.Target);
+                //Debug.Log("ActivatedFunc :" + d.Target);
                 string unitID = HarimTool.EditText.EditText.Left(d.Target.ToString(), 4);
-                Debug.Log(LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.name);
+                //Debug.Log(LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.name);
                 if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == false) {                    
                     WeatherChangedEvent -= d;
                     TempWeatherEvent += d;
@@ -64,10 +64,12 @@ public class EventManager : MonoBehaviour
             WeatherChangedEvent();            
         }         
         catch { }
-        if (TempWeatherEvent != null) {
+        if (TempWeatherEvent != null)
+        {
             foreach (WeatherChanged d in TempWeatherEvent.GetInvocationList())
             {
-                Debug.Log(d.Target);
+                //Debug.Log(d.Target);
+                TempWeatherEvent -= d;
                 WeatherChangedEvent += d;
             }
         }

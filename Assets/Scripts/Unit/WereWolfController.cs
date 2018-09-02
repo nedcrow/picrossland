@@ -44,6 +44,7 @@ public class WereWolfController : MonoBehaviour {
         //  --------------  ETC  --------------  //
         IdleSelect();
         GetComponent<FightController>().AtkPoint = 1;
+        GetComponent<FightController>().atkMode = false;
         GetComponent<FightController>().firstPos = this.firstPos;
         GetComponent<FightController>().Search_U(new Vector3(0.5f, -0.3f, -0.3f), "0109", "M", 0.7f);
     }

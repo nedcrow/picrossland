@@ -171,8 +171,7 @@ public class LandManager : MonoBehaviour {
             else
             {
                 landObjList[i].SetActive(true);
-                landObjList[i].GetComponent<LandController>().LandSetting(landNum); //Weather, BG
-                EventManager.instance.WeatherChangedFunc();//날씨 바뀜 선언.
+                landObjList[i].GetComponent<LandController>().LandSetting(landNum); //Weather, BG                
                 PuzzleManager.instance.currentLandObj = landObjList[i];
                 CurrentLandSetting(false);
             }
@@ -216,6 +215,7 @@ public class LandManager : MonoBehaviour {
             if(firstGame == true) { PuzzleManager.instance.viewCon.againView.SetActive(false); firstGame = false; }            
         }
         EventManager.instance.LandActivatedFunc();
+        EventManager.instance.WeatherChangedFunc();//날씨 바뀜 선언. unit motion 초기화.
 
         //GameObject units = PuzzleManager.instance.currentLandObj.GetComponent<LandController>().units;
         //for (int i = 0; i < units.transform.childCount; i++)
