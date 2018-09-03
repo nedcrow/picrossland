@@ -101,6 +101,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94b724678501c343baf9a671d8a82b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 
+  atkMode: 0
+  AtkDelay: 0.4
+  HP: 0
+  AtkPoint: 0
+  firstPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114233184754569082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+  cutLine: 4
 --- !u!114 &114884218627394766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,7 +166,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f7794f2694687694a8aa57dfe72676d1, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5955882, g: 0.5955882, b: 0.5955882, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
