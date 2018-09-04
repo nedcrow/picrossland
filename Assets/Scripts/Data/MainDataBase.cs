@@ -64,65 +64,7 @@ public class MainDataBase : MonoBehaviour
     }
     #region FireBase
 
-
-    //public void OnClickTransactionSave()
-    //{
-    //    const int MaxScoreRecordCount = 5;
-    //    int score = Random.Range(0, 100);
-    //    string email = "testEmail";
-
-    //    databaseReference.Child("users").RunTransaction(mutableData => {
-    //        List<object> leaders = mutableData.Value as List<object>;
-
-    //        if (leaders == null)
-    //        {
-    //            leaders = new List<object>();
-    //        }
-
-    //        // 랭킹에 등록된 점수를 비교합니다.
-    //        else if (mutableData.ChildrenCount >= MaxScoreRecordCount)
-    //        {
-    //            long minScore = long.MaxValue;
-    //            object minVal = null;
-    //            foreach (var child in leaders)
-    //            {
-    //                if (!(child is Dictionary<string, object>))
-    //                    continue;
-    //                long childScore = (long)((Dictionary<string, object>)child)["score"];
-    //                if (childScore < minScore)
-    //                {
-    //                    minScore = childScore;
-    //                    minVal = child;
-    //                }
-    //            }
-    //            if (minScore > score)
-    //            {
-    //                // 현재 점수가 최하위 점수보다 낮으면 중단합니다.(랭킹에 못오르니깐)
-    //                return TransactionResult.Abort();
-    //            }
-
-    //            // 기존 최하위 데이터를 제거합니다.(랭킹 변경)
-    //            leaders.Remove(minVal);
-    //        }
-
-    //        Dictionary<string, object> newScoreMap = new Dictionary<string, object>();
-
-    //        newScoreMap["score"] = score;
-    //        newScoreMap["email"] = email;
-
-    //        leaders.Add(newScoreMap);
-    //        mutableData.Value = leaders;
-    //        return TransactionResult.Success(mutableData);
-    //    });
-    //}
-
-    //public void OnClickRemove()
-    //{
-    //    databaseReference.Child("users").Child("노드이름").Child("노드이름")
-    //                   .RemoveValueAsync();
-    //}
     
-
     #region BaseDB
     /// <summary>
     /// 0: ID, 1:Name, 2:Size, 3:UseSpriteNum_Min, 4: UseSpriteNum_Max, 5: Type(N or S)
@@ -149,9 +91,9 @@ public class MainDataBase : MonoBehaviour
                     {
                         DataBase.Land tempLand = new DataBase.Land();
                         string i_ = i.ToString(); //'Lands'DB 용 ID.
-                        tempLand.id = System.Convert.ToInt32(snapshot.Child(i_).Child("0").GetValue(true)); //snapShot에서 Land ID가져오기.
+                        tempLand.id = Convert.ToInt32(snapshot.Child(i_).Child("0").GetValue(true)); //snapShot에서 Land ID가져오기.
                         tempLand.name = snapshot.Child(i_).Child("1").GetValue(true).ToString();
-
+                        tempLand.price = Convert.ToInt32(snapshot.Child(i_).Child("7").GetValue(true));
                         string puzzleIDFront = tempLand.id < 10 ? "0" + tempLand.id : tempLand.id.ToString();
 
                         #region puzzleList_S

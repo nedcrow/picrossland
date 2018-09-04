@@ -70,10 +70,10 @@ namespace DataBase {
     public class Land
     {
         public int id;
-        public string name;
-
+        public string name;        
         public List<string> puzzleList_S = new List<string>(); 
         public List<string> puzzleList_N = new List<string>();
+        public int price;
     }
 
     [Serializable]
