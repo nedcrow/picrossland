@@ -6,6 +6,7 @@ public class ButtonOnf : MonoBehaviour {
 
     public void ButtonOnOff(bool onf)
     {
+        Debug.Log("ButtonOnf: "+onf);
         gameObject.SetActive(onf);
     }
 

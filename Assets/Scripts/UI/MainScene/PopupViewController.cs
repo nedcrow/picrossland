@@ -9,12 +9,13 @@ public class PopupViewController : MonoBehaviour {
     [HideInInspector] public GameObject clearPop;
     [HideInInspector] public GameObject loadingPop;
     [HideInInspector] public GameObject nickNamePop;
-
+    [HideInInspector] public GameObject guidePop;
 
     void Awake () {
         clearPop = transform.GetChild(0).gameObject;
         loadingPop = transform.GetChild(1).gameObject;
         nickNamePop = transform.GetChild(2).gameObject;
+        guidePop = transform.GetChild(3).gameObject;
 
         loadingPop.SetActive(true);
     }	

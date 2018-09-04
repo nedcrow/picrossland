@@ -329,6 +329,7 @@ public class PuzzleIconListController : MonoBehaviour {
                                 touchedSkill.transform.GetChild(0).GetComponent<Image>().enabled = false;
                                 int newWeather = PuzzleInfo.FindPuzzleEffect.FindWeatherNum(skillID); //해당 skill ID 클리어 시 얻는 weather 체크.
                                 UserManager.Instance.SetWeather(LandManager.instance.currentLand.id, newWeather); //현재 weather 수정.                            
+                                PuzzleManager.instance.currentLandObj.GetComponent<LandController>().weather.GetComponent<WeatherController>().OffWeather();
                                 PuzzleManager.instance.currentLandObj.GetComponent<LandController>().weather.GetComponent<WeatherController>().OnWeather(skillID);
                             }//currentWeather 변경 밑 OnWeather()
                             break;

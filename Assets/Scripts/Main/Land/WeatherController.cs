@@ -15,6 +15,7 @@ public class WeatherController : MonoBehaviour {
 
     public void OnWeather(string skillId)
     {
+        Debug.Log("OnWeather : "+skillId);
         try
         {
             StartCoroutine(weatherDic[skillId]);
@@ -56,6 +57,12 @@ public class WeatherController : MonoBehaviour {
         float g=0.1f;
         float b = 0.1f;
         float a=0;
+
+        if (UserManager.Instance.GetCurrentInGotLandList(LandManager.instance.currentLand.id).clearPuzzleList.Count == 1)
+        {
+            LandManager.instance.views.popupView.GetComponent<PopupViewController>().guidePop.SetActive(true);
+        }//clearPuzzle이 하나 뿐이면, 
+
         while (true)
         {
             if(MainDataBase.instance.loadAll == true)

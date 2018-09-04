@@ -550,7 +550,7 @@ public class MainDataBase : MonoBehaviour
                 fs.Close();
 
                 UserManager.Instance.currentUser = user;
-                Debug.Log(user.name+", "+ user.PlayTime +", unitCount" +user.gotLandList[0].unitList.Count);
+                Debug.Log(user.name+", "+ user.PlayTime +", unitCount : " +user.gotLandList[0].unitList.Count);
             }
             else { Debug.Log("error_Local : Path");  }// UserManager.Instance.DefaultSetting(); }
         }
