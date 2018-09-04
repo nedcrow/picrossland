@@ -57,8 +57,17 @@ public class LockController : MonoBehaviour {
             }
             #endregion
 
-            unLockButton.transform.GetChild(0).gameObject.SetActive(true);
-            unLockButton.transform.GetChild(0).GetComponent<Image>().color = new Vector4(210 * 0.004f, 0,0,1);
+            #region UnlockButton
+            if(unLockButton.activeSelf == true)
+            {
+                unLockButton.transform.GetChild(0).gameObject.SetActive(true);
+                unLockButton.transform.GetChild(0).GetComponent<Image>().color = new Vector4(210 * 0.004f, 0, 0, 1);
+                unLockButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Gem " + LandManager.instance.currentLand.price;
+                unLockButton.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate {
+                    CheckGem(LandManager.instance.currentLand.price);
+                });
+            }
+            #endregion
         }
         else
         {
@@ -69,6 +78,18 @@ public class LockController : MonoBehaviour {
         }
     }
 
+
+    public void CheckGem(int price)
+    {
+        if( UserManager.Instance.currentUser.gem > price)
+        {
+            unLockButton.transform.GetChild(0).GetComponent<ClickEffect>().clicked(1);
+        }
+        else
+        {
+            LandManager.instance.views.popupView.GetComponent<PopupViewController>().warningPop.SetActive(true);
+        }
+    }
 
     public void UnLock()
     {
