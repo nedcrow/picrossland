@@ -26,9 +26,9 @@ public class ClearChecker : MonoBehaviour {
         int tempCount = PuzzleManager.instance.tileGroup_Active.transform.childCount;
         for (int i=0; i < tempCount; i++)
         {
-            GameObject tempTile = PuzzleManager.instance.tileGroup_Active.transform.GetChild(tempCount-1-i).gameObject;
+            GameObject tempTile = PuzzleManager.instance.tileGroup_Active.transform.GetChild(tempCount-1-i).gameObject;            
             tempTile.transform.position = new Vector3(-100, -100, 0);
-            tempTile.transform.SetParent(PuzzleManager.instance.tileGroup_Rest.transform);
+            tempTile.transform.SetParent(PuzzleManager.instance.tileGroup_Rest.transform);           
         }//remove tile
         for(int i=0; i< PuzzleManager.instance.lines.transform.childCount; i++)
         {
@@ -68,7 +68,8 @@ public class ClearChecker : MonoBehaviour {
         int loopCount = startObj.childCount;
         for (int i = 0; i < loopCount; i++)
         {
-            startObj.GetChild(0).SetParent(targetObj);
+            startObj.GetChild(0).GetChild(0).GetComponent<Text>().text = "";
+            startObj.GetChild(0).SetParent(targetObj);            
         }
     }
     #endregion

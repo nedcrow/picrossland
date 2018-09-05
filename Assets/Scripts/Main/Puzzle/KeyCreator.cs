@@ -16,7 +16,9 @@ public class KeyCreator : MonoBehaviour {
 
     public void CreateKey()
     {
-        
+        puzzleM.heightKeyList.Clear();
+        puzzleM.widthKeyList.Clear();
+
         int r = Random.Range(puzzleM.currentPuzzle.useSpriteNum1, puzzleM.currentPuzzle.useSpriteNum2+1); //currentPuzzle.useSpriteNum1,2+1 //사용할 스프라이트 선택.  
         currentPuzzleSize = puzzleM.currentPuzzleSize;
         
@@ -38,7 +40,7 @@ public class KeyCreator : MonoBehaviour {
         //test(r);
         Debug.Log(puzzleM.currentPuzzle.id);
         Debug.Log(puzzleM.currentPuzzle.useSpriteNum1 +", "+ puzzleM.currentPuzzle.useSpriteNum2 + ", "+r + ", " + puzzleM.currentSprites.Length);
-        puzzleM.currentSprite = puzzleM.currentSprites[r];
+        puzzleM.currentSprite = puzzleM.currentSprites[r];        
     }
 
     void StackKey(int r,  int i, List<int> tempList, string dir) {
