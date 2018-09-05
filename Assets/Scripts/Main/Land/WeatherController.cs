@@ -10,7 +10,8 @@ public class WeatherController : MonoBehaviour {
     {
         {"0101","GoodMorning"},
         {"0103","GoodNight" },
-        {"0108","GoodNight" }
+        {"0108","GoodNight" },
+        {"0201","RadioActive" }
     };
 
     public void OnWeather(string skillId)
@@ -116,5 +117,12 @@ public class WeatherController : MonoBehaviour {
             //Debug.Log("GoodNight");
             yield return new WaitForSeconds(0.08f);
         }
+    }
+
+    IEnumerator RadioActive()
+    {
+        GameObject radio = transform.parent.GetComponent<LandController>().backgroundObj.transform.GetChild(0).GetChild(0).gameObject;
+        radio.GetComponent<Animator>().Play("Radio_Active");
+        yield return null;
     }
 }

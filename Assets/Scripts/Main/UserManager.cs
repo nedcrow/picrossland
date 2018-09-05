@@ -114,4 +114,21 @@ public class UserManager : MonoBehaviour {
         }        
         return current;        
     }
+
+    public void AddGotland(int landID)
+    {
+        SaveData.GotLand tempLand = new SaveData.GotLand();
+        tempLand.id = landID;
+        string tempPuzzleID = landID<10 ? "0"+landID : landID.ToString();
+        tempLand.gotPuzzleList.Add(tempPuzzleID+"01");
+        tempLand.weather = 0;
+
+        bool sameLand = false;
+        for (int i = 0; i< currentUser.gotLandList.Count; i++)
+        {
+            if(currentUser.gotLandList[i].id == landID) { sameLand = true; break; }
+        }
+        if(sameLand == false) { currentUser.gotLandList.Add(tempLand);  }
+
+    }
 }

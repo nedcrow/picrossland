@@ -7,6 +7,7 @@ TagManager:
   - MoveBtn
   - CheckBtn
   - SkillBtn
+  - LandObj
   layers:
   - Default
   - TransparentFX

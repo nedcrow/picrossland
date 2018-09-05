@@ -126,7 +126,7 @@ public class PuzzleManager : MonoBehaviour {
             Debug.Log("Not found puzzle of this ID : "+puzzleID);
         }
 
-    }
+    }//DB에 해당 퍼즐이 있는지 확인.
 
     void LoadBaseTiles()
     {

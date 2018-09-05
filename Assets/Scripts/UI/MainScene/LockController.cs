@@ -22,8 +22,11 @@ public class LockController : MonoBehaviour {
         bool gotIt = false;
         for(int i=0; i< UserManager.Instance.currentUser.gotLandList.Count; i++)
         {
-            if (UserManager.Instance.currentUser.gotLandList[i].id == LandManager.instance.currentLand.id) { gotIt = true; }
+            if (UserManager.Instance.currentUser.gotLandList[i].id == LandManager.instance.currentLand.id) {
+                if (UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList.Count > 0) { gotIt = true; break; }
+            }
         }
+
         if(gotIt == false)
         {
             lockBG.SetActive(true);

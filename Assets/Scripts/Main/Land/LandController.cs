@@ -7,6 +7,7 @@ public class LandController : MonoBehaviour {
     public GameObject landTiles;
     public GameObject weather;
     public GameObject units;
+    public GameObject backgroundObj;
     List<string> weatherList;
     string currentWeather; // skill Puzzle ID
 
@@ -15,6 +16,7 @@ public class LandController : MonoBehaviour {
         landTiles = transform.GetChild(1).gameObject;
         weather = transform.GetChild(2).gameObject;
         units = transform.GetChild(3).gameObject;
+        backgroundObj = transform.GetChild(4).gameObject;
     }
 
     public void LandSetting(int landID)
@@ -24,6 +26,34 @@ public class LandController : MonoBehaviour {
         //int clearPuzzleList = UserManager.Instance.currentUser.gotLandList[landID - 1].ClearPuzzleList.Length;
         //int gotPuzzleList = UserManager.Instance.currentUser.gotLandList[landID - 1].gotPuzzleList.Length;
         //int unitList = UserManager.Instance.currentUser.gotLandList[landID - 1].unitList.Length;
+
+        //Minimum land ID is 1 
+        #region BG
+        Sprite[] tempSprites;
+        tempSprites = Resources.LoadAll<Sprite>("Sprite/Land/LBG" + landID);//currentPuzzleID
+        for (int i = 0; i < landTiles.transform.childCount; i++)
+        {
+            landTiles.transform.GetChild(i).GetComponent<SpriteRenderer>().sprite = tempSprites[Random.Range(0, 7)];
+        }
+        //transform.position = new Vector3(0,0,0);
+        #endregion //BGController만들어서 붙일것.
+
+        #region BG_Obj
+        if (backgroundObj.transform.GetChildCount() == 0)
+        {
+            try
+            {
+                GameObject obj = Resources.Load<GameObject>("Prefabs/Lands/LandObj" + landID);
+                obj = Instantiate(obj, Vector3.zero, Quaternion.identity);
+                obj.transform.localPosition = new Vector3(2.5f, 0, -3);
+                obj.transform.SetParent(backgroundObj.transform);
+                //Destroy(obj.gameObject);
+            }
+            catch { }
+
+        }
+
+        #endregion
 
         #region Weather    
         weatherList = new List<string>();
@@ -57,26 +87,7 @@ public class LandController : MonoBehaviour {
         #endregion
 
 
-        //Min land ID is 1 
-        #region BG
-        Sprite[] tempSprites;
-        tempSprites = Resources.LoadAll<Sprite>("Sprite/Land/LBG" + landID);//currentPuzzleID
-        for(int i=0; i< landTiles.transform.childCount; i++)
-        {
-            landTiles.transform.GetChild(i).GetComponent<SpriteRenderer>().sprite = tempSprites[Random.Range(0, 7)];
-        }
-        //transform.position = new Vector3(0,0,0);
-        #endregion //BGController만들어서 붙일것.
-
         
-
-
-
-       
-
-
     }
-
-
 
 }

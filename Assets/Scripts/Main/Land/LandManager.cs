@@ -122,15 +122,13 @@ public class LandManager : MonoBehaviour {
 
         if (UserManager.Instance.currentUser.PlayTime == 0)
         {
+
             gotLandObjList.Add(landObjList[0]);
+            gotLandObjList.Add(landObjList[1]);
 
-            SaveData.GotLand firstLand = new SaveData.GotLand();
-            firstLand.id = 1;
-            firstLand.gotPuzzleList.Add("0101");
-            //firstLand.unitList = new string[] { };
-            firstLand.weather = 0;
+            UserManager.Instance.AddGotland(1);
+            UserManager.Instance.AddGotland(2);
 
-            UserManager.Instance.currentUser.gotLandList.Add ( firstLand );
             UserManager.Instance.currentUser.name = "test";//local ID 만들어서 넣어야함.
 
             currentLand = landList[0];
