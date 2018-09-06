@@ -79,12 +79,12 @@ public class MainDataBase : MonoBehaviour
             {
                 if (task.IsFaulted)
                 {
-                    DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "Land, Handle the error";
+                    Debug.Log("Land, Handle the error");
                     // Handle the error...
                 }
                 else if (task.IsCompleted)
                 {
-                    DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "Land, TaskComplite";
+                    Debug.Log("Land, TaskComplite");
                     DataSnapshot snapshot = task.Result;
 
                     for (int i = 1; i < snapshot.ChildrenCount; i++)
@@ -164,12 +164,12 @@ public class MainDataBase : MonoBehaviour
           {
               if (task.IsFaulted)
               {
-                  DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Puzzle, Handle the error";
+                  Debug.Log("Puzzle, Handle the error");
                   // Handle the error...
               }
               else if (task.IsCompleted)
               {
-                  DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Puzzle, TaskComplite";
+                  Debug.Log("Puzzle, TaskComplite");
                   DataSnapshot snapshot = task.Result;
                   // Do something with snapshot...
 
@@ -258,8 +258,6 @@ public class MainDataBase : MonoBehaviour
                 loadAll = true;
                 break;
             }
-            DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "LoadLand : " + loadLand.ToString();
-            DebugViewer.Instance.debugTextObjectList[1].GetComponent<Text>().text = "loadPuzzle : " + loadPuzzle.ToString();
             Debug.Log(string.Format( "loadLand : {0},  loadPuzzle : {1}",loadLand, loadPuzzle));
             yield return new WaitForSeconds(0.2f);
         }
@@ -325,7 +323,7 @@ public class MainDataBase : MonoBehaviour
                if (UserManager.Instance.currentUser.PlayTime > 0) { firstTime = false; }
 
                Debug.Log(UserManager.Instance.currentUser.name + ", firstTime : " + firstTime);
-               DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "Admin Load :" + UserManager.Instance.currentUser.name;
+
                loadAdmin = true;
            }           
        });
@@ -337,7 +335,7 @@ public class MainDataBase : MonoBehaviour
 
     public void NickNameChange(string nickName)
     {
-        DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = nickName+"...";
+        Debug.Log( nickName +"..." );
         string newNickName = nickName;
 
 
@@ -352,8 +350,6 @@ public class MainDataBase : MonoBehaviour
         else
         {
             if (UserManager.Instance.currentUser.id == "" || UserManager.Instance.currentUser.id == null) { newNickName = "empty"; }
-            DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = nickName + ".....";
-
 
             DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
             mDatabaseRef.Child("Users").Child(UserManager.Instance.currentUser.id).Child("username").SetValueAsync(newNickName).ContinueWith(
@@ -361,14 +357,13 @@ public class MainDataBase : MonoBehaviour
                     {
                         if (task.IsFaulted)
                         {
-                            Debug.Log(UserManager.Instance.currentUser.id);
-                            DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "NickName, Handle the error";
+                            Debug.Log("NickName, Handle the error / currentUserID : "+ UserManager.Instance.currentUser.id);
                             // Handle the error...
                         }
                         else
                         {
                             UserManager.Instance.currentUser.name = nickName;
-                            DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "NickName : " + nickName;
+                            Debug.Log( "NickName : " + nickName );
                             LandManager.instance.views.popupView.GetComponent<PopupViewController>().nickNamePop.SetActive(false); //close nickNamePopup                            
                         }
                     }
@@ -383,8 +378,7 @@ public class MainDataBase : MonoBehaviour
     {
         Debug.Log(UserManager.Instance.currentUser.PlayTime + ", " + (System.DateTime.Now + ", " + UserManager.Instance.currentUser.loginTime) + ", " + (System.DateTime.Now - UserManager.Instance.currentUser.loginTime).Seconds); 
         UserManager.Instance.currentUser.PlayTime = UserManager.Instance.currentUser.PlayTime + (System.DateTime.Now - UserManager.Instance.currentUser.loginTime).Seconds;
-        DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = UserManager.Instance.currentUser.PlayTime.ToString();
-
+        
         if (local == false)
         {
             #region SaveItem _Childs           
@@ -397,8 +391,7 @@ public class MainDataBase : MonoBehaviour
                 UserManager.Instance.currentUser.lastLand.ToString()
             }; // save itme value
             #endregion 
-            DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "save...";
-
+        
             DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
             for (int i = 0; i < childs.Length; i++)
             {
@@ -407,7 +400,7 @@ public class MainDataBase : MonoBehaviour
                 {
                     if (task.IsFaulted)
                     {
-                        DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "Admin, Handle the error";
+                        Debug.Log("Admin, Handle the error");
                         // Handle the error...
                     }
                 });
@@ -434,7 +427,7 @@ public class MainDataBase : MonoBehaviour
                 {
                     if (task.IsFaulted)
                     {
-                        DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "Admin, Handle the error";
+                        Debug.Log("Admin, Handle the error");
                         // Handle the error...
                     }
                     if (task.IsCompleted)
@@ -469,7 +462,7 @@ public class MainDataBase : MonoBehaviour
             {
                 if (!task.IsCompleted)
                 {
-                    DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "Save error : " + currentUserDatabaseRef.ToString();
+                    Debug.Log("Save error : " + currentUserDatabaseRef.ToString());
                     // Handle the error...
                 }
             });

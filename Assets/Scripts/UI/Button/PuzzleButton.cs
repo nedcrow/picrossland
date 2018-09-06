@@ -39,8 +39,12 @@ public class PuzzleButton : MonoBehaviour {
 
     public void EndButtonChecker_Puzzle()
     {
-        if (playedCoroutine!=null) { StopCoroutine(playedCoroutine); if(playCoList.Count>0) playCoList.RemoveAt(playCoList.Count - 1); }
-        Debug.Log("playCoList.Count(remove) : "+playCoList.Count);
+        if (playedCoroutine!=null) {
+            StopCoroutine(playedCoroutine);
+            if (playCoList.Count>0) playCoList.RemoveAt(playCoList.Count - 1);
+            Debug.Log("playCoList.Count(remove) : " + playCoList.Count);
+        }
+        
     }
 
     void ReStartButtonChecker_Puzzle()

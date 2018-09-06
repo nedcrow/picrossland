@@ -13,11 +13,6 @@ public class PuzzleLoader : MonoBehaviour {
         int puzzlePosX = System.Convert.ToInt32(HarimTool.EditText.EditText.Left(puzzleID, 2)); 
         int puzzlePosY = System.Convert.ToInt32(HarimTool.EditText.EditText.Right(puzzleID, 2));
 
-        #region currentPuzzle
-        //DataBase.Puzzle target = puzzleM.puzzles[puzzlePosX][puzzlePosY];
-        //puzzleM.currentPuzzle = target;
-        #endregion
-
         DrawLine(puzzleM.currentPuzzleSize);
         StartCoroutine(DrawTiles(puzzleM.currentPuzzleSize));       //currentPuzzleSize
         

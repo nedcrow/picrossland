@@ -119,13 +119,13 @@ public class PuzzleKeyBrush : MonoBehaviour {
                 #region TestDebug
                 if (dir == "H")
                 {
-                    if (type == "A") { DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "체크 : " +count.ToString() + ", 시작 : " + keyNum;  }
-                    else { DebugViewer.Instance.debugTextObjectList[1].GetComponent<Text>().text = "체크 : " + count.ToString() + ", 끝 : " + keyNum; }
+                    if (type == "A") { Debug.Log("체크 : " +count.ToString() + ", 시작 : " + keyNum);  }
+                    else { Debug.Log("체크 : " + count.ToString() + ", 끝 : " + keyNum); }
                 }
                 else
                 {
-                    if (type == "A") { DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "체크 : " + count.ToString() + ", 시작 : " + keyNum; }
-                    else { DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "체크 : " + count.ToString() + ", 끝 : " + keyNum; }
+                    if (type == "A") { Debug.Log("체크 : " + count.ToString() + ", 시작 : " + keyNum); }
+                    else { Debug.Log("체크 : " + count.ToString() + ", 끝 : " + keyNum); }
                 }
                 #endregion
                 

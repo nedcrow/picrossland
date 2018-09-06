@@ -24,7 +24,6 @@ public class WeatherController : MonoBehaviour {
         catch(Exception ex)
         {
             Debug.Log("no weatherDic in WeatherController : "+ skillId);
-            DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = ex.ToString();
         }
 
     }

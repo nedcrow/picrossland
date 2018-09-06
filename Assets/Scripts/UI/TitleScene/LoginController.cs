@@ -55,7 +55,7 @@ public class LoginController : MonoBehaviour {
             if(LoginManager.instance.googleLoginSuccess == true)
             {
 //                UserManager.Instance.currentUser.loginTime = System.DateTime.Now;
-                DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "google Login Success";
+                Debug.Log( "google Login Success");
                 notice_Hi.SetActive(true);
                 notice_Hi.GetComponent<Text>().text = "Hi " + UserManager.Instance.currentUser.name;
                 notice_Login.SetActive(false);

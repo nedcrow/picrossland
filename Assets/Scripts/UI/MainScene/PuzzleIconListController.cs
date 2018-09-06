@@ -36,8 +36,7 @@ public class PuzzleIconListController : MonoBehaviour {
         Screen.SetResolution(Screen.width, (Screen.width * 16) / 9, true);
         addScreenX = (float)System.Math.Round((Screen.width / 720.0f), 2);
         addScreenY = (float)System.Math.Round((Screen.height / 1280.0f), 2);
-        DebugViewer.Instance.GetComponent<DebugViewer>().debugTextObjectList[4].GetComponent<Text>().text = Screen.width + " x " + Screen.height +" ( " + addScreenX + ", " + addScreenY + " )";
-
+        
         bg = transform.GetChild(0).gameObject;
         activeBtns_N = transform.GetChild(1).gameObject;
         restBtns_N = transform.GetChild(2).gameObject;
@@ -225,7 +224,7 @@ public class PuzzleIconListController : MonoBehaviour {
         Vector2 rectPos = bg.GetComponent<RectTransform>().rect.position;
         Vector2 rectSize = bg.GetComponent<RectTransform>().rect.size;
         bg.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectWidth);//= new Rect().Set(rectPos.x, rectPos.y, rectWidth, rectSize.y)
-        //DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = addScreenX + ", " + addScreenY;
+        
         #endregion
 
         for(int i=0; i<restBtns_S.transform.childCount; i++)
@@ -236,6 +235,13 @@ public class PuzzleIconListController : MonoBehaviour {
 
     void AddButton(GameObject targetObj, int currentLandID, string puzzleID)
     {
+        targetObj.SetActive(true);
+
+        if (targetObj.GetComponent<ClickEffect>())
+        {
+            targetObj.GetComponent<ClickEffect>().StopAllCoroutines();
+        }
+
         if (!targetObj.GetComponent<Button>())
         {
             targetObj.AddComponent<Button>();
@@ -269,9 +275,9 @@ public class PuzzleIconListController : MonoBehaviour {
         targetObj.GetComponent<Button>().onClick.AddListener(delegate {
             PuzzleManager.instance.StartPuzzle(puzzleID);
         });
-        targetObj.GetComponent<Button>().onClick.AddListener(delegate {
-            PuzzleManager.instance.viewCon.SceneOff(1);
-        });
+        //targetObj.GetComponent<Button>().onClick.AddListener(delegate {
+        //    PuzzleManager.instance.viewCon.SceneOff(1);
+        //});
         //Debug.Log("addBtn = " + puzzleID);
         #endregion
     }
@@ -289,16 +295,14 @@ public class PuzzleIconListController : MonoBehaviour {
         Vector3 skillHome=Vector3.zero;
         while (true)
         {
-            DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = Input.touchCount.ToString();
             if (Input.touchCount > 0)
             {
                 List<RaycastResult> results = TouchedObjs(0);
-                if (results.Count>0 ) {
-                    //DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "touchCount ing : "+ results[0].gameObject.tag;
+                if (results.Count>0 ) {                    
                     switch (Input.GetTouch(0).phase)
                     {
                         case TouchPhase.Began:
-                            DebugViewer.Instance.debugTextObjectList[1].GetComponent<Text>().text = "touched : " + results[0].gameObject.name;
+                            Debug.Log("touched : " + results[0].gameObject.name);
                             if (results[0].gameObject.tag == "SkillBtn")
                             {
                                 skillID = HarimTool.EditText.EditText.Right(results[0].gameObject.name, 4);
@@ -315,7 +319,6 @@ public class PuzzleIconListController : MonoBehaviour {
                             break;
 
                         case TouchPhase.Moved:
-                            //DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "touched : " + results[0].gameObject.tag;
                             if (touchedSkill.tag == "SkillBtn")
                             {
                                 DragSkillButton(touchedSkill, Input.GetTouch(0).position);
@@ -323,7 +326,7 @@ public class PuzzleIconListController : MonoBehaviour {
                             break;
 
                         case TouchPhase.Ended:
-                            DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "touched : end ";
+                            Debug.Log("touched : end ");
                             if (touchedSkill.tag == "SkillBtn")
                             {
                                 touchedSkill.transform.GetChild(0).GetComponent<Image>().enabled = false;
@@ -336,7 +339,7 @@ public class PuzzleIconListController : MonoBehaviour {
                     }
                 }
             }
-            else { //DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "touchCount exit ";
+            else { 
                 touchedSkill.tag = "Untagged";
             }
             yield return new WaitForSeconds(0.01f);

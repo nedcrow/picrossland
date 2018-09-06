@@ -91,6 +91,7 @@ public class LockController : MonoBehaviour {
         else
         {
             LandManager.instance.views.popupView.GetComponent<PopupViewController>().warningPop.SetActive(true);
+            LandManager.instance.views.popupView.GetComponent<PopupViewController>().warningPop.GetComponent<WarningController>().W_Gem();
         }
     }
 

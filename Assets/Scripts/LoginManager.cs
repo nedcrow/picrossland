@@ -71,7 +71,7 @@ public class LoginManager : MonoBehaviour {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
-        DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = "Setting up Firebase Auth";
+        Debug.Log("Setting up Firebase Auth");
     }
 
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
@@ -82,16 +82,14 @@ public class LoginManager : MonoBehaviour {
             //googleLoginSuccess = signedIn; //true
             if (!signedIn && user != null)
             {
-                DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = string.Format("Signed out {0}", user.UserId);
-                Debug.Log("빵꾸");
-            }//접속 사용자가 없을 경우. 접속 버튼을 보게 만들자.
+                Debug.Log( string.Format("Signed out {0}", user.UserId));                
+            }//접속 사용자가 없을 경우. 로컬 버튼을 보게 만들자.
             user = auth.CurrentUser;
             if (signedIn)
             {
-                DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = (string.Format("Signed in {0}", user.UserId));
                 displayName = user.DisplayName ?? "";
                 emailAddress = user.Email ?? "";
-                DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = (string.Format("Signed in {0} _ {1}", displayName, emailAddress));
+                Debug.Log(string.Format("Signed in {0} _ {1}", displayName, emailAddress));
             }// 접속 사용자가 있을 경우. 
         }
     }//인증상태 변화    
@@ -106,8 +104,7 @@ public class LoginManager : MonoBehaviour {
         Social.localUser.Authenticate((bool success) => // error position
         {
             Debug.Log("Try Login");
-            result = string.Format("succes : {0}, userName : {1}", success, Social.localUser.userName);
-            DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = result;
+            result = string.Format("succes : {0}, userName : {1}", success, Social.localUser.userName);            
 
             if (success)
             {
@@ -119,25 +116,12 @@ public class LoginManager : MonoBehaviour {
             }
 
         });
-        //Social.localUser.Authenticate(success => {
-        //    if (success)
-        //    {
-        //        Debug.Log("Authentication successful");
-        //        string userInfo = "Username: " + Social.localUser.userName +
-        //            "\nUser ID: " + Social.localUser.id +
-        //            "\nIsUnderage: " + Social.localUser.underage;
-        //        Debug.Log(userInfo);
-        //    }
-        //    else
-        //        Debug.Log("Authentication failed");
-        //});
     }
 
 
     IEnumerator coLogin(bool clicked)
     {
         result = "try login....";
-        DebugViewer.Instance.debugTextObjectList[1].GetComponent<Text>().text = result;
         while (System.String.IsNullOrEmpty(((PlayGamesLocalUser)Social.localUser).GetIdToken()))
         {
             yield return null;
@@ -163,7 +147,7 @@ public class LoginManager : MonoBehaviour {
     {
         string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken(); //PlayGamesPlatform.Instance.GetIdToken();
 
-        DebugViewer.Instance.debugTextObjectList[1].GetComponent<Text>().text = "getToken";
+        //Debug.Log("getToken");
 
 
 
@@ -179,7 +163,7 @@ public class LoginManager : MonoBehaviour {
 
                 UserManager.Instance.currentUser.id = user.UserId.ToString();
                 UserManager.Instance.currentUser.name = Social.localUser.userName;
-                DebugViewer.Instance.debugTextObjectList[0].GetComponent<Text>().text = user.DisplayName.ToString() + " / " + Social.localUser.userName;
+                Debug.Log("FB : "+user.DisplayName.ToString() + " / Social : " + Social.localUser.userName);
 
                 googleLoginSuccess = true;
                 MainDataBase.instance.SaveLocal_LoginData("LoginData.txt");

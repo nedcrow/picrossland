@@ -30,13 +30,14 @@ public class ViewController : MonoBehaviour {
     /// <summary>
     /// 0:firstView, 1:againView, 2:puzzleView
     /// </summary>
-    /// <param name="num"></param>
-    /// <param name="onf"></param>
     public void SceneOn(int num)
     {
         views[num].SetActive(true);
     }
 
+    /// <summary>
+    /// 0:firstView, 1:againView, 2:puzzleView
+    /// </summary>
     public void SceneOff(int num)
     {
         views[num].SetActive(false);

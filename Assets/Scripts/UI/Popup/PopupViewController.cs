@@ -20,6 +20,8 @@ public class PopupViewController : MonoBehaviour {
         warningPop = transform.GetChild(4).gameObject;
 
         loadingPop.SetActive(true);
+        warningPop.SetActive(true);
+        warningPop.GetComponent<WarningController>().SetWarning();
     }	
 
     public void ClosePopup(int popupNum)

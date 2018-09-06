@@ -62,31 +62,38 @@ public class PuzzleManager : MonoBehaviour {
         DrawEnd = false;
         
         CheckCurrentPuzzle(puzzleID);
-        if(Resources.LoadAll<Sprite>("Sprite/Puzzle/" + puzzleID)==null) {
+        if(Resources.LoadAll<Sprite>("Sprite/Puzzle/" + puzzleID).Length==0) {
             Debug.Log("StopPuzzle");
-            StopPuzzle();            
+            StopPuzzle(true);
+            viewCon.popupView.GetComponent<PopupViewController>().warningPop.SetActive(true);
+            viewCon.popupView.GetComponent<PopupViewController>().warningPop.GetComponent<WarningController>().W_Resource();
         }
-        currentSprites = Resources.LoadAll<Sprite>("Sprite/Puzzle/"+puzzleID);//currentPuzzleID
-        currentPixels = new Color[currentPuzzleSize, currentPuzzleSize]; //for test
-        
-        GetComponent<KeyCreator>().CreateKey();// Puzzle ID
+        else
+        {
+            #region Key
+            currentSprites = Resources.LoadAll<Sprite>("Sprite/Puzzle/" + puzzleID);//currentPuzzleID
+            currentPixels = new Color[currentPuzzleSize, currentPuzzleSize]; //for test
+            GetComponent<KeyCreator>().CreateKey();// Puzzle ID
+            #endregion
 
-        currentLandObj.transform.GetChild(2).GetComponent<WeatherController>().OffWeather();
-        currentLandObj.SetActive(false);
+            currentLandObj.transform.GetChild(2).GetComponent<WeatherController>().OffWeather();
+            currentLandObj.SetActive(false);
 
-        #region DrawPuzzle
-        LoadBaseTiles();
-        LoadBaseLine();
-        puzzleBG.SetActive(true);
-        StartCoroutine(DelayForStartPuzzle(puzzleID, 1.1f));
-        puzzleKeyBrush.DrawPuzzleKey();
-        #endregion
+            #region DrawPuzzle
+            LoadBaseTiles();
+            LoadBaseLine();
+            puzzleBG.SetActive(true);
+            StartCoroutine(DelayForStartPuzzle(puzzleID, 1.1f));
+            puzzleKeyBrush.DrawPuzzleKey();
+            #endregion
 
-        #region UI
-        viewCon.puzzleView.transform.GetChild(1).GetChild(0).GetChild(4).gameObject.SetActive(true); //btn_cover
-        viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().StopDragCheck();
-        AdMobManager.instance.ShowBannerAd();        
-        #endregion
+            #region UI
+            viewCon.SceneOff(1);
+            viewCon.puzzleView.transform.GetChild(1).GetChild(0).GetChild(4).gameObject.SetActive(true); //btn_cover
+            viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().StopDragCheck();
+            AdMobManager.instance.ShowBannerAd();
+            #endregion
+        }
     }
 
     public int GetPuzzleMaxCount(string puzzleID)
@@ -100,8 +107,8 @@ public class PuzzleManager : MonoBehaviour {
         return cnt;
     }
 
-    public void StopPuzzle() {
-        if (DrawEnd == true) { GetComponent<ClearChecker>().ClosePuzzle(false); viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().EndButtonChecker_Puzzle(); }
+    public void StopPuzzle(bool error) {
+        if (DrawEnd == true || error == true) { GetComponent<ClearChecker>().ClosePuzzle(false); viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().EndButtonChecker_Puzzle(); }
     }//Used Onclick() in Back_Button
 
     void CheckCurrentPuzzle(string puzzleID) {

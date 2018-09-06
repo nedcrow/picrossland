@@ -14,7 +14,7 @@ public class ClearChecker : MonoBehaviour {
             if (PuzzleManager.instance.currentGoal[i] ==  x) { ok++; }
         }
 
-        if (ok == currentSize * currentSize) { Debug.Log("goal"); DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "Goal!"; OnGoal(); }
+        if (ok == currentSize * currentSize) { Debug.Log("goal"); OnGoal(); }
         else { }
 //        DebugViewer.Instance.debugTextObjectList[2].GetComponent<Text>().text = "checkTileCount : "+ok+" (ing)"); }
 	}
