@@ -126,7 +126,7 @@ PlayerSettings:
     16:10: 0
     16:9: 0
     Others: 1
-  bundleVersion: 3.42
+  bundleVersion: 3.43
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -161,7 +161,7 @@ PlayerSettings:
     Android: com.NedCrow.LandOfPicross
     Standalone: NedCrow.PicrossLand
   buildNumber: {}
-  AndroidBundleVersionCode: 177
+  AndroidBundleVersionCode: 178
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
