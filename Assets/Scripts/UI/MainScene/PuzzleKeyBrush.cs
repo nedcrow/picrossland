@@ -27,14 +27,51 @@ public class PuzzleKeyBrush : MonoBehaviour {
     public void Bingo(Vector2 tilePos)
     {
         int x = System.Convert.ToInt32(tilePos.x);
-        int y = System.Convert.ToInt32(tilePos.y);     
+        int y = System.Convert.ToInt32(tilePos.y);
 
-        FindBingo(x, "H", "A"); //x면 세로
-        FindBingo(x, "H", "B");
-        FindBingo(y, "W", "A");
-        FindBingo(y, "W", "B");
+        ReSetColors(x,y);
+
+        FindBingo(x, "H", "A"); //x면 세로, A,B는 진행 방향  Bottom > Up
+        FindBingo(x, "H", "B");  // Up > Bottom
+        FindBingo(y, "W", "A");  // L > R
+        FindBingo(y, "W", "B");  // R > L
         //Debug.Log("bingo");
     }//한줄씩 4번
+
+    void ReSetColors(int x, int y) {
+        int[] keyLengths = {
+            PuzzleManager.instance.heightKeyList[x].Length,
+            PuzzleManager.instance.widthKeyList[y].Length
+        };
+        //Debug.Log(string.Format("PuzzleManager.instance.heightKeyList[x].Length : {0}, PuzzleManager.instance.widthKeyList[x].Length : {1}", keyLengths[0], keyLengths[1]));
+        int[] loops = { x, y }; // H : bottom>up , W : right > left     
+        int[] addSome = { };
+        GameObject[] targetObjs = { Keys_ActiveH, Keys_ActiveW };
+
+        for(int i=0; i<2; i++)
+        {
+            int num = 0;
+            for (int j = 0; j < loops[i]; j++)
+            {
+                if (i == 0)
+                {
+                    num = (num + PuzzleManager.instance.heightKeyList[j].Length) ;
+                }
+                else
+                {
+                    num = (num + PuzzleManager.instance.widthKeyList[j].Length) ;
+                }
+            }
+          
+            for (int j=num; j<num+keyLengths[i]; j++)
+            {
+                Transform target = targetObjs[i].transform.GetChild(j);
+                //Debug.Log(targetObjs[i].transform.GetChild(j).GetChild(0).GetComponent<Text>().text );
+                KeyColorChange(target.GetChild(0).GetComponent<Text>().text, target.gameObject);
+            }
+            //KeyColorChange(keyLengths[i], Keys_ActiveH)
+        }
+    }//커서 위치를 참조하는 라인 key값을 초기화 
 
     /// <summary>
     /// case1.가장 가까이 연속으로 check된 경우 해당 key색 회색. case2.전부 check되어도 회색. 
@@ -49,22 +86,32 @@ public class PuzzleKeyBrush : MonoBehaviour {
         int xCount = 0;
         int childNum=0;
         string keyNum;
-        List<string[]> targetList;
+        List<string[]> targetList; 
         GameObject targetGroup;
         bool checkStart = false;
 
         targetList = dir == "H" ? PuzzleManager.instance.heightKeyList : PuzzleManager.instance.widthKeyList;
         targetGroup = dir == "H" ? Keys_ActiveH : Keys_ActiveW;        
         keyNum = type == "A" ? targetList[point][0] : targetList[point][targetList[point].Length - 1]; //각 행열의 시작과 끝 key 
-       
-        #region num1 
-        int num1 = 0; 
-        int loop = type == "A" ? point : point + 1; //역방향이 +1
+
+        #region num_TargetGroup 
+        int num_TargetGroup = 0;
+        int zero_H; // H, W로 loop 반전에 사용.
+        int loop;
+        zero_H = dir == "H" ? 0 : 1;
+        loop = type == "A" ? point+zero_H : point+1-zero_H ; //역방향이 반복횟수 +1(한 그룹의 시작과 끝을 찾아야하기 때문에)
         for (int j = 0; j < loop; j++)
         {
-            num1 = num1 + targetList[j].Length;
+            num_TargetGroup = num_TargetGroup + targetList[j].Length;
         }
-        num1 = type == "A" ? num1 : num1 - 1; //역방향이 -1
+        if(dir == "H") {
+            num_TargetGroup = type == "A" ? num_TargetGroup : num_TargetGroup - 1; //역방향이 -1
+        }
+        else
+        {
+            num_TargetGroup = type == "A" ? num_TargetGroup - 1 : num_TargetGroup; //정방향이 -1
+        }
+
         #endregion //hierarchy에서 (각 방향에서 처음만나는) key의 순서
 
         #region num2
@@ -77,11 +124,6 @@ public class PuzzleKeyBrush : MonoBehaviour {
 
         #region case1       
 
-        for (int i=0; i<targetList[point].Length; i++)
-        {
-            KeyColorChange(keyNum, targetGroup.transform.GetChild(num2+i).gameObject); //key 색상 기본값 복원(초기화)
-        }
-        
         for (int i = 0; i < size; i++)
         {
             if(dir == "H")
@@ -93,48 +135,53 @@ public class PuzzleKeyBrush : MonoBehaviour {
                 childNum = type == "A" ? i * size + point : (size - i - 1) * size + point;
             }
 
-            if (PuzzleManager.instance.tileGroup_Active.transform.GetChild(childNum).GetComponent<TileController>().check == 2)
+            int checkNum = PuzzleManager.instance.tileGroup_Active.transform.GetChild(childNum).GetComponent<TileController>().check;
+            if (checkNum == 2)
             {
                 xCount++;
             }//check타일이 나올 때 까지 x타일 갯수를 쌓는다.
-            if (PuzzleManager.instance.tileGroup_Active.transform.GetChild(childNum).GetComponent<TileController>().check == 1)
+            if (checkNum == 1)
             {
+                //Debug.Log("i : " + i+", xCount : "+xCount);
                 if (i == 0 || xCount == i)
                 {
                     checkStart = true;
-                }
+                    
+                }//첫 칸, 또는 xCount제외하고 첫 칸에 시작.
                 if (checkStart == true)
                 {
                     count++;
                 }                    
                 else { i = size; }
-            }//check타일이 연속된 만큼 기록.
+            }//첫 칸, 또는 xCount를 제하고 첫 칸일 때, check타일이 연속된 만큼 기록.
             else
             {
                 checkStart = false;
             }
 
-            if (checkStart == true && (i == size - 1 || PuzzleManager.instance.tileGroup_Active.transform.GetChild(childNum).GetComponent<TileController>().check != 1))
+            if (count > 0 && checkStart == false)
             {
                 #region TestDebug
                 if (dir == "H")
                 {
-                    if (type == "A") { Debug.Log("체크 : " +count.ToString() + ", 시작 : " + keyNum);  }
-                    else { Debug.Log("체크 : " + count.ToString() + ", 끝 : " + keyNum); }
+                    if (type == "A") { Debug.Log("체크 H : " + count.ToString() + ", 시작 : " + keyNum); }
+                    else { Debug.Log("체크 H : " + count.ToString() + ", 끝 : " + keyNum); }
                 }
                 else
                 {
-                    if (type == "A") { Debug.Log("체크 : " + count.ToString() + ", 시작 : " + keyNum); }
-                    else { Debug.Log("체크 : " + count.ToString() + ", 끝 : " + keyNum); }
+                    if (type == "A") { Debug.Log("체크 W : " + count.ToString() + ", 시작 : " + keyNum); }
+                    else { Debug.Log("체크 W : " + count.ToString() + ", 끝 : " + keyNum); }
                 }
                 #endregion
-                
+                Debug.Log("num_TargetGroup = " + num_TargetGroup + "/ Count : " + count + ", keyNum : " +keyNum);
                 if (count.ToString() == keyNum)
                 {
-                    targetGroup.transform.GetChild(num1).GetChild(0).GetComponent<Text>().color = Color.gray;                    
+                    targetGroup.transform.GetChild(num_TargetGroup).GetChild(0).GetComponent<Text>().color = Color.gray;
+                    count = 0;
+                    break;
                 }
-                i = size; count = 0; checkStart = false;
-            }
+            }//keynum이 0이면
+
         }
         #endregion
 
@@ -192,7 +239,7 @@ public class PuzzleKeyBrush : MonoBehaviour {
         }
         #endregion
 
-    }
+    }//특정 상황의 Key를 회색으로 교체.
 
     void TakeOutKey(List<string[]> keyList, string dir) {
         int size = PuzzleManager.instance.currentPuzzleSize;

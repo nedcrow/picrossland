@@ -73,7 +73,7 @@ public class KeyCreator : MonoBehaviour {
             }// 줄 마지막 아님
 
         }
-    }
+    }//for create key
 
     string[] InputKey(List<int> tempList)
     {
@@ -96,7 +96,7 @@ public class KeyCreator : MonoBehaviour {
         if (currentTexture.GetPixel(startPointX + x, startPointY + y).a < 1) { b = 0;  }
         else { b = 1; }
         return b;
-    }
+    } //for stack key, for create key.
 
     [SerializeField]
     bool[] goal;

@@ -21,7 +21,7 @@ public class TileController : MonoBehaviour {
 
     public void ClickedTile()
     {
-        PuzzleManager.instance.puzzleKeyBrush.Bingo(new Vector2(4, 0));
+       // PuzzleManager.instance.puzzleKeyBrush.Bingo(new Vector2(4, 0));
         //클릭 당해버렸어;
         //내 위치를 알릴게. 완성된 줄 있니?
     }

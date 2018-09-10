@@ -8,9 +8,17 @@ public class CursorController : MonoBehaviour {
     GameObject[] lineObjs = new GameObject[4]; //Up,Right,Down,Left
     Sprite[] tiles;
 
+    private AudioSource source;
+
+    //상태
     public bool ready;
+    int firstCheck = 0;
+
+    //위치
     int posForChild;
     Vector2 cursorPos;
+    List<GameObject> targetTileList;
+
 
     private void Awake()
     {        
@@ -22,7 +30,7 @@ public class CursorController : MonoBehaviour {
         }
         Sprite[] tileSprites = Resources.LoadAll<Sprite>("Sprite/Tile");//currentPuzzleID
         tiles = new Sprite[4]{ tileSprites[3], tileSprites[0], tileSprites[2], tileSprites[1] };
-        targetList = new List<GameObject>();
+        targetTileList = new List<GameObject>();
 
         tick = Resources.Load<AudioClip>("SFX/cursor_tick");
     }
@@ -34,7 +42,7 @@ public class CursorController : MonoBehaviour {
         Debug.Log("ready");        
     }
 
-    private AudioSource source;
+    
     public void MovePosition(Vector3 pos)
     {
         transform.position = pos;
@@ -45,19 +53,18 @@ public class CursorController : MonoBehaviour {
         source.PlayOneShot(tick, 1);
     }
 
-    int firstCheck = 0;
-    List<GameObject> targetList; 
+    
     public void CheckOn(int num, float checkTime) {
         posForChild = CheckPosForChild();Debug.Log(posForChild);
         GameObject target = PuzzleManager.instance.tileGroup_Active.transform.GetChild(posForChild).gameObject;
         //Debug.Log(target.transform.position+", "+  target.GetComponent<TileController>().check+ " / targetList Count : " + targetList.Count);
         int sametile = 0;        
         bool possible=false;
-        if (targetList.Count > 0)
+        if (targetTileList.Count > 0)
         {
-            for (int i = 0; i < targetList.Count; i++)
+            for (int i = 0; i < targetTileList.Count; i++)
             {
-                if (target.transform.position == targetList[i].transform.position)
+                if (target.transform.position == targetTileList[i].transform.position)
                 {
                     sametile++;
                 }
@@ -72,7 +79,7 @@ public class CursorController : MonoBehaviour {
 
         if(possible == true)
         {
-            targetList.Add(target);
+            targetTileList.Add(target);
             bool firstSame = firstCheck == num ? true : false;
             bool targetSame = target.GetComponent<TileController>().check == num ? true : false;
             //Debug.Log("targetList Count : "+ targetList.Count +" / targetCheck : "+ target.GetComponent<TileController>().check + " " + firstSame +", "+ targetSame +" / " + target.transform.position);
@@ -93,7 +100,7 @@ public class CursorController : MonoBehaviour {
 
     public void CheckOut()
     {
-        targetList = new List<GameObject>();
+        targetTileList = new List<GameObject>();
     }
 
     void OnLine()
