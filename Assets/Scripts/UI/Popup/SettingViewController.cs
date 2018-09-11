@@ -5,29 +5,30 @@ using UnityEngine;
 
 public class SettingViewController : MonoBehaviour {
 
-    public GameObject buttons_BGM;
-    public GameObject buttons_SFX;
-    public GameObject buttons_Con_Button;
-    public GameObject buttons_Con_Touch;
+    [HideInInspector] public GameObject buttons_BGM;
+    [HideInInspector] public GameObject buttons_SFX;
+    [HideInInspector] public GameObject buttons_Con_Button;
+    [HideInInspector] public GameObject buttons_Con_Touch;
 
     bool[] settingVal;
 
     private void Start()
     {
-        buttons_BGM = transform.GetChild(2).GetChild(0).gameObject;
-        buttons_SFX = transform.GetChild(2).GetChild(1).gameObject;
-        buttons_Con_Button = transform.GetChild(2).GetChild(2).gameObject;
-        buttons_Con_Touch = transform.GetChild(2).GetChild(3).gameObject;
+        signGameOBjs();
     }
 
     public void SetView()
     {
         settingVal = UserManager.Instance.currentUser.settingVal;
         
+        if(buttons_BGM == null)
+        {
+            signGameOBjs();
+        }
         buttons_BGM.transform.GetChild(0).GetComponent<Text>().text = settingVal[0] == true ? "ON" : "OFF";
         buttons_SFX.transform.GetChild(0).GetComponent<Text>().text = settingVal[1] == true ? "ON" : "OFF";
-        buttons_Con_Button.transform.GetChild(0).GetComponent<Image>().color = settingVal[2] == true ? Color.white : Color.gray;
-        buttons_Con_Touch.transform.GetChild(0).GetComponent<Image>().color = settingVal[2] == true ? Color.white : Color.gray;
+        buttons_Con_Button.GetComponent<Image>().color = settingVal[2] == true ? Color.white : Color.gray;
+        buttons_Con_Touch.GetComponent<Image>().color = settingVal[2] == true ? Color.gray : Color.white;
     }
 
     public void BGMOnf()
@@ -56,9 +57,18 @@ public class SettingViewController : MonoBehaviour {
         ReSetView();
     }
 
+    void signGameOBjs()
+    {
+        buttons_BGM = transform.GetChild(2).GetChild(0).gameObject;
+        buttons_SFX = transform.GetChild(2).GetChild(1).gameObject;
+        buttons_Con_Button = transform.GetChild(2).GetChild(2).gameObject;
+        buttons_Con_Touch = transform.GetChild(2).GetChild(3).gameObject;
+    }
+
     void ReSetView()
     {
         UserManager.Instance.currentUser.settingVal = settingVal;
+        MainDataBase.instance.SaveSetting();
         SetView();
     }
 }

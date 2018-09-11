@@ -15,7 +15,7 @@ public class HumanController : MonoBehaviour
     void SetTransform()
     {
         int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
-        Debug.Log("unitSameCount : "+sameCount);
+        //Debug.Log("unitSameCount : "+sameCount);
         if (sameCount == 1)
         {
             transform.localPosition = firstPos;

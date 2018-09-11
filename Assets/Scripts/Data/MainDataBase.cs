@@ -532,8 +532,25 @@ public class MainDataBase : MonoBehaviour
         Debug.Log(UserManager.Instance.currentUser);
     }
 
+    public void SaveSetting()
+    {
+        DirectoryInfo di = new DirectoryInfo(loginDataPath);
+        if (di.Exists == false)
+        {
+            di.Create();
+            Debug.Log("newFolder");
+        }//폴더 없으면 만듦.
+
+        BinaryFormatter bf = new BinaryFormatter();
+        if (System.IO.File.Exists(loginDataPath + "/SettingData.txt")) { Debug.Log("double"); }//덮어쓸거야?}
+        FileStream fs = new FileStream(loginDataPath + "/SettingData.txt", FileMode.Create);
+        bf.Serialize(fs, UserManager.Instance.currentUser.settingVal);
+        fs.Close();
+
+    }
+
     public void LoadSetting() {
-        Debug.Log("aasdadsasdasdassdadsasdasdasdasdasdasdasdasdsdsdseeting");
+        //Debug.Log("aasdadsasdasdassdadsasdasdasdasdasdasdasdasdsdsdseeting");
         try
         {
             FileInfo fi = new FileInfo(loginDataPath + "/SettingData.txt");
@@ -547,11 +564,11 @@ public class MainDataBase : MonoBehaviour
                 fs.Close();
 
                 UserManager.Instance.currentUser.settingVal = settingValue;
-                Debug.Log("settingValue : "+ settingValue);
+                //Debug.Log("settingValue : "+ settingValue);
             }
             else {
                 UserManager.Instance.currentUser.settingVal = new bool[] { true, true, true };
-                Debug.Log(UserManager.Instance.currentUser.settingVal);
+                //Debug.Log(UserManager.Instance.currentUser.settingVal);
             }// UserManager.Instance.DefaultSetting(); }
         }
         catch (Exception e)
