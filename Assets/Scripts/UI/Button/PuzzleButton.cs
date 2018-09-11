@@ -98,7 +98,7 @@ public class PuzzleButton : MonoBehaviour {
                         case 3 :
                             Debug.Log(results[0].gameObject.name);
                             if (results[0].gameObject.tag == "MoveBtn") { mouseTimeGrade = 0; mouseTime += 0.01f; }
-                            else if (results[0].gameObject.name == "Btn_End") { if(PuzzleManager.instance.DrawEnd)  PuzzleManager.instance.GetComponent<ClearChecker>().OnGoal(); }
+                            else if (results[0].gameObject.name == "Btn_Hint") { if(PuzzleManager.instance.DrawEnd) AdMobManager.instance.ShowInterstitialAd(); PuzzleManager.instance.GetComponent<ClearChecker>().OnGoal(); }
                             else { MarkButtonOutCheck(results); }
                             break;                            
                     }
