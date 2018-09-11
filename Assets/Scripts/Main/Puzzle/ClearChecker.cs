@@ -75,7 +75,7 @@ public class ClearChecker : MonoBehaviour {
     #endregion
 
     public void OnGoal() {
-        PuzzleManager.instance.viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().EndButtonChecker_Puzzle(); //버튼 체크 코루틴 종료
+        PuzzleManager.instance.viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().EndButtonChecker_Puzzle(); //ControllerA - 버튼 체크 코루틴 종료
         PuzzleManager.instance.viewCon.views[3].GetComponent<PopupViewController>().clearPop.SetActive(true); //클리어 팝업 뜸.
 
         #region CurrentWeather

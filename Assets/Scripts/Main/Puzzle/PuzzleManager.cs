@@ -89,8 +89,22 @@ public class PuzzleManager : MonoBehaviour {
 
             #region UI
             viewCon.SceneOff(1);
-            viewCon.puzzleView.transform.GetChild(1).GetChild(0).GetChild(4).gameObject.SetActive(true); //btn_cover
+
+            if (UserManager.Instance.currentUser.settingVal[2] == true)
+            {
+                viewCon.puzzleView.transform.GetChild(1).gameObject.SetActive(true);
+                viewCon.puzzleView.transform.GetChild(2).gameObject.SetActive(false);
+                viewCon.puzzleView.transform.GetChild(1).GetChild(0).GetChild(4).gameObject.SetActive(true); //ControllerA - btn_cover
+            }
+            else
+            {
+                viewCon.puzzleView.transform.GetChild(2).gameObject.SetActive(false);
+                viewCon.puzzleView.transform.GetChild(1).gameObject.SetActive(true);
+            }
+            
             viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().StopDragCheck();
+
+            
             AdMobManager.instance.ShowBannerAd();
             #endregion
         }
@@ -108,7 +122,7 @@ public class PuzzleManager : MonoBehaviour {
     }
 
     public void StopPuzzle(bool error) {
-        if (DrawEnd == true || error == true) { GetComponent<ClearChecker>().ClosePuzzle(false); viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().EndButtonChecker_Puzzle(); }
+        if (DrawEnd == true || error == true) { GetComponent<ClearChecker>().ClosePuzzle(false); viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().EndButtonChecker_Puzzle(); } //controllerA
     }//Used Onclick() in Back_Button
 
     void CheckCurrentPuzzle(string puzzleID) {

@@ -88,7 +88,7 @@ public class PuzzleLoader : MonoBehaviour {
                 tiles.transform.GetChild((i * puzzleM.currentPuzzleSize) + j).GetComponent<TileController>().pos = new Vector2(i, j);
             }
         }
-        puzzleM.viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().OnButtonChecker_Puzzle();
+        puzzleM.viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().OnButtonChecker_Puzzle(); //ControllerA
         puzzleM.DrawEnd = true;
     }
     #endregion

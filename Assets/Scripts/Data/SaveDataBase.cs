@@ -15,6 +15,7 @@ namespace SaveData
         public int ClearLandCount;
         public System.DateTime loginTime;//Hour
         public int PlayTime;//Hour
+        public bool[] settingVal;
         #endregion
 
         #region Lands

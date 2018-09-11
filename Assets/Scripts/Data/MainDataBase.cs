@@ -532,6 +532,34 @@ public class MainDataBase : MonoBehaviour
         Debug.Log(UserManager.Instance.currentUser);
     }
 
+    public void LoadSetting() {
+        Debug.Log("aasdadsasdasdassdadsasdasdasdasdasdasdasdasdsdsdseeting");
+        try
+        {
+            FileInfo fi = new FileInfo(loginDataPath + "/SettingData.txt");
+            if (fi.Exists)
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream fs = new FileStream(savePath + "/SettingData.txt", FileMode.OpenOrCreate, FileAccess.Read);
+
+                //var LoadFile = JsonUtility.FromJson<SaveData.User>((string)bf.Deserialize(fs));
+                bool[] settingValue = (bool[])bf.Deserialize(fs);
+                fs.Close();
+
+                UserManager.Instance.currentUser.settingVal = settingValue;
+                Debug.Log("settingValue : "+ settingValue);
+            }
+            else {
+                UserManager.Instance.currentUser.settingVal = new bool[] { true, true, true };
+                Debug.Log(UserManager.Instance.currentUser.settingVal);
+            }// UserManager.Instance.DefaultSetting(); }
+        }
+        catch (Exception e)
+        {
+
+        }//load 필요없음.
+    }
+
     public bool LoginDataCheck()
     {
         bool success=false;

@@ -47,6 +47,7 @@ public class LandManager : MonoBehaviour {
         MainDataBase.instance.LoadLands();
         MainDataBase.instance.LoadPuzzles();
         MainDataBase.instance.OnLoadAdmin();
+        MainDataBase.instance.LoadSetting();
         OnLand(false);
     }
 
