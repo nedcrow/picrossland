@@ -25,13 +25,13 @@ public class LockController : MonoBehaviour {
             if (UserManager.Instance.currentUser.gotLandList[i].id == LandManager.instance.currentLand.id) {
                 if (UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList.Count > 0) { gotIt = true; break; }
             }
-        }
+        }//currentLand에 clearpuzzle이 있으면 gotit = true.
 
         if(gotIt == false)
         {
             lockBG.SetActive(true);
 
-            #region LockButton
+            #region LockButtonSetting
             lockButton.SetActive(true);            
             lockButton.GetComponent <Button> (). onClick = new Button.ButtonClickedEvent ();
             
@@ -49,11 +49,12 @@ public class LockController : MonoBehaviour {
             #endregion
 
             #region LockIcon
-            if (LandManager.instance.currentLand.id > 2) {
+            if (LandManager.instance.currentLand.id > 2 && LandManager.instance.currentLand.price > 0) //lockIcon 조건 - 이전 Land의 clearPuzzle수량 check추가 가능성 있음.
+            {
                 lockIcon.SetActive(true);
                 lockIcon.GetComponent<Animator>().Play("Lock_Idle");
                 unLockButton.SetActive(true);
-            }
+            }//currentLand ID가 3일 때 부터 Lock
             else {
                 lockIcon.SetActive(false);
                 unLockButton.SetActive(false);
