@@ -3722,8 +3722,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1342090683}
-        m_MethodName: OnGoal_For_Editor
+      - m_Target: {fileID: 1571419250}
+        m_MethodName: HintClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

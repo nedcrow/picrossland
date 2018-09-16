@@ -25,11 +25,12 @@ public class AdMobManager : MonoBehaviour
     }
     #endregion
     // app ID : banner : ca-app-pub-1894471406717971/1502663830   Interstitial : ca-app-pub-1894471406717971/7714200031
+    // dummy ID : ca-app-pub-3940256099942544/6300978111    ca-app-pub-3940256099942544/1033173712
 
-    public string android_banner_id = "ca-app-pub-3940256099942544/6300978111";
+    public string android_banner_id = "ca-app-pub-1894471406717971/1502663830 ";
     public string ios_banner_id = "a-app-pub-3940256099942544/2934735716";
 
-    public string android_interstitial_id = "ca-app-pub-3940256099942544/1033173712";
+    public string android_interstitial_id = "ca-app-pub-1894471406717971/7714200031";
     public string ios_interstitial_id = "ca-app-pub-3940256099942544/4411468910";
 
     private BannerView bannerView;
