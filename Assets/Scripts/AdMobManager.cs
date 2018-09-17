@@ -86,14 +86,16 @@ public class AdMobManager : MonoBehaviour
     {
         print("HandleOnInterstitialAdClosed event received.");
 
-        interstitialAd.Destroy();
+        interstitialAd.Destroy(); //for memory
 
         RequestInterstitialAd();
     }
 
     public void ShowBannerAd()
     {
+        Debug.Log("Show Banner");
         bannerView.Show();
+        Debug.Log("Success Banner");
     }
 
     public void ShowInterstitialAd()
@@ -103,8 +105,9 @@ public class AdMobManager : MonoBehaviour
             RequestInterstitialAd();
             return;
         }
-
+        Debug.Log("Show interstitialAd");
         interstitialAd.Show();
+        Debug.Log("Success interstitialAd");
     }
 
 }
