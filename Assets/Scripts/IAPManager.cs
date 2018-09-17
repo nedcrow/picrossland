@@ -8,8 +8,9 @@ public class IAPManager : MonoBehaviour, IStoreListener {
     private static IStoreController m_StoreController; //Unity purchasing system.
     private static IExtensionProvider m_StoreExtensionProvider; // The store-specific purchasing subsystem.
 
-    public static string productIDCounsomable = "cunsomable"; //
-    public static string productNameGooglePlayComsumable = "test_product_num.1";
+    public static string currentProductID;
+    public static string[] productIDCounsomable = { "cunsomable_gem_1", "cunsomable_gem_2", "cunsomable_gem_3" }; //
+    public static string[] productNameGooglePlayComsumable = { "product_gem.1", "product_gem.2", "product_gem.3" };
 
     #region Reset
 
@@ -29,11 +30,13 @@ public class IAPManager : MonoBehaviour, IStoreListener {
         }
 
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-        builder.AddProduct(productIDCounsomable, ProductType.Consumable, new IDs()
+        for (int i = 0; i < productIDCounsomable.Length; i++)
         {
-            {productNameGooglePlayComsumable, GooglePlay.Name },
-        }); // input product
-
+            builder.AddProduct(productIDCounsomable[i], ProductType.Consumable, new IDs()
+            {
+                {productNameGooglePlayComsumable[i], GooglePlay.Name },
+            }); // input product
+        }
         UnityPurchasing.Initialize(this, builder);
     } 
 
@@ -44,9 +47,10 @@ public class IAPManager : MonoBehaviour, IStoreListener {
     }
     #endregion
 
-    public void BuyConsumable()
+    public void BuyConsumable(int i)
     {
-        
+        currentProductID = productIDCounsomable[i];
+        BuyProductID(productIDCounsomable[i]);
     }
 
     void BuyProductID(string productID)
@@ -86,7 +90,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        if (string.Equals(args.purchasedProduct.definition.id, productIDCounsomable, System.StringComparison.Ordinal))
+        if (string.Equals(args.purchasedProduct.definition.id, currentProductID, System.StringComparison.Ordinal))
         {
             Debug.Log("SuccessBuy");
         }
