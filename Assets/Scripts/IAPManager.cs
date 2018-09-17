@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Security;
 
 public class IAPManager : MonoBehaviour, IStoreListener {
 
@@ -90,13 +91,67 @@ public class IAPManager : MonoBehaviour, IStoreListener {
         Debug.Log(failureReason.ToString());
     }
 
+
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        //IsValidateGooglePurchase(args.purchasedProduct.receipt, "receiptDescription")
+        #region validate receipts
+        bool validPurchase = true; // Presume valid for platforms with no R.V.
 
-        if (string.Equals(args.purchasedProduct.definition.id, currentProductID, System.StringComparison.Ordinal))
+        // Unity IAP's validation logic is only included on these platforms.
+#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+        // Prepare the validator with the secrets we prepared in the Editor
+        // obfuscation window.
+        var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
+            AppleTangle.Data(), Application.identifier);
+
+        try
         {
-            Debug.Log("SuccessBuy");
+            var result = validator.Validate(args.purchasedProduct.receipt);
+            Debug.Log("Receipt is valid. Contents:");
+            foreach (IPurchaseReceipt productReceipt in result)
+            {
+                Debug.Log(productReceipt.productID);
+                Debug.Log(productReceipt.purchaseDate);
+                Debug.Log(productReceipt.transactionID);
+
+                GooglePlayReceipt google = productReceipt as GooglePlayReceipt;
+                if (null != google)
+                {
+                    // This is Google's Order ID.
+                    // Note that it is null when testing in the sandbox
+                    // because Google's sandbox does not provide Order IDs.
+                    Debug.Log(google.transactionID);
+                    Debug.Log(google.purchaseState);
+                    Debug.Log(google.purchaseToken);
+                }
+
+                //AppleInAppPurchaseReceipt apple = productReceipt as AppleInAppPurchaseReceipt;
+                //if (null != apple)
+                //{
+                //    Debug.Log(apple.originalTransactionIdentifier);
+                //    Debug.Log(apple.subscriptionExpirationDate);
+                //    Debug.Log(apple.cancellationDate);
+                //    Debug.Log(apple.quantity);
+                //}
+            }
+        }
+        catch (IAPSecurityException)
+        {
+            Debug.Log("Invalid receipt, not unlocking content");
+            validPurchase = false;
+        }
+#endif
+
+        if (validPurchase)
+        {
+            // Unlock the appropriate content here.
+        }        
+        #endregion
+
+        if (string.Equals(args.purchasedProduct.definition.id, currentProductID, System.StringComparison.Ordinal)) //주소값으로 비교
+        {
+            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+            //Debug.Log("SuccessBuy");
         }
         else
         {
