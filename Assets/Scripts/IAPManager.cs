@@ -49,8 +49,10 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
     public void BuyConsumable(int i)
     {
+        Debug.Log(productIDCounsomable[i]);
         currentProductID = productIDCounsomable[i];
         BuyProductID(productIDCounsomable[i]);
+        
     }
 
     void BuyProductID(string productID)
@@ -90,6 +92,8 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
+        //IsValidateGooglePurchase(args.purchasedProduct.receipt, "receiptDescription")
+
         if (string.Equals(args.purchasedProduct.definition.id, currentProductID, System.StringComparison.Ordinal))
         {
             Debug.Log("SuccessBuy");
