@@ -520,10 +520,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce303f31e65c50347b55dea5f56178d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  android_banner_id: 
-  ios_banner_id: 
-  android_interstitial_id: 
-  ios_interstitial_id: 
+  android_banner_id: ca-app-pub-1894471406717971/1502663830
+  ios_banner_id: ca-app-pub-1894471406717971/1502663830
+  android_interstitial_id: ca-app-pub-1894471406717971/7714200031
+  ios_interstitial_id: ca-app-pub-1894471406717971/7714200031
 --- !u!4 &785562568
 Transform:
   m_ObjectHideFlags: 0
@@ -1404,6 +1404,7 @@ MonoBehaviour:
     gem: 0
     ClearLandCount: 0
     PlayTime: 0
+    settingVal: 
     lastLand: 0
     gotLandList: []
     lastpuzzle: 

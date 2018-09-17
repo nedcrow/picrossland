@@ -11,6 +11,7 @@ public class PopupViewController : MonoBehaviour {
     [HideInInspector] public GameObject nickNamePop;
     [HideInInspector] public GameObject guidePop;
     [HideInInspector] public GameObject settingPop;
+    [HideInInspector] public GameObject shopPop; 
     [HideInInspector] public GameObject warningPop;
 
     void Awake () {
@@ -19,7 +20,8 @@ public class PopupViewController : MonoBehaviour {
         nickNamePop = transform.GetChild(2).gameObject;
         guidePop = transform.GetChild(3).gameObject;
         settingPop = transform.GetChild(4).gameObject;
-        warningPop = transform.GetChild(5).gameObject;
+        shopPop = transform.GetChild(5).gameObject;
+        warningPop = transform.GetChild(6).gameObject;
 
         loadingPop.SetActive(true);
         warningPop.SetActive(true);
