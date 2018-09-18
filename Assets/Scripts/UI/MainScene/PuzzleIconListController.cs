@@ -302,7 +302,7 @@ public class PuzzleIconListController : MonoBehaviour {
                     switch (Input.GetTouch(0).phase)
                     {
                         case TouchPhase.Began:
-                            Debug.Log("touched : " + results[0].gameObject.name);
+                            //Debug.Log("touched : " + results[0].gameObject.name);
                             if (results[0].gameObject.tag == "SkillBtn")
                             {
                                 skillID = HarimTool.EditText.EditText.Right(results[0].gameObject.name, 4);
@@ -326,7 +326,7 @@ public class PuzzleIconListController : MonoBehaviour {
                             break;
 
                         case TouchPhase.Ended:
-                            Debug.Log("touched : end ");
+                            //Debug.Log("touched : end ");
                             if (touchedSkill.tag == "SkillBtn")
                             {
                                 touchedSkill.transform.GetChild(0).GetComponent<Image>().enabled = false;

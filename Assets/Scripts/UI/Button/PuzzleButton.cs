@@ -58,9 +58,10 @@ public class PuzzleButton : MonoBehaviour {
     int currentBtn;
     float checkTime;
     float mouseFirstTime=0.1f;
-    float mouseTime;
+    float mouseTime; //이동 touch 시 계속 상승하며, 첫 이동이 아니면 mouseFirstTime보다 높을 때에만 이동을 실행시킨다. 이동 시 waitTime만큼 감소.
     float mouseTimeGrade;
-    int mouseTimeGradeCount = 10; // mouseTimeGrade가 GradeCount를 넘어서면 터치 기준을 touchWaitTime1 에서 2로 바꿈.
+    float waitTime = 0.025f;
+    int mouseTimeGradeCount = 10; // mouseTimeGrade가 GradeCount를 넘어서면 이동이 빨라짐.
     
     IEnumerator ButtonTouched()
     {
@@ -95,7 +96,7 @@ public class PuzzleButton : MonoBehaviour {
                             }
                             break;
 
-                        case 3 :
+                        case 3 ://TouchPhase.End
                             Debug.Log(results[0].gameObject.name);
                             if (results[0].gameObject.tag == "MoveBtn") { mouseTimeGrade = 0; mouseTime += 0.01f; }
                             else if (results[0].gameObject.name == "Btn_Hint") { HintClicked(); }
@@ -175,7 +176,7 @@ public class PuzzleButton : MonoBehaviour {
                 else if (obj.name == "Btn_Left") { MoveCursor(3); }               
             }            
         }
-        mouseTime++;
+        mouseTime += 0.01f;
         Timer_Move();
     }
     
@@ -214,10 +215,10 @@ public class PuzzleButton : MonoBehaviour {
 
     public void HintClicked()
     {
-        if (PuzzleManager.instance.DrawEnd)
+        if (PuzzleManager.instance.DrawEnd == true)
         {
-            AdMobManager.instance.ShowInterstitialAd();
             PuzzleManager.instance.GetComponent<ClearChecker>().OnGoal();
+            AdMobManager.instance.ShowInterstitialAd();
         }
     }
 
@@ -231,11 +232,11 @@ public class PuzzleButton : MonoBehaviour {
         {
             if(mouseTimeGrade >= mouseTimeGradeCount)
             {
-                mouseTime = mouseFirstTime - 0.01f;
+                mouseTime = mouseFirstTime - 0.01f; //0
             }
             else
             {
-                mouseTime = mouseFirstTime - 0.04f;
+                mouseTime = mouseFirstTime - waitTime;
                 mouseTimeGrade++;
             }
             if(mouseTime <= 0) { Debug.Log("Error : too much big minus time"); }

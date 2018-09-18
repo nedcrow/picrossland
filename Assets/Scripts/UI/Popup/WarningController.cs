@@ -71,7 +71,7 @@ public class WarningController : MonoBehaviour
         for (int i = 0; i < results.Count; i++)
         {
             btnName = HarimTool.EditText.EditText.Mid(results[i].gameObject.name, 4, results[i].gameObject.name.Length - 4);
-            Debug.Log(btnName);
+            //Debug.Log(btnName);
 
             if (btnName == "Shop")
             {
@@ -109,7 +109,7 @@ public class WarningController : MonoBehaviour
         List<RaycastResult> results = new List<RaycastResult>(); // 여기에 히트 된 개체 저장 
         GraphicRaycaster gr = PuzzleManager.instance.viewCon.GetComponent<Canvas>().GetComponent<GraphicRaycaster>();
         gr.Raycast(ped, results);
-        Debug.Log("resultCount = " + results.Count);
+        
         return results;
     }
 }

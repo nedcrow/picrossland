@@ -37,6 +37,7 @@ public class PuzzleLoader : MonoBehaviour {
         GameObject tiles = GetComponent<PuzzleManager>().tileGroup_Rest;
         float half;
         float bMark;
+        float speedPerTile = 0.02f - (x * 0.002f);
         int count;
 
         half = Half(x);
@@ -68,7 +69,7 @@ public class PuzzleLoader : MonoBehaviour {
                     tiles.transform.GetChild(tiles.transform.childCount - 1).SetParent(GetComponent<PuzzleManager>().tileGroup_Active.transform);
                 }
             }
-            yield return new WaitForSeconds(0.025f);
+            yield return new WaitForSeconds(speedPerTile);
         }        
         yield return new WaitForSeconds(1f);
         ReDrawTiles();

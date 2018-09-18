@@ -83,7 +83,7 @@ public class PuzzleManager : MonoBehaviour {
             LoadBaseTiles();
             LoadBaseLine();
             puzzleBG.SetActive(true);
-            StartCoroutine(DelayForStartPuzzle(puzzleID, 1.1f));
+            StartCoroutine(DelayForStartPuzzle(puzzleID, 0.8f));
             puzzleKeyBrush.DrawPuzzleKey();
             #endregion
 
