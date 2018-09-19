@@ -21,8 +21,8 @@ public class PuzzleButton : MonoBehaviour {
 
     private void Awake()
     {    
-        xDist = new int[]{0,1,0,-1}; //URDL
-        yDist = new int[]{1,0,-1,0}; //URDL       
+        xDist = new int[]{0,1,0,-1}; //U,R,D,L
+        yDist = new int[]{1,0,-1,0}; //U,R,D,L       
     }
 
     List<Coroutine> playCoList = new List<Coroutine>();
@@ -97,7 +97,7 @@ public class PuzzleButton : MonoBehaviour {
                             break;
 
                         case 3 ://TouchPhase.End
-                            Debug.Log(results[0].gameObject.name);
+                            //Debug.Log(results[0].gameObject.name);
                             if (results[0].gameObject.tag == "MoveBtn") { mouseTimeGrade = 0; mouseTime += 0.01f; }
                             else if (results[0].gameObject.name == "Btn_Hint") { HintClicked(); }
                             else { MarkButtonOutCheck(results); }
@@ -159,7 +159,6 @@ public class PuzzleButton : MonoBehaviour {
 
     void MoveButtonCheck(List<RaycastResult> results)
     {
-        Debug.Log("moveCheck");
         GameObject obj = results[0].gameObject;
         if (obj.name == "Btn_Cover")
         {
@@ -207,8 +206,7 @@ public class PuzzleButton : MonoBehaviour {
     {
         GameObject obj = results[0].gameObject;
         if (obj.tag == "CheckBtn")
-        {
-            //bool longCheck = checkTime > oneTime ? true : false;            
+        {         
             PuzzleManager.instance.cursor.GetComponent<CursorController>().CheckOut();
         }        
     }

@@ -316,7 +316,10 @@ public class PuzzleIconListController : MonoBehaviour {
                                     //touchedSkill.name = skillID;
                                 }
                             }
-                            else if ( results[0].gameObject.name == "HideBtn" ) { LandManager.instance.views.againView.transform.GetChild(3).GetComponent<ViewCaseController>().CaseOnOff(); }
+                            else if ( results[0].gameObject.name == "HideBtn" ) {
+                                Debug.Log("HideBtn");
+                                LandManager.instance.views.againView.transform.GetChild(3).GetComponent<ViewCaseController>().CaseOnOff();
+                            }
                             break;
 
                         case TouchPhase.Moved:

@@ -7,6 +7,7 @@ public class ViewCaseController : MonoBehaviour {
     public void CaseOnOff()
     {
         if (transform.GetChild(0).gameObject.activeSelf == true) {
+            Debug.Log("what's the probolum. : "+ transform.GetChild(0).gameObject.name);
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
             LandManager.instance.views.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().PuzzleIconOnOff();
@@ -17,6 +18,7 @@ public class ViewCaseController : MonoBehaviour {
     IEnumerator UnHideTouchCheck()
     {
         Vector3 skillHome = Vector3.zero;
+        yield return new WaitForSeconds(0.1f);
         while (true)
         {
             bool touch = false;
@@ -31,6 +33,7 @@ public class ViewCaseController : MonoBehaviour {
                     transform.GetChild(0).gameObject.SetActive(true);
                     transform.GetChild(1).gameObject.SetActive(true);
                     LandManager.instance.views.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().PuzzleIconOnOff();
+                    Debug.Log("Close HideBtn");
                     break;
                 }                
             }
