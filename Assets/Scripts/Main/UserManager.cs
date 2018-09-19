@@ -110,7 +110,7 @@ public class UserManager : MonoBehaviour {
         for (int i = 0; i < currentUser.gotLandList.Count; i++)
         {
             if (landID == currentUser.gotLandList[i].id) { current = currentUser.gotLandList[i]; }
-            else { Debug.Log("No Found This ID in GotLandList : " + landID + ", "+ currentUser.gotLandList[i].id); }
+            //else { Debug.Log("No Found This ID in GotLandList : " + landID + ", "+ currentUser.gotLandList[i].id); }
         }        
         return current;        
     }
