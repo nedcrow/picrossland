@@ -102,6 +102,7 @@ public class AdMobManager : MonoBehaviour
     {
         if (!interstitialAd.IsLoaded())
         {
+            Debug.Log("!interstitialAd.IsLoaded()");
             RequestInterstitialAd();
             return;
         }
