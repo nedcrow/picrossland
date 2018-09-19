@@ -78,7 +78,7 @@ public class PuzzleIconListController : MonoBehaviour {
     {
         SetIconList_S(currentLandID);
         SetIconList_N(currentLandID);
-        StartCoroutine(ButtonTouched());
+        StartDragCheck();
     }
 
     void SetIconList_N(int currentLandID) {
@@ -283,7 +283,7 @@ public class PuzzleIconListController : MonoBehaviour {
     }
 
     #region Drag SkillButton
-    public void StartDragCheck() { StartCoroutine(ButtonTouched()); }
+    public void StartDragCheck() { StopAllCoroutines(); StartCoroutine(ButtonTouched()); }
     public void StopDragCheck() { StopCoroutine(ButtonTouched()); touchedSkill.transform.GetChild(0).GetComponent<Image>().enabled = false; }
 
     IEnumerator ButtonTouched()
@@ -373,6 +373,8 @@ public class PuzzleIconListController : MonoBehaviour {
     }
 
     void DragSkillButton(GameObject target, Vector2 touchPos) {
+        Debug.Log(target.name);
+        //target.GetComponent<>
         target.transform.position = new Vector3(touchPos.x, touchPos.y, target.transform.position.z);
     }
     #endregion

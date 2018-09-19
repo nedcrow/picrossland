@@ -33,6 +33,8 @@ public class ViewCaseController : MonoBehaviour {
                     transform.GetChild(0).gameObject.SetActive(true);
                     transform.GetChild(1).gameObject.SetActive(true);
                     LandManager.instance.views.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().PuzzleIconOnOff();
+                    LandManager.instance.views.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().StartDragCheck();
+
                     Debug.Log("Close HideBtn");
                     break;
                 }                
