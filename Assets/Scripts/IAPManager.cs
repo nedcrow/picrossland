@@ -144,8 +144,26 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
         if (validPurchase)
         {
-            // Unlock the appropriate content here.
-        }        
+            string[] wards = currentProductID.Split('_');
+            int num = System.Convert.ToInt32(wards[wards.Length - 1]);
+            switch (num)
+            {
+                case 1:
+                    num = 33;
+                    break;
+                case 2:
+                    num = 111;
+                    break;
+                case 3:
+                    num = 333;
+                    break;
+                default:
+                    Debug.Log("ProductID ERROR : " + wards);
+                    break;
+            }
+            UserManager.Instance.currentUser.gem += num;
+            LandManager.instance.views.againView.transform.GetChild(0).GetComponent<AdminViewController>().SetAdminView();
+        }        //유효한 구매
         #endregion
 
         if (string.Equals(args.purchasedProduct.definition.id, currentProductID, System.StringComparison.Ordinal)) //주소값으로 비교
@@ -158,7 +176,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
             Debug.Log("FailBuy");
         }
         return PurchaseProcessingResult.Complete;
-    }
+    }//googleplay 영수증 인증.
 
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
