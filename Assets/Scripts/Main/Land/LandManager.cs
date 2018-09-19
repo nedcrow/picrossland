@@ -204,7 +204,7 @@ public class LandManager : MonoBehaviour {
             {
                 for (int i = 0; i < unitList.Count; i++)
                 {
-                    int unitLand = System.Convert.ToInt32(HarimTool.EditText.EditText.Left(unitList[i], 2));
+                    int unitLand = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(unitList[i], 2));
                     if (unitLand == currentLand.id)
                     {
                         GetComponent<UnitManager>().UnitSpawn(unitList[i], false, 1); // 퍼즐ID, 생성수량     

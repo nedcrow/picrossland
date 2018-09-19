@@ -52,7 +52,7 @@ public class EventManager : MonoBehaviour
             foreach (WeatherChanged d in WeatherChangedEvent.GetInvocationList())
             {
                 //Debug.Log("ActivatedFunc :" + d.Target);
-                string unitID = HarimTool.EditText.EditText.Left(d.Target.ToString(), 4);
+                string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
                 //Debug.Log(LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.name);
                 if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == false) {                    
                     WeatherChangedEvent -= d;

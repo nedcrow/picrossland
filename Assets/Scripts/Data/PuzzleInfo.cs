@@ -41,8 +41,8 @@ namespace PuzzleInfo
 
             int targetNum = weather;
 
-            int _landID = System.Convert.ToInt32(HarimTool.EditText.EditText.Left(puzzleID, 2));
-            int _puzzleID = System.Convert.ToInt32(HarimTool.EditText.EditText.Right(puzzleID, 2));
+            int _landID = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(puzzleID, 2));
+            int _puzzleID = System.Convert.ToInt32(HarimTool.EditValue.EditText.Right(puzzleID, 2));
 
             //Debug.Log("puzzleID : " +puzzleID + ", weather :"+weather);
             if(PuzzleManager.instance.puzzles[_landID-1][_puzzleID-1].type == "N")

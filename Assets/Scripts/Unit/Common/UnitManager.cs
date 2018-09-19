@@ -44,7 +44,7 @@ public class UnitManager : MonoBehaviour {
     {
         for (int i = 0; i < unitList.Count; i++)
         {
-            int unitNum = System.Convert.ToInt32(HarimTool.EditText.EditText.Left(unitList[i].name, 2));
+            int unitNum = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(unitList[i].name, 2));
             //Debug.Log("landNum : " + landNum + ", " + "" + unitNum);
             if (unitNum != landNum)
             {

@@ -70,7 +70,7 @@ public class WarningController : MonoBehaviour
         string btnName;
         for (int i = 0; i < results.Count; i++)
         {
-            btnName = HarimTool.EditText.EditText.Mid(results[i].gameObject.name, 4, results[i].gameObject.name.Length - 4);
+            btnName = HarimTool.EditValue.EditText.Mid(results[i].gameObject.name, 4, results[i].gameObject.name.Length - 4);
             //Debug.Log(btnName);
 
             if (btnName == "Shop")

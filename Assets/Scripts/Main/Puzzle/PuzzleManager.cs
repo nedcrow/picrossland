@@ -112,7 +112,7 @@ public class PuzzleManager : MonoBehaviour {
 
     public int GetPuzzleMaxCount(string puzzleID)
     {
-        int first = System.Convert.ToInt32(HarimTool.EditText.EditText.Left(puzzleID, 2));
+        int first = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(puzzleID, 2));
         int cnt = 0;
         for (int i = 0; i < puzzles[first - 1].Length; i++)
         {
@@ -129,7 +129,7 @@ public class PuzzleManager : MonoBehaviour {
         int find = 0;
         for (int i = 0; i < puzzles.Length; i++)
         {
-            if (HarimTool.EditText.EditText.Left(puzzles[i][0].id, 2) == HarimTool.EditText.EditText.Left(puzzleID, 2))
+            if (HarimTool.EditValue.EditText.Left(puzzles[i][0].id, 2) == HarimTool.EditValue.EditText.Left(puzzleID, 2))
             {
                 for (int j = 0; j < puzzles[i].Length; j++)
                 {

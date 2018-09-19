@@ -1670,7 +1670,7 @@ namespace CussWords
                 {
                     for (int j = 0; j < word.Length; j++)
                     {
-                        string targetText = HarimTool.EditText.EditText.Mid(word, j, 1);
+                        string targetText = HarimTool.EditValue.EditText.Mid(word, j, 1);
                         if (arrList[i].Contains(targetText)) // nickname에 해당 junk의 스팰링이 포함된 경우
                         {
                             temp.Add(targetText); // 순서대로 temp에 담는다.

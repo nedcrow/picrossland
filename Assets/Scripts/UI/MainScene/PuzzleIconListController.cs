@@ -305,7 +305,7 @@ public class PuzzleIconListController : MonoBehaviour {
                             //Debug.Log("touched : " + results[0].gameObject.name);
                             if (results[0].gameObject.tag == "SkillBtn")
                             {
-                                skillID = HarimTool.EditText.EditText.Right(results[0].gameObject.name, 4);
+                                skillID = HarimTool.EditValue.EditText.Right(results[0].gameObject.name, 4);
                                 if (UserManager.Instance.ClearPuzzleCheck(skillID))
                                 {                                    
                                     touchedSkill.transform.position = new Vector3(-1000, -1000, touchedSkill.transform.position.z);

@@ -48,7 +48,7 @@ public class MainDataBase : MonoBehaviour
     #endregion
 
 
-    void Awake()
+    unsafe void Awake()
     {
         local = false;
         savePath = Application.persistentDataPath + "/Save"; // for Local
@@ -59,8 +59,7 @@ public class MainDataBase : MonoBehaviour
         FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("land-of-picross-8205260@appspot.gserviceaccount.com");
         FirebaseApp.DefaultInstance.SetEditorP12Password("notasecret");
 
-        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-
+        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;        
     }
     #region FireBase
 
@@ -205,7 +204,7 @@ public class MainDataBase : MonoBehaviour
                       for (int i = 0; i < tempPuzzleList.Count; i++)
                       {
                           string targetPuzzleListStr = targetPuzzleListNum < 10 ? "0" + targetPuzzleListNum : targetPuzzleListNum.ToString();
-                          if (targetPuzzleListStr == HarimTool.EditText.EditText.Left(tempPuzzleList[i].id, 2))
+                          if (targetPuzzleListStr == HarimTool.EditValue.EditText.Left(tempPuzzleList[i].id, 2))
                           {
                               tempTempPuzzleList.Add(tempPuzzleList[i]);
                               tempTempNum.Add(i);

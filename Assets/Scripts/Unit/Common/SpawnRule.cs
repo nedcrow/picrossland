@@ -16,7 +16,7 @@ namespace SpawnRule
             bool possible=false;
             int okCount=0;
 
-            int landNum = System.Convert.ToInt32(HarimTool.EditText.EditText.Left(unitID, 2));
+            int landNum = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(unitID, 2));
             float x = unitPos.x;
             float y = unitPos.y;
 

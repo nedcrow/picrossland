@@ -10,8 +10,8 @@ public class PuzzleLoader : MonoBehaviour {
     {
         puzzleM = GetComponent<PuzzleManager>();        
 
-        int puzzlePosX = System.Convert.ToInt32(HarimTool.EditText.EditText.Left(puzzleID, 2)); 
-        int puzzlePosY = System.Convert.ToInt32(HarimTool.EditText.EditText.Right(puzzleID, 2));
+        int puzzlePosX = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(puzzleID, 2)); 
+        int puzzlePosY = System.Convert.ToInt32(HarimTool.EditValue.EditText.Right(puzzleID, 2));
 
         DrawLine(puzzleM.currentPuzzleSize);
         StartCoroutine(DrawTiles(puzzleM.currentPuzzleSize));       //currentPuzzleSize
