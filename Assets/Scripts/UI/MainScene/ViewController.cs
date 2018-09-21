@@ -25,6 +25,7 @@ public class ViewController : MonoBehaviour {
 
         };
         LandManager.instance.BaseSetting();
+        
     }
 
     /// <summary>

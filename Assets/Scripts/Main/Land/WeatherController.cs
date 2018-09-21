@@ -70,7 +70,7 @@ public class WeatherController : MonoBehaviour {
                 r = r + 0.01f;
                 g = g + 0.01f;
                 b = b + 0.015f;
-                a = a + 0.01f;
+                a = a + 0.015f;
             }            
             tempSky.GetComponent<SpriteRenderer>().color = new Vector4(0+r, 0+g, 0+b, 1-a);
             if (a > 0.98f) { Destroy(tempSky.gameObject); break; }           
