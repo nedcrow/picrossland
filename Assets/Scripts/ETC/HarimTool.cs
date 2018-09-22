@@ -8,6 +8,23 @@ using System.Runtime.InteropServices;
 
 namespace HarimTool
 {    
+    namespace Escape
+    {
+        public class Escape
+        {
+            public static void AppQuit()
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBPLAYER
+        Application.OpenURL("https://google.com");
+#else
+        Application.Quit();
+#endif
+
+            }
+        }
+    }
     namespace DataBase
     {
         public class DataBase : MonoBehaviour

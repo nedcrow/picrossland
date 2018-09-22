@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class AppEscapeChecker : MonoBehaviour
 {
-
-
     [Range(1, 10)]
     public float limitSec = 3;
     public bool inputtedEscape;
@@ -26,13 +24,17 @@ public class AppEscapeChecker : MonoBehaviour
             {
                 if (inputtedEscape == false)
                 {
+                    LandManager.instance.views.popupView.GetComponent<PopupViewController>().escapePop.GetComponent<EscapePopController>().ReadyToEscape(limitSec);
+                    //한 번 더 누르면 종료됩니다.
                     inputtedEscape = true;
                 }
                 else
                 {
-                    //한 번 더 누르면 종료됩니다.
                     inputtedEscape = false;
-                }
+                    HarimTool.Escape.Escape.AppQuit();
+                    //종료
+                    break; 
+                }            
             }
             if (inputtedEscape == true)
             {
