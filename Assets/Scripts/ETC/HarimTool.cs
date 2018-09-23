@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.InteropServices;
 
@@ -215,6 +216,45 @@ namespace HarimTool
                 return true;
             }
 
+            /// <summary>
+            /// <para>target안에 soruce와 같은 값의 객체가 포함되는지 확인 합니다.</para>
+            /// <para>target들 안에 'id(field)'가 있으면, 두 매개변수의 타입이 다르더라도 탐색 가능합니다.</para>
+            /// <para>Even if that two types are different, can search if that 'id(field)' in targets. </para>
+            /// </summary>
+            /// <param name="source"></param>
+            /// <param name="target">source와 같거나 id field가 필요합니다.</param>
+            /// <returns></returns>
+            public static bool ContainAnB(object source, List<object> target)
+            {
+                List<string> tList=new List<string>();
+                if (target.Count > 0)
+                {
+                    if (target[0].GetType() == source.GetType())
+                    {
+                        return target.Contains(source);
+                    }// 두 타입이 같으면
+                    else
+                    {
+                        FieldInfo[] fields = target[0].GetType().GetFields();
+                        for (int i = 0; i < fields.Length; i++)
+                        {
+                            //Debug.Log(EditText.Right(fields[i].ToString(), 2));
+                            if(EditText.Right(fields[i].ToString(), 2) == "id")
+                            {
+                                for (int j=0; j< target.Count; j++)
+                                {
+                                    if (fields[i].GetValue(target[j]).ToString() == source.ToString())
+                                    {
+                                        return true;
+                                    }                                    
+                                }
+                            }
+                        }// targtList Field 중에 id가 있으면, 
+                        
+                    }// 두 타입이 다르면
+                }
+                return false;                
+            }
         }
 
 
