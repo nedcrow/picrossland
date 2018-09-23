@@ -226,7 +226,21 @@ namespace HarimTool
             /// <returns></returns>
             public static bool ContainAnB(object source, List<object> target)
             {
-                List<string> tList=new List<string>();
+                return ContainAnB_(source, target);
+            }
+
+            public static bool ContainAnB(string source, List<string> target)
+            {
+                object s = source;
+                List<object> tList = new List<object>();
+                foreach (string t in target) { tList.Add(t); }
+                Debug.Log("contain : " + tList.Count);
+                return ContainAnB_(s, tList);
+            }
+
+            static bool ContainAnB_(object source, List<object> target)
+            {
+                List<string> tList = new List<string>();
                 if (target.Count > 0)
                 {
                     if (target[0].GetType() == source.GetType())
@@ -239,25 +253,22 @@ namespace HarimTool
                         for (int i = 0; i < fields.Length; i++)
                         {
                             //Debug.Log(EditText.Right(fields[i].ToString(), 2));
-                            if(EditText.Right(fields[i].ToString(), 2) == "id")
+                            if (EditText.Right(fields[i].ToString(), 2) == "id")
                             {
-                                for (int j=0; j< target.Count; j++)
+                                for (int j = 0; j < target.Count; j++)
                                 {
                                     if (fields[i].GetValue(target[j]).ToString() == source.ToString())
                                     {
                                         return true;
-                                    }                                    
+                                    }
                                 }
                             }
                         }// targtList Field 중에 id가 있으면, 
-                        
+
                     }// 두 타입이 다르면
                 }
-                return false;                
+                return false;
             }
         }
-
-
-        
     }
 }
