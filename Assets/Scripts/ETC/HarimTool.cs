@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.InteropServices;
 
@@ -154,8 +155,9 @@ namespace HarimTool
             }
         }
 
-        public class EditSomething
+        public static class EditSomething
         {
+            #region Swap
             /// <summary>
             /// (&변수A, &변수B) use in unsafe func.
             /// </summary>
@@ -181,6 +183,41 @@ namespace HarimTool
                 *x = *y;
                 *y = temp;
             }
+            #endregion
+
+            /// <summary>
+            /// Colored By Color Scripter™
+            /// </summary>
+            /// <param name="source"></param>
+            /// <param name="target"></param>
+            /// <returns></returns>
+            public static bool Equal(this object source, object target)
+            {
+                BinaryFormatter bf1 = new BinaryFormatter();
+                MemoryStream ms1 = new MemoryStream();
+                bf1.Serialize(ms1, source);
+
+                BinaryFormatter bf2 = new BinaryFormatter();
+                MemoryStream ms2 = new MemoryStream();
+                bf1.Serialize(ms2, target);
+
+                byte[] array1 = ms1.ToArray();
+                byte[] array2 = ms2.ToArray();
+
+                if (array1.Length != array2.Length)
+                    return false;
+
+                for (int i = 0; i < array1.Length; i++)
+                {
+                    if (array1[i] != array2[i])
+                        return false;
+                }
+                return true;
+            }
+
         }
+
+
+        
     }
 }
