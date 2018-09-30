@@ -11,7 +11,8 @@ public class WeatherController : MonoBehaviour {
         {"0101","GoodMorning"},
         {"0103","GoodNight" },
         {"0108","GoodNight" },
-        {"0201","RadioActive" }
+        {"0201","Vote"},
+        {"0301","RadioActive" }
     };
 
     public void OnWeather(string skillId)
@@ -117,6 +118,14 @@ public class WeatherController : MonoBehaviour {
             yield return new WaitForSeconds(0.08f);
         }
     }//검은 알파값을 증가시킴.
+
+
+    IEnumerator Vote()
+    {
+        GameObject ballotBox = transform.parent.GetComponent<LandController>().backgroundObj.transform.GetChild(0).GetChild(0).gameObject;
+        ballotBox.GetComponent<Animator>().Play("Radio_Active");
+        yield return null;
+    }
 
     IEnumerator RadioActive()
     {

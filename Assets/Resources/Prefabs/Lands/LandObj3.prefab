@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4572346145804374}
   m_Layer: 0
-  m_Name: LandObj2
+  m_Name: LandObj3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 95749626434003590}
   - component: {fileID: 212220978126249990}
   m_Layer: 0
-  m_Name: BallotBox
+  m_Name: Radio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
