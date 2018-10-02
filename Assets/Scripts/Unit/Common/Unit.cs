@@ -10,7 +10,8 @@ namespace Unit
         {
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Idle"+ IdleNum;
+                string aniName = target.transform.parent.name + "_Idle";
+                aniName = IdleNum == "" ? aniName : aniName + IdleNum;
                 target.GetComponent<Animator>().Play(aniName);
             }
         }
@@ -93,11 +94,20 @@ namespace Unit
 
     public class Mover : MonoBehaviour
     {
-        public static void UnitMove(GameObject target)
+        public static void UnitMove(GameObject target, string Dir = "")
         {
+            Debug.Log(Dir);
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Move";
+                string aniName;
+                if ( Dir == "")
+                {
+                    aniName = target.transform.parent.name + "_Move";
+                }
+                else
+                {
+                    aniName = target.transform.parent.name + "_Move_" + Dir;
+                }                
                 Debug.Log(aniName);
                 target.GetComponent<Animator>().Play(aniName);
             }
