@@ -12,6 +12,7 @@ namespace SaveData
         public string id;
         public string name;
         public int gem;
+        public int star;
         public int ClearLandCount;
         public System.DateTime loginTime;//Hour
         public int PlayTime;//Hour

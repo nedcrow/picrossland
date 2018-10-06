@@ -120,6 +120,16 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
+    public int UnitCountCheck(string puzzleID)
+    {
+        int unitCnt = 0;
+        foreach (GameObject unit in LandManager.instance.GetComponent<UnitManager>().unitList)
+        {
+            if (unit.name == puzzleID) { unitCnt++; }
+        }//unitCountCheck
+        return unitCnt;
+    }
+
     class Target
     {
         public GameObject gObjet;

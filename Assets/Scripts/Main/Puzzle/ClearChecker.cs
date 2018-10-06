@@ -101,7 +101,13 @@ public class ClearChecker : MonoBehaviour {
             //Debug.Log(PuzzleManager.instance.currentPuzzle.id);
         }//현재 Land에서 ClearPuzzle이 없다면 해당 ClearList에 퍼즐이름 추가.
         #endregion
+        int unitCnt = LandManager.instance.GetComponent<UnitManager>().UnitCountCheck(PuzzleManager.instance.currentPuzzle.id);
+        int maxCnt = PuzzleManager.instance.GetPuzzleMaxCount(PuzzleManager.instance.currentPuzzle.id);
+        if (unitCnt< maxCnt) { UserManager.Instance.currentUser.star += 1; }
+        
+        #region Stars
 
+        #endregion
         UserManager.Instance.currentUser.lastLand = LandManager.instance.currentLand.id;
 
         MainDataBase.instance.OnSaveAdmin();

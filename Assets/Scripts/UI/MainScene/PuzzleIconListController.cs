@@ -168,11 +168,7 @@ public class PuzzleIconListController : MonoBehaviour {
                 puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).gameObject.SetActive(true);
                 puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<RectTransform>().anchoredPosition3D = starPos[maxCnt - 1][j];
             }//Set Stars Position
-            int unitCnt = 0;
-            foreach (GameObject unit in LandManager.instance.GetComponent<UnitManager>().unitList)
-            {
-                if (unit.name == puzzleID) { unitCnt++; }
-            }//unitCountCheck
+            int unitCnt = LandManager.instance.GetComponent<UnitManager>().UnitCountCheck(puzzleID);
             int clearCnt = System.Convert.ToInt32(unitCnt / spawnCnt);
             for(int j=0; j< clearCnt; j++)
             {

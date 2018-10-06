@@ -286,6 +286,7 @@ public class MainDataBase : MonoBehaviour
                    EventManager.instance.NickNameCheckedFunc(true);
 
                    UserManager.Instance.currentUser.gem = Convert.ToInt32(snapshot.Child("gem").GetValue(true));
+                   UserManager.Instance.currentUser.star = Convert.ToInt32(snapshot.Child("star").GetValue(true));
                    UserManager.Instance.currentUser.ClearLandCount = Convert.ToInt32(snapshot.Child("clrLndCnt").GetValue(true));
                    UserManager.Instance.currentUser.PlayTime = Convert.ToInt32(snapshot.Child("playTime").GetValue(true));
                    Debug.Log("playTime : "+UserManager.Instance.currentUser.PlayTime);
@@ -381,10 +382,11 @@ public class MainDataBase : MonoBehaviour
         if (local == false)
         {
             #region SaveItem _Childs           
-            string[] childs = new string[] { "gem", "clrLndCnt", "playTime", "lastLand" }; // save item
+            string[] childs = new string[] { "gem", "star", "clrLndCnt", "playTime", "lastLand" }; // save item
             string[] childsValues = new string[]
             {
                 UserManager.Instance.currentUser.gem.ToString(),
+                UserManager.Instance.currentUser.star.ToString(),
                 UserManager.Instance.currentUser.ClearLandCount.ToString(),
                 UserManager.Instance.currentUser.PlayTime.ToString(),
                 UserManager.Instance.currentUser.lastLand.ToString()
