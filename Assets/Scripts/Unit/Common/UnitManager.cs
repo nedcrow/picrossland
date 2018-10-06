@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour {
@@ -63,6 +64,13 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
+    #region SearchUnit
+    /// <summary>
+    /// this is search one the Same unitID or Nearest in UnitList.
+    /// </summary>
+    /// <param name="mPosition"></param>
+    /// <param name="unitIDs"></param>
+    /// <returns></returns>
     public GameObject SearchUnit(string unitID)
     {
         if(unitList.Count > 0)
@@ -78,5 +86,52 @@ public class UnitManager : MonoBehaviour {
             return null;
         }
     }
+
+    public GameObject SearchUnits(Vector3 mPosition, string[] unitIDs)
+    {
+        Debug.Log("Search");
+        if (unitList.Count > 0)
+        {
+            List<Target> targetList = new List<Target>();
+            for (int i = 0; i < unitList.Count; i++)
+            {
+                for(int j=0; j< unitIDs.Length; j++)
+                {
+                    if (unitList[i].name == unitIDs[j])
+                    {
+                        Vector3 mPos = new Vector3(mPosition.x, mPosition.y, 0);
+                        Vector3 tPos = new Vector3(unitList[i].transform.position.x, unitList[i].transform.position.y, 0);
+                        float dist = Vector3.Distance(mPos, tPos);
+                        Target t = new Target(unitList[i], dist);
+                        targetList.Add(t);
+                    }
+                }
+            }
+            if(targetList.Count == 0) { return null; }
+            else {
+                targetList.Sort(delegate (Target a, Target b) {
+                    return a.dist.CompareTo(b.dist);
+                }); //First is minimom value in dists.  
+                return targetList[0].gObjet;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    class Target
+    {
+        public GameObject gObjet;
+        public float dist;
+        public Target(GameObject gObject, float dist)
+        {
+            this.gObjet = gObjet;
+            this.dist = dist;
+        }
+
+    }
+    #endregion
 
 }

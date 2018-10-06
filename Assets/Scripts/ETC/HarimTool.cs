@@ -234,7 +234,7 @@ namespace HarimTool
                 object s = source;
                 List<object> tList = new List<object>();
                 foreach (string t in target) { tList.Add(t); }
-                Debug.Log(source + " contain : " + tList.Count);
+                //Debug.Log(source + " contain : " + tList.Count);
                 return ContainAnB_(s, tList);
             }
 

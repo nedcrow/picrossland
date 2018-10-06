@@ -89,7 +89,7 @@ public class KeyCreator : MonoBehaviour {
     int FindTrue(int spriteNum, int x, int y)
     {        
         int b;
-        Texture2D currentTexture = puzzleM.currentSprites[0].texture;
+        Texture2D currentTexture = puzzleM.currentSprites[0].texture; // texture는 무조건 하나.
         int startPointX = spriteNum * currentPuzzleSize; //r*currentPuzzleSize
         int startPointY = (currentTexture.GetPixels().Length / currentTexture.width) - currentPuzzleSize; //r*currentPuzzleSize   
         //Debug.Log(currentTexture.GetPixel(startPointX + x, startPointY + y).a);

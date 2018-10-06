@@ -50,7 +50,6 @@ public class LandController : MonoBehaviour {
                 //Destroy(obj.gameObject);
             }
             catch { }
-
         }
 
         #endregion

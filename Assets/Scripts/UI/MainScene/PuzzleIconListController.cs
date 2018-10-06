@@ -83,7 +83,7 @@ public class PuzzleIconListController : MonoBehaviour {
 
     void SetIconList_N(int currentLandID) {
         List<string> normalList = new List<string>();
-
+        int btnCount;
         #region Btn Count Check       
         for (int i = 0; i < PuzzleManager.instance.puzzles[currentLandID - 1].Length; i++)
         {
@@ -92,10 +92,10 @@ public class PuzzleIconListController : MonoBehaviour {
                 normalList.Add(PuzzleManager.instance.puzzles[currentLandID - 1][i].id);
             }
         }//btn수량
-        int btnCount = normalList.Count; //추가 필요한 버튼 수
+        btnCount = normalList.Count; //추가 필요한 버튼 수
         #endregion
 
-        #region Setting Btn Object to Parent 
+        #region Setting Btn GameObject to Parent 
 //        Debug.Log("BtnCount : " + btnCount);
         if (puzzleIconList_N_Active.Count >= btnCount)
         {
@@ -141,6 +141,14 @@ public class PuzzleIconListController : MonoBehaviour {
             restBtns_N.transform.GetChild(i).transform.position = restBtns_N.transform.position;
         }
         //Debug.Log(Screen.width+ "/.0 = "+ addScreenX + ", " + Screen.height +"/.0 = "+ addScreenY);
+        #endregion
+
+        #region Set Btn's Star in List
+        int cnt = 0;
+        for(int i=0; i< btnCount; i++)
+        {
+//            puzzleIconList_N_Active[i]   별 붙이기
+        }
         #endregion
     }
 

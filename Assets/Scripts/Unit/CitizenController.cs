@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CitizenController : MonoBehaviour {
 
-    Vector3 firstPos = new Vector3(3f, -0.3f, -3.3f);//-20~20, -3f+y;
-    Vector3 secondPos = new Vector3(0.24f, -0.3f, -3.3f);//-20~20, -3f+y;
+    Vector3 firstPos = new Vector3(-3f, -1f, -4f);//-20~20, -3f+y;
+    Vector3 secondPos = new Vector3(-0.2f, -0.3f, -3.3f);//-20~20, -3f+y;
     RuntimeAnimatorController[] animators;
 
     void Start()

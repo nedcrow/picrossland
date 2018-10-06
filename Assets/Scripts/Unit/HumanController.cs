@@ -43,7 +43,8 @@ public class HumanController : MonoBehaviour
         IdleSelect();
         GetComponent<FightController>().HP = 1;
         GetComponent<FightController>().weaponID = "0105";
-        GetComponent<FightController>().Search_U(Vector3.zero, "0110", "D", 0.7f);
+        string[] targetIDs = { "0110" };
+        GetComponent<FightController>().Search_U(Vector3.zero, targetIDs, "D", 0.7f);
     }
 
     public void IdleSelect()

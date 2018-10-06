@@ -88,18 +88,7 @@ public class UserManager : MonoBehaviour {
 
     public bool ClearPuzzleCheck(string puzzleID) {
         bool check = false;
-        //for(int i=0; i< currentUser.gotLandList.Count; i++)
-        //{
-        //    SaveData.GotLand land = currentUser.gotLandList[i];
-
-        //    for (int j = 0; j < land.clearPuzzleList.Count; j++)
-        //    {
-        //        if (land.clearPuzzleList[j] == puzzleID)
-        //        {
-        //            check = true; //Debug.Log(puzzleID);
-        //        }
-        //    }
-        //}
+        
         for (int i = 0; i < currentUser.gotLandList.Count; i++)
         {
             SaveData.GotLand land = currentUser.gotLandList[i];

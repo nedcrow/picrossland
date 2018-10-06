@@ -5,7 +5,7 @@ using UnityEngine;
 public class FightController : MonoBehaviour {
 
     public string weaponID;
-    public bool atkMode = false;
+    public bool atkMode = false; //false면 그냥 돌아다님.
     public float AtkDelay = 0.4f;
     public float HP = 0;
     public float AtkPoint = 0;
@@ -21,17 +21,17 @@ public class FightController : MonoBehaviour {
 
     #region search
     /// <summary>
-    /// mode = M,D
+    ///  addPos : for speed, mode = M,D
     /// </summary>
     /// <param name="addPos"></param>
     /// <param name="targetID"></param>
-    /// <param name="mode"></param>
-    public void Search_U(Vector3 addPos, string targetID, string mode = "", float range = 0.0f) {
+    /// <param name="mode"> M : navigation , D : who is afraid. </param>
+    public void Search_U(Vector3 addPos, string[] targetIDs, string mode = "", float range = 0.0f) {
         StopAllCoroutines();
-        StartCoroutine(Search_U_Co(addPos, targetID, mode, range));
+        StartCoroutine(Search_U_Co(addPos, targetIDs, mode, range));
     }
         
-    IEnumerator Search_U_Co(Vector3 addPos, string targetID, string mode = "", float range = 0.0f)
+    IEnumerator Search_U_Co(Vector3 addPos, string[] targetIDs, string mode = "", float range = 0.0f)
     {
         float sec = 0.01f;
         float time = 0;
@@ -39,7 +39,7 @@ public class FightController : MonoBehaviour {
         {
             time = time + sec;
 
-            target = LandManager.instance.GetComponent<UnitManager>().SearchUnit(targetID);            
+            target = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position , targetIDs);            
             if (target == null)
             {
                 if (GetComponent<MoveupController>()) { GetComponent<MoveupController>().StopAllCoroutines(); }
@@ -90,6 +90,11 @@ public class FightController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// neer by target.
+    /// </summary>
+    /// <param name="range"></param>
+    /// <returns></returns>
     bool FrontTarget(float range)
     {
         Vector3 tPos = new Vector3(target.transform.localPosition.x, target.transform.localPosition.y, 0);

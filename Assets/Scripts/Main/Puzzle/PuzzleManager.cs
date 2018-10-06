@@ -63,7 +63,7 @@ public class PuzzleManager : MonoBehaviour {
         
         CheckCurrentPuzzle(puzzleID);
         if(Resources.LoadAll<Sprite>("Sprite/Puzzle/" + puzzleID).Length==0) {
-            Debug.Log("StopPuzzle");
+            Debug.Log("StopPuzzle ( "+puzzleID+ " : length _ )" + Resources.LoadAll<Sprite>("Sprite/Puzzle/" + puzzleID).Length);
             StopPuzzle(true);
             viewCon.popupView.GetComponent<PopupViewController>().warningPop.SetActive(true);
             viewCon.popupView.GetComponent<PopupViewController>().warningPop.GetComponent<WarningController>().W_Resource();
