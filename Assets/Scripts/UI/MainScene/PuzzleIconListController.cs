@@ -144,18 +144,40 @@ public class PuzzleIconListController : MonoBehaviour {
         #endregion
 
         #region Set Btn's Star in List
-        int cnt = 0;
-        for(int i=0; i< puzzleIconList_N_Active.Count; i++)
+        Vector3[][] starPos = {
+            new Vector3[]{new Vector3(0,-15,0) },
+            new Vector3[]{new Vector3(-10,-18,0),new Vector3(10, -18, 0) },
+            new Vector3[]{new Vector3(-18, -20, 0),new Vector3(0,-15,0),new Vector3(18, -20, 0) }
+        };
+                
+        Sprite[] icons = Resources.LoadAll<Sprite>("Sprite/Icon");        
+        for (int i=0; i< puzzleIconList_N_Active.Count; i++)
         {
             string puzzleID = HarimTool.EditValue.EditText.Right(puzzleIconList_N_Active[i].name, 4);
-            int maxCnt = PuzzleManager.instance.GetPuzzleMaxCount(puzzleID);
-            int spwanCnt = PuzzleManager.instance.GetPuzzleSpawnCount(puzzleID);
-            if (maxCnt != 1) { maxCnt = System.Convert.ToInt32(maxCnt / spwanCnt); }
+            int maxCnt = PuzzleManager.instance.GetPuzzleMaxCount(puzzleID); 
+            int spawnCnt = PuzzleManager.instance.GetPuzzleSpawnCount(puzzleID); 
+            if (maxCnt != 1) { maxCnt = System.Convert.ToInt32(maxCnt / spawnCnt); } //Stars Count
 
-            for(int j=0; j<3; j++)
+            for (int j=0; j<3; j++)
             {
-                puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprite/Icon_9");
-            }            
+                puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<Image>().sprite = icons[9];
+                puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).gameObject.SetActive(false);                
+            }//Set Stars
+            for (int j = 0; j < maxCnt; j++)
+            {
+                puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).gameObject.SetActive(true);
+                puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<RectTransform>().anchoredPosition3D = starPos[maxCnt - 1][j];
+            }//Set Stars Position
+            int unitCnt = 0;
+            foreach (GameObject unit in LandManager.instance.GetComponent<UnitManager>().unitList)
+            {
+                if (unit.name == puzzleID) { unitCnt++; }
+            }//unitCountCheck
+            int clearCnt = System.Convert.ToInt32(unitCnt / spawnCnt);
+            for(int j=0; j< clearCnt; j++)
+            {
+                puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<Image>().sprite = icons[10];
+            }//
         }
         #endregion
     }
