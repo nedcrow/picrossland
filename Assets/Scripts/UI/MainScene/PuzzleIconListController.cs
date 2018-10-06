@@ -145,9 +145,17 @@ public class PuzzleIconListController : MonoBehaviour {
 
         #region Set Btn's Star in List
         int cnt = 0;
-        for(int i=0; i< btnCount; i++)
+        for(int i=0; i< puzzleIconList_N_Active.Count; i++)
         {
-//            puzzleIconList_N_Active[i]   별 붙이기
+            string puzzleID = HarimTool.EditValue.EditText.Right(puzzleIconList_N_Active[i].name, 4);
+            int maxCnt = PuzzleManager.instance.GetPuzzleMaxCount(puzzleID);
+            int spwanCnt = PuzzleManager.instance.GetPuzzleSpawnCount(puzzleID);
+            if (maxCnt != 1) { maxCnt = System.Convert.ToInt32(maxCnt / spwanCnt); }
+
+            for(int j=0; j<3; j++)
+            {
+                puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprite/Icon_9");
+            }            
         }
         #endregion
     }

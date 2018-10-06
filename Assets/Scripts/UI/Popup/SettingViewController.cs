@@ -33,15 +33,7 @@ public class SettingViewController : MonoBehaviour {
 
     public void BGMOnf()
     {
-        settingVal[0] = settingVal[0] == true ? false : true;
-        //if (settingVal[0] == true)
-        //{
-        //    settingVal[0] = false;
-        //}
-        //else
-        //{
-        //    settingVal[0] = true;
-        //}
+        settingVal[0] = settingVal[0] == true ? false : true;        
         ReSetView();
     }
 
@@ -67,6 +59,7 @@ public class SettingViewController : MonoBehaviour {
 
     void ReSetView()
     {
+        Debug.Log("ResetSettingView");
         UserManager.Instance.currentUser.settingVal = settingVal;
         MainDataBase.instance.SaveSetting();
         SetView();

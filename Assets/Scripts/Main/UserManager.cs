@@ -101,7 +101,7 @@ public class UserManager : MonoBehaviour {
 
     public SaveData.GotLand GetCurrentInGotLandList(int landID)
     {
-        //Debug.Log(landID+", "+currentUser.gotLandList[0].id);
+        //Debug.Log(landID+", "+currentUser.gotLandList.Count);
         SaveData.GotLand current = currentUser.gotLandList[0];
         for (int i = 0; i < currentUser.gotLandList.Count; i++)
         {

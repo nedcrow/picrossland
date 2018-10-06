@@ -93,7 +93,7 @@ namespace DataBase {
         public int useSpriteNum2;
         public string type;
         public int spawnCount;
-        public int maxCount;
+        public int maxCount; //1,3,6,9
     }
 }
 

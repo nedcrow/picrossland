@@ -119,11 +119,8 @@ public class LandManager : MonoBehaviour {
             landObjList[i].GetComponent<LandController>().LandSetting(i+1); // LandSetting( Land ID );
         } // LandObjBase Setting
 
-        //if (gotLandObjList.Count != 0) { SelectLandOnly(UserManager.Instance.currentUser.lastLand); }
-
         if (UserManager.Instance.currentUser.PlayTime == 0)
         {
-
             gotLandObjList.Add(landObjList[0]);
             gotLandObjList.Add(landObjList[1]);
 

@@ -553,10 +553,10 @@ public class MainDataBase : MonoBehaviour
         try
         {
             FileInfo fi = new FileInfo(loginDataPath + "/SettingData.txt");
-            if (fi.Exists)
-            {
+            if (fi.Exists == true)
+            {   
                 BinaryFormatter bf = new BinaryFormatter();
-                FileStream fs = new FileStream(savePath + "/SettingData.txt", FileMode.OpenOrCreate, FileAccess.Read);
+                FileStream fs = new FileStream(savePath + "/SettingData.txt", FileMode.Open, FileAccess.Read);
 
                 //var LoadFile = JsonUtility.FromJson<SaveData.User>((string)bf.Deserialize(fs));
                 bool[] settingValue = (bool[])bf.Deserialize(fs);
@@ -567,12 +567,14 @@ public class MainDataBase : MonoBehaviour
             }
             else {
                 UserManager.Instance.currentUser.settingVal = new bool[] { true, true, true };
-                //Debug.Log(UserManager.Instance.currentUser.settingVal);
+                Debug.Log(UserManager.Instance.currentUser.settingVal);
             }// UserManager.Instance.DefaultSetting(); }
         }
         catch (Exception e)
         {
-
+            UserManager.Instance.currentUser.settingVal = new bool[] { true, true, true };
+            Debug.Log(UserManager.Instance.currentUser.settingVal);
+            Debug.Log("error : LoadSettingValue");
         }//load 필요없음.
     }
 

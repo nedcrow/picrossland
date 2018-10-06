@@ -121,6 +121,17 @@ public class PuzzleManager : MonoBehaviour {
         return cnt;
     }
 
+    public int GetPuzzleSpawnCount(string puzzleID)
+    {
+        int first = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(puzzleID, 2));
+        int cnt = 0;
+        for (int i = 0; i < puzzles[first - 1].Length; i++)
+        {
+            if (puzzles[first - 1][i].id == puzzleID) { cnt = puzzles[first - 1][i].spawnCount; }
+        }
+        return cnt;
+    }
+
     public void StopPuzzle(bool error) {
         if (DrawEnd == true || error == true) { GetComponent<ClearChecker>().ClosePuzzle(false); viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().EndButtonChecker_Puzzle(); } //controllerA
     }//Used Onclick() in Back_Button

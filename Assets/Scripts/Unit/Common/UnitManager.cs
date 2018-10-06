@@ -88,8 +88,7 @@ public class UnitManager : MonoBehaviour {
     }
 
     public GameObject SearchUnits(Vector3 mPosition, string[] unitIDs)
-    {
-        Debug.Log("Search");
+    {        
         if (unitList.Count > 0)
         {
             List<Target> targetList = new List<Target>();

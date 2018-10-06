@@ -81,8 +81,8 @@ public class LandController : MonoBehaviour {
         
         
         currentWeather = weatherList[weatherNum];
-//        Debug.Log(currentWeather); //0,1,2 (1,3,8);
-        weather.GetComponent<WeatherController>().OnWeather(currentWeather);
+        //        Debug.Log("currentWeather : "+ currentWeather);
+        if (UserManager.Instance.currentUser.gotLandList.Count > 0) { weather.GetComponent<WeatherController>().OnWeather(currentWeather); }        
         #endregion
 
 

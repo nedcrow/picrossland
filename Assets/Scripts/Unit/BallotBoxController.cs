@@ -13,7 +13,7 @@ public class BallotBoxController : MonoBehaviour {
     }
 		
 	void BaseSetting () {
-        Unit.UnitBase.UnitIdle(ballotBox);
+        //Unit.UnitBase.UnitIdle(ballotBox);
         string[] targetIDs = { "0202", "0203" };
         GetComponent<FightController>().Search_U(Vector3.zero, targetIDs, "D", 0.7f);
 	}
