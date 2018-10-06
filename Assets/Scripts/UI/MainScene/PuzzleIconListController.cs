@@ -173,8 +173,9 @@ public class PuzzleIconListController : MonoBehaviour {
             for(int j=0; j< clearCnt; j++)
             {
                 puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<Image>().sprite = icons[10];
-            }//
+            }//Set Clear Stars           
         }
+        Debug.Log("Stars Setting");
         #endregion
     }
 

@@ -49,10 +49,12 @@ public class LockController : MonoBehaviour {
             #endregion
 
             #region LockIcon
-            if (LandManager.instance.currentLand.id > 2 && LandManager.instance.currentLand.price > 0) //lockIcon 조건 - 이전 Land의 clearPuzzle수량 check추가 가능성 있음.
+            int starPrice = System.Convert.ToInt32(Mathf.Pow(LandManager.instance.currentLand.id,2)*2);
+            if (LandManager.instance.currentLand.id > 2 && LandManager.instance.currentLand.price > 0 && starPrice > UserManager.Instance.currentUser.star) //lockIcon 조건 - 이전 Land의 clearPuzzle수량 check추가 가능성 있음.
             {
                 lockIcon.SetActive(true);
                 lockIcon.GetComponent<Animator>().Play("Lock_Idle");
+                lockIcon.transform.GetChild(0).GetComponent<Text>().text = "( " +UserManager.Instance.currentUser.star + " / "+ starPrice + " )";
                 unLockButton.SetActive(true);
             }//currentLand ID가 3일 때 부터 Lock
             else {
