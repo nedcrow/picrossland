@@ -15,7 +15,7 @@ public class RabbitController : MonoBehaviour {
 
     void SetTransform()
     {
-        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
+        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name).Count;
         if (sameCount == 1)
         {
             transform.localPosition = firstPos;

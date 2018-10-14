@@ -1405,6 +1405,7 @@ MonoBehaviour:
     id: 
     name: 
     gem: 0
+    star: 0
     ClearLandCount: 0
     PlayTime: 0
     settingVal: 

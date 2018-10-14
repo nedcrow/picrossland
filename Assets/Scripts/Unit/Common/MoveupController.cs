@@ -23,8 +23,7 @@ public class MoveupController : MonoBehaviour {
     IEnumerator MoveUp_U(Vector3 targetPos = new Vector3(), float waitTime = 0)
     {
         float sec = 0.01f;
-        float time = 0;               
-        
+        float time = 0;
         coroutineCnt += 1;      // Debug.Log("coroutineCnt : "+coroutineCnt);
         Vector3 firstTargetPos = targetPos;
         while (true)
@@ -33,22 +32,24 @@ public class MoveupController : MonoBehaviour {
             if (waitTime == 0) { waitTime = waitTimeForMove; }
             if (time > waitTime)
             {
-
                 string checkedDir = DirectionCheck(targetPos);
-                Debug.Log(checkedDir);
-                switch (checkedDir)
+                //Debug.Log(checkedDir);
+                for (int i = 0; i < transform.GetChildCount(); i++)
                 {
-                    case "u":
-                        Unit.Mover.UnitMove(transform.GetChild(0).gameObject, "Up");
-                        break;
-                    case "d":
-                        Unit.Mover.UnitMove(transform.GetChild(0).gameObject, "Down");
-                        break;
-                    case "r":
-                    case "l":
-                        Unit.Mover.UnitMove(transform.GetChild(0).gameObject);
-                        break;
-                    default: break;
+                    switch (checkedDir)
+                    {
+                        case "u":
+                            Unit.Mover.UnitMove(transform.GetChild(i).gameObject, "Up");
+                            break;
+                        case "d":
+                            Unit.Mover.UnitMove(transform.GetChild(i).gameObject, "Down");
+                            break;
+                        case "r":
+                        case "l":
+                            Unit.Mover.UnitMove(transform.GetChild(i).gameObject);
+                            break;
+                        default: break;
+                    }
                 }
 
 
@@ -77,21 +78,19 @@ public class MoveupController : MonoBehaviour {
 
                     }//10번만 시도. 
                 }
-                else { Debug.Log("tPos : "+ targetPos); }
+                else { }
                 #endregion
 
                 while (true)
                 {
-                    Vector3 _dir = (targetPos - transform.localPosition).normalized;
-                    
-                                        
+                    Vector3 _dir = (targetPos - transform.localPosition).normalized;                                        
                     transform.Translate(_dir * Time.deltaTime * speed);
                     Vector3 tempPos = new Vector3(transform.localPosition.x, transform.localPosition.y, targetPos.z);
                     float dist = Vector3.Distance(targetPos, tempPos);
 //                    Debug.Log(targetPos+ ", "+ tempPos + ", " + dist);
-                    if (dist < 0.2f) {
+                    if (dist < 0.1f) {
                         time = 0;
-                        Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject);
+                        for (int i=0; i< transform.GetChildCount(); i++) { Unit.UnitBase.UnitIdle(transform.GetChild(i).gameObject); }                        
                         Debug.Log("moveEnd");
                         coroutineCnt -= 1;
                         if (firstTargetPos == Vector3.zero)
@@ -108,7 +107,7 @@ public class MoveupController : MonoBehaviour {
             }
             yield return new WaitForSeconds(sec);
         }
-    }
+    }   
 
     /// <summary>
     /// return one of [u(p),d(own),r(ight),l(eft)]

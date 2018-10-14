@@ -26,6 +26,7 @@ public class UnitManager : MonoBehaviour {
                 for (int i = 0; i < count; i++)
                 {
                     target = Instantiate(target);
+                    target.AddComponent<UnitBase>().unitNum = sameCount;
                     target.transform.SetParent(PuzzleManager.instance.currentLandObj.GetComponent<LandController>().units.transform);
                     target.name = puzzleID;
                     unitList.Add(target);
@@ -87,7 +88,7 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
-    public GameObject SearchUnits(Vector3 mPosition, string[] unitIDs)
+    public GameObject SearchUnits(Vector3 mPosition, string[] unitIDs)  //TargetName이 같을 때 구별하는 방법 추가해야함.
     {        
         if (unitList.Count > 0)
         {
@@ -97,11 +98,11 @@ public class UnitManager : MonoBehaviour {
                 for(int j=0; j< unitIDs.Length; j++)
                 {
                     if (unitList[i].name == unitIDs[j])
-                    {
+                    {                        
                         Vector3 mPos = new Vector3(mPosition.x, mPosition.y, 0);
                         Vector3 tPos = new Vector3(unitList[i].transform.position.x, unitList[i].transform.position.y, 0);
                         float dist = Vector3.Distance(mPos, tPos);
-                        Target t = new Target(unitList[i], dist);
+                        Target t = new Target(unitList[i], dist);                        
                         targetList.Add(t);
                     }
                 }
@@ -111,7 +112,7 @@ public class UnitManager : MonoBehaviour {
                 targetList.Sort(delegate (Target a, Target b) {
                     return a.dist.CompareTo(b.dist);
                 }); //First is minimom value in dists.  
-                return targetList[0].gObjet;
+                return targetList[0].gObject;
             }
         }
         else
@@ -132,11 +133,11 @@ public class UnitManager : MonoBehaviour {
 
     class Target
     {
-        public GameObject gObjet;
+        public GameObject gObject;
         public float dist;
-        public Target(GameObject gObject, float dist)
+        public Target(GameObject go, float dist)
         {
-            this.gObjet = gObjet;
+            gObject = go;
             this.dist = dist;
         }
 

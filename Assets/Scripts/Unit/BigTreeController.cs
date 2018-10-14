@@ -17,7 +17,7 @@ public class BigTreeController : MonoBehaviour {
 
     void SetTransform()
     {
-        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
+        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name).Count;
         //Debug.Log(sameCount);
         if (sameCount == 1)
         {

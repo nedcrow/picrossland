@@ -14,7 +14,7 @@ public class HumanController : MonoBehaviour
 
     void SetTransform()
     {
-        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
+        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name).Count;
         //Debug.Log("unitSameCount : "+sameCount);
         if (sameCount == 1)
         {

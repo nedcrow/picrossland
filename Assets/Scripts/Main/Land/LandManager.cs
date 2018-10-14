@@ -149,7 +149,7 @@ public class LandManager : MonoBehaviour {
         } // first가 아니면 currentLand 불러오기. + Land Setting.
         //Destroy(tempLand);
         SelectLandOnly(currentLand.id);
-        Debug.Log("gotLandCount : "+UserManager.Instance.currentUser.gotLandList.Count);
+        //Debug.Log("gotLandCount : "+UserManager.Instance.currentUser.gotLandList.Count);
     }
         
 

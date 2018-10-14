@@ -16,7 +16,7 @@ public class WolfController : MonoBehaviour {
     void SetTransform()
     {
         IdleSelect();
-        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name);
+        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name).Count;
         if (sameCount == 1)
         {
             transform.localPosition = firstPos;

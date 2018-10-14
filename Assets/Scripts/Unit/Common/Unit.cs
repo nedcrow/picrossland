@@ -47,20 +47,20 @@ namespace Unit
             }
         }
 
-        public static int FindSameUnit(string targetName)
+        public static List<GameObject> FindSameUnit(string targetName)
         {
-            int sameCount = 0;
+            List<GameObject> sameList = new List<GameObject>();
             if (LandManager.instance.GetComponent<UnitManager>().unitList.Count > 0)
             {
                 for (int i = 0; i < LandManager.instance.GetComponent<UnitManager>().unitList.Count; i++)
                 {
                     if (targetName == LandManager.instance.GetComponent<UnitManager>().unitList[i].name)
                     {
-                        sameCount++;
+                        sameList.Add(LandManager.instance.GetComponent<UnitManager>().unitList[i]);
                     }
                 }
             }
-            return sameCount;
+            return sameList;
         }
     }
 
@@ -78,7 +78,7 @@ namespace Unit
         {
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Death";
+                string aniName = target.transform.parent.name + "_Death"; Debug.Log(aniName);
                 target.GetComponent<Animator>().Play(aniName);
             }
         }
@@ -87,6 +87,7 @@ namespace Unit
             if (target.GetComponent<Animator>())
             {
                 string aniName = target.transform.parent.name + "_Hit";
+                //Debug.Log(aniName);
                 target.GetComponent<Animator>().Play(aniName);
             }
         }
@@ -96,7 +97,7 @@ namespace Unit
     {
         public static void UnitMove(GameObject target, string Dir = "")
         {
-            Debug.Log(Dir);
+            //Debug.Log(Dir);
             if (target.GetComponent<Animator>())
             {
                 string aniName;
@@ -108,7 +109,7 @@ namespace Unit
                 {
                     aniName = target.transform.parent.name + "_Move_" + Dir;
                 }                
-                Debug.Log(aniName);
+                //Debug.Log(aniName);
                 target.GetComponent<Animator>().Play(aniName);
             }
         }

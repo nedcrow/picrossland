@@ -38,7 +38,7 @@ public class EventManager : MonoBehaviour
     public delegate void NickNameChecked(bool success);
     public event NickNameChecked NickNameCheckedEvent;
     
-    public delegate void Attacked(GameObject target);
+    public delegate void Attacked(GameObject target, int unitNum);
     public event Attacked AttackedEvent;
     //--------------------------------------------------------------------Event
 
@@ -87,10 +87,15 @@ public class EventManager : MonoBehaviour
         catch { }
     }
 
-    public void AttackedFunc(GameObject target=null)
+    public void AttackedFunc(GameObject target, int unitNum)
     {
-        try { AttackedEvent(target); }
+        try { AttackedEvent(target, unitNum); }
         catch { }
     }
 
+    public void AttackedFunc(GameObject target)
+    {
+        try { AttackedEvent(target, 999); }
+        catch { }
+    }
 }

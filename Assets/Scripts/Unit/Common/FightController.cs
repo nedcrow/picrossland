@@ -39,7 +39,8 @@ public class FightController : MonoBehaviour {
         {
             time = time + sec;
 
-            target = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position , targetIDs);            
+            target = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position , targetIDs);
+
             if (target == null)
             {
                 if (GetComponent<MoveupController>()) { GetComponent<MoveupController>().StopAllCoroutines(); }
@@ -61,23 +62,24 @@ public class FightController : MonoBehaviour {
                             break;
                         }
                     }
-                }
+                }//atkMode가 off일 때, 순찰. 
                 else if(mode == "D"){
+                    Debug.Log(target.name);
                     if (FrontTarget(range)) {
                         yield return new WaitForSeconds(0.5f);
                         Afraide_U();
-                        break;
+                        yield return new WaitForSeconds(2f); 
                     }                    
-                }
+                }//겁에 질리는 모드.
             }
             yield return new WaitForSeconds(sec);
         }
     }
     #endregion
 
-    public void HPCheck(GameObject target)
+    public void HPCheck(GameObject target, int unitNum)
     {
-        if(target == gameObject && HP <= 0 && dead == false) {
+        if(target == gameObject && unitNum == GetComponent<UnitBase>().unitNum && HP <= 0 && dead == false) {
             StopAllCoroutines();
             if (transform.GetChild(transform.GetChildCount() - 1)) {
                 if(transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>())
@@ -99,7 +101,7 @@ public class FightController : MonoBehaviour {
     {
         Vector3 tPos = new Vector3(target.transform.localPosition.x, target.transform.localPosition.y, 0);
         Vector3 mPos = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
-        float dist = Vector3.Distance(tPos, mPos);
+        float dist = Vector3.Distance(tPos, mPos);        
         if (dist < range)
         {
             //Debug.Log(dist);
@@ -108,6 +110,7 @@ public class FightController : MonoBehaviour {
         else { return false; }
     }
 
+    #region Afraide 
     void Afraide_U()
     {
         Unit.Fighter.Afraide(transform.GetChild(0).gameObject);
@@ -117,19 +120,21 @@ public class FightController : MonoBehaviour {
     IEnumerator Afraide_U_Co()
     {
         float sec = 0.1f;
-        float time = 0;
+        float time = 0;//target이 근처에 있을 때부터 누적.
         float cutLine = 1;
         while (true)
         {
             time = time + sec;
+//            Debug.Log("Time + FrontTarget : " + time + ", " + FrontTarget(0.7f));
             if (time > cutLine && FrontTarget(0.7f)) {
                 List<string> clearPuzzleList = UserManager.Instance.GetCurrentInGotLandList(LandManager.instance.currentLand.id).clearPuzzleList;
-                for(int i=0; i< clearPuzzleList.Count; i++)
+                for (int i=0; i< clearPuzzleList.Count; i++)
                 {
                     if (clearPuzzleList[i] == weaponID)
                     {
                         yield return new WaitForSeconds(1.2f);
                         Unit.Fighter.Attack(transform.GetChild(0).gameObject);
+                        EventManager.instance.AttackedFunc(target, target.GetComponent<UnitBase>().unitNum);
                         atkMode = true;
                         StartCoroutine(AtkMode_U_Co());
                         break;
@@ -138,8 +143,11 @@ public class FightController : MonoBehaviour {
                 break;
             }
             yield return new WaitForSeconds(sec);
-        }        
-    }//덜덜 떨고있다가, 무기가 있으면 공격모드로 바뀜.
+        }
+    }
+    #endregion 
+    //덜덜 떨고있다가, 무기가 있으면 공격모드로 바뀜.
+
 
     void Attack_U(GameObject moveTarget = null)
     {
@@ -151,7 +159,7 @@ public class FightController : MonoBehaviour {
         {
             target.GetComponent<FightController>().HP = target.GetComponent<FightController>().HP - AtkPoint;
             if(target.GetComponent<FightController>().HP < 0) { target.GetComponent<FightController>().HP = 0; }
-            EventManager.instance.AttackedFunc(target);
+            EventManager.instance.AttackedFunc(target, target.GetComponent<UnitBase>().unitNum);
         }
     }//HP감소 시킬 때만 사용. moveTarget이 있으면 해당 위치로 순간이동.
 
@@ -210,6 +218,7 @@ public class FightController : MonoBehaviour {
         }
     }//공격해도 되는 상대면 공격하고 HP를 0으로 만들면 집으로 귀가.
 
+   
 
 }
 
