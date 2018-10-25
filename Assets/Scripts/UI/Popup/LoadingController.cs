@@ -17,7 +17,7 @@ public class LoadingController : MonoBehaviour {
         GetComponent<Image>().color = new Vector4(0, 0, 0, 1.3f);
         while (true)
         {
-            Debug.Log("loading");
+            //Debug.Log("loading");
             if (MainDataBase.instance.loadAll == true) {               
 
                 yield return new WaitForSeconds(0.5f);

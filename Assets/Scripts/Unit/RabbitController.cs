@@ -39,6 +39,7 @@ public class RabbitController : MonoBehaviour {
                 }
             }//10번만 시도.        
         }
+        GetComponent<MoveupController>().twoDir = true;
     }
 
     

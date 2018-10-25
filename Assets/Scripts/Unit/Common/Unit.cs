@@ -10,7 +10,7 @@ namespace Unit
         {
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Idle";
+                string aniName = target.transform.parent.name + "_Idle"; //Debug.Log("aniName(Idle) : "+aniName);
                 aniName = IdleNum == "" ? aniName : aniName + IdleNum;
                 target.GetComponent<Animator>().Play(aniName);
             }
@@ -64,40 +64,41 @@ namespace Unit
         }
     }
 
-    public class Fighter : MonoBehaviour
+    public class FighterMotion : MonoBehaviour
     {
-        public static void Attack(GameObject target)
+        public static void Attack(GameObject target, string attackKind = "")
         {
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Attack"; Debug.Log(aniName);
+                string aniName = target.transform.parent.name + "_Attack"+attackKind; //Debug.Log(aniName);
                 target.GetComponent<Animator>().Play(aniName);
             }
-        }
-        public static void Hit(GameObject target)
+        }       
+        
+        public static void Hit(GameObject target, string hitKind ="")
         {
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Death"; Debug.Log(aniName);
+                string aniName = target.transform.parent.name + "_Hit"+hitKind; //Debug.Log(aniName);
                 target.GetComponent<Animator>().Play(aniName);
             }
         }
+
         public static void Afraide(GameObject target)
         {
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Hit";
-                //Debug.Log(aniName);
+                string aniName = target.transform.parent.name + "_Afraide";
+                Debug.Log(aniName);
                 target.GetComponent<Animator>().Play(aniName);
             }
         }
     }
 
-    public class Mover : MonoBehaviour
+    public class MoverMotion : MonoBehaviour
     {
         public static void UnitMove(GameObject target, string Dir = "")
         {
-            //Debug.Log(Dir);
             if (target.GetComponent<Animator>())
             {
                 string aniName;
@@ -108,9 +109,9 @@ namespace Unit
                 else
                 {
                     aniName = target.transform.parent.name + "_Move_" + Dir;
-                }                
-                //Debug.Log(aniName);
+                }
                 target.GetComponent<Animator>().Play(aniName);
+                //Debug.Log("aniName(Move) : " + aniName);
             }
         }
     }

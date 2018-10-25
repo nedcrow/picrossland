@@ -170,12 +170,17 @@ public class PuzzleIconListController : MonoBehaviour {
             }//Set Stars Position
             int unitCnt = LandManager.instance.GetComponent<UnitManager>().UnitCountCheck(puzzleID);
             int clearCnt = System.Convert.ToInt32(unitCnt / spawnCnt);
-            for(int j=0; j< clearCnt; j++)
+            if (UserManager.Instance.ClearPuzzleCheck(puzzleID))
+            {
+                puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = icons[10];
+            }//ClearPuzzle 경우 Star 하나는 기본.
+            for (int j=0; j< clearCnt; j++)
             {
                 puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<Image>().sprite = icons[10];
-            }//Set Clear Stars           
+            }//Set Clear Stars         
+            
         }
-        Debug.Log("Stars Setting");
+        //Debug.Log("Stars Setting");
         #endregion
     }
 
@@ -229,7 +234,7 @@ public class PuzzleIconListController : MonoBehaviour {
         #endregion
 
         #region Setting Btn in List
-        int skillCount = skillList.Count; Debug.Log("currentLand ID : "+LandManager.instance.currentLand.id);
+        int skillCount = skillList.Count; //Debug.Log("currentLand ID : "+LandManager.instance.currentLand.id);
         int imgSize=98;
         Debug.Log(skillCount+ ", vs " +puzzleIconList_S_Active.Count);
 

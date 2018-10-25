@@ -42,6 +42,10 @@ public class UnitManager : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// Active Land의 units만 특정 이벤트(MoveUp)를 활성화
+    /// </summary>
+    /// <param name="landNum"></param>
     public void SetUnitsEvents(int landNum)
     {
         for (int i = 0; i < unitList.Count; i++)
@@ -59,15 +63,16 @@ public class UnitManager : MonoBehaviour {
             {
                 if (unitList[i].GetComponent<MoveupController>())
                 {
+                    Debug.Log("PlusEvent_MoveUp : "+unitList[i].name);
                     EventManager.instance.LandActivatedEvent += (unitList[i].GetComponent<MoveupController>().MoveUp);
                 }
             }
         }
-    }
+    }//해당 Land 안에 있는 유닛들만 Event를 활성화한다.
 
     #region SearchUnit
     /// <summary>
-    /// this is search one the Same unitID or Nearest in UnitList.
+    /// this is search GameObject the Same unitID or Nearest in UnitList. or CurrentLand's Symbol.
     /// </summary>
     /// <param name="mPosition"></param>
     /// <param name="unitIDs"></param>
@@ -80,6 +85,15 @@ public class UnitManager : MonoBehaviour {
             {
                 if (unitList[i].name == unitID) { return unitList[i]; }
             }
+            GameObject symbol = PuzzleManager.instance.currentLandObj.GetComponent<LandController>().backgroundObj.gameObject;
+            if (symbol.transform.GetChildCount() > 0)
+            {
+                symbol = symbol.transform.GetChild(0).gameObject;
+                if (unitID == symbol.name)
+                {
+                    return symbol;
+                }
+            }            
             return null;
         }
         else
@@ -88,10 +102,11 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
-    public GameObject SearchUnits(Vector3 mPosition, string[] unitIDs)  //TargetName이 같을 때 구별하는 방법 추가해야함.
-    {        
+    public List<GameObject> SearchUnits(Vector3 mPosition, string[] unitIDs, bool nearby)  //TargetName이 같을 때 구별하는 방법 추가해야함.
+    {
         if (unitList.Count > 0)
         {
+            List<GameObject> targetObjectList = new List<GameObject>();
             List<Target> targetList = new List<Target>();
             for (int i = 0; i < unitList.Count; i++)
             {
@@ -104,15 +119,21 @@ public class UnitManager : MonoBehaviour {
                         float dist = Vector3.Distance(mPos, tPos);
                         Target t = new Target(unitList[i], dist);                        
                         targetList.Add(t);
+                        targetObjectList.Add(unitList[i]);
                     }
                 }
             }
             if(targetList.Count == 0) { return null; }
             else {
-                targetList.Sort(delegate (Target a, Target b) {
-                    return a.dist.CompareTo(b.dist);
-                }); //First is minimom value in dists.  
-                return targetList[0].gObject;
+                if(nearby == false) { return targetObjectList; } else
+                {
+                    targetList.Sort(delegate (Target a, Target b) {
+                        return a.dist.CompareTo(b.dist);
+                    }); //First is minimom value in dists.  
+                    targetObjectList = new List<GameObject>();
+                    targetObjectList.Add(targetList[0].gObject);
+                    return targetObjectList;
+                }                
             }
         }
         else

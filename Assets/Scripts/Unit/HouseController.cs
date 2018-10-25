@@ -15,8 +15,7 @@ public class HouseController : MonoBehaviour {
     void SetTransform()
     {
         IdleSelect();
-        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name).Count;
-        Debug.Log("unitSameCount : " + sameCount);
+        int sameCount = Unit.UnitBase.FindSameUnit(this.gameObject.name).Count;        
         if (sameCount == 1)
         {
             transform.localPosition = firstPos;
@@ -44,7 +43,14 @@ public class HouseController : MonoBehaviour {
 
     public void IdleSelect()
     {
+        if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 0)//Day
+        {
             Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject);
+        }
+        else
+        {
+            Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject, "_B");
+        }
     }
 
 }

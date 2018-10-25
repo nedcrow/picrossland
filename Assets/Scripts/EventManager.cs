@@ -38,7 +38,7 @@ public class EventManager : MonoBehaviour
     public delegate void NickNameChecked(bool success);
     public event NickNameChecked NickNameCheckedEvent;
     
-    public delegate void Attacked(GameObject target, int unitNum);
+    public delegate void Attacked(GameObject attacker, GameObject target, int unitNum);
     public event Attacked AttackedEvent;
     //--------------------------------------------------------------------Event
 
@@ -51,19 +51,26 @@ public class EventManager : MonoBehaviour
             List<GameObject> unitList = LandManager.instance.GetComponent<UnitManager>().unitList;
             foreach (WeatherChanged d in WeatherChangedEvent.GetInvocationList())
             {
-                //Debug.Log("ActivatedFunc :" + d.Target);
                 string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
-                //Debug.Log(LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.name);
+                LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID);
+
                 if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == false) {                    
                     WeatherChangedEvent -= d;
                     TempWeatherEvent += d;
                     Debug.Log("TempWeatherEvent.GetInvocationList().Length : " + TempWeatherEvent.GetInvocationList().Length);
-                }
+                }//active fales인 Event를 임시보관하고
                 
             }
-            WeatherChangedEvent();            
-        }         
-        catch { }
+            Debug.Log("weatherChange1");
+            foreach (WeatherChanged d in WeatherChangedEvent.GetInvocationList())
+            {
+                string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
+                Debug.Log(unitID);
+            }
+                WeatherChangedEvent();      
+            Debug.Log("weatherChange2");
+        }
+        catch { } 
         if (TempWeatherEvent != null)
         {
             foreach (WeatherChanged d in TempWeatherEvent.GetInvocationList())
@@ -72,7 +79,7 @@ public class EventManager : MonoBehaviour
                 TempWeatherEvent -= d;
                 WeatherChangedEvent += d;
             }
-        }
+        }//Event 실행 후 임시보관 중 Event가 있다면 원래 위치로 복구.        
     }
 
     public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0)//---------------메뉴명 확인
@@ -87,15 +94,15 @@ public class EventManager : MonoBehaviour
         catch { }
     }
 
-    public void AttackedFunc(GameObject target, int unitNum)
+    public void AttackedFunc(GameObject attacker, GameObject target, int unitNum)
     {
-        try { AttackedEvent(target, unitNum); }
+        try { AttackedEvent(attacker, target, unitNum); }
         catch { }
     }
 
-    public void AttackedFunc(GameObject target)
+    public void AttackedFunc(GameObject attacker, GameObject target)
     {
-        try { AttackedEvent(target, 999); }
+        try { AttackedEvent(attacker, target, 999); }
         catch { }
     }
 }

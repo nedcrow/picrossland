@@ -122,8 +122,12 @@ public class WeatherController : MonoBehaviour {
 
     IEnumerator Vote()
     {
-        GameObject ballotBox = transform.parent.GetComponent<LandController>().backgroundObj.transform.GetChild(0).GetChild(0).gameObject;
-        ballotBox.GetComponent<Animator>().Play("Radio_Active");
+        GameObject backgroundObj = transform.parent.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject;
+        GameObject currentSymbol = null;
+
+        if (backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol !=null) { currentSymbol = backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol; }
+        else { currentSymbol = backgroundObj.transform.GetChild(0).gameObject; }
+        currentSymbol.GetComponent<Animator>().Play("0201_Idle");
         yield return null;
     }
 

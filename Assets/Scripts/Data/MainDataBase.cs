@@ -257,7 +257,7 @@ public class MainDataBase : MonoBehaviour
                 loadAll = true;
                 break;
             }
-            Debug.Log(string.Format( "loadLand : {0},  loadPuzzle : {1}",loadLand, loadPuzzle));
+            //Debug.Log(string.Format( "loadLand : {0},  loadPuzzle : {1}",loadLand, loadPuzzle));
             yield return new WaitForSeconds(0.2f);
         }
     }

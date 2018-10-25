@@ -186,6 +186,46 @@ namespace HarimTool
             }
             #endregion
 
+            #region ConvertToStrings
+            /// <summary>
+            /// List => String[]. 매개변수 <string> , <GameObject.Name>
+            /// </summary>
+            /// <param name="strList"></param>
+            /// <returns></returns>
+            public static string[] ConvertToStrings(List<string> strList)
+            {
+                if (strList.Count > 0)
+                {
+                    string[] strs = new string[strList.Count];
+                    for (int i = 0; i < strList.Count; i++)
+                    {
+                        strs[i] = strList[i];
+                    }
+                    return strs;
+                }
+                else {
+                    return null;
+                }
+            }
+
+            public static string[] ConvertToStrings(List<GameObject> gameObjectList)
+            {
+                if (gameObjectList.Count > 0)
+                {
+                    string[] strs = new string[gameObjectList.Count];
+                    for (int i = 0; i < gameObjectList.Count; i++)
+                    {
+                        strs[i] = gameObjectList[i].name;
+                    }
+                    return strs;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            #endregion
+
             /// <summary>
             /// Colored By Color Scripter™
             /// </summary>

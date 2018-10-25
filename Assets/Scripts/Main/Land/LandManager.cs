@@ -101,7 +101,7 @@ public class LandManager : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.02f);
             waitTime += 0.02f;
-            if (waitTime > 2.0f) { Debug.Log("Need_DB_Check"); }
+            if (waitTime > 3.0f) { Debug.Log("Need_DB_Check"); }
         }
 
     }
@@ -155,7 +155,7 @@ public class LandManager : MonoBehaviour {
 
     void SelectLandOnly(int landNum)
     {
-        GetComponent<UnitManager>().SetUnitsEvents(landNum);
+        GetComponent<UnitManager>().SetUnitsEvents(landNum); 
 
         for (int i = 0; i < landObjList.Count; i++)
         {
@@ -169,7 +169,7 @@ public class LandManager : MonoBehaviour {
                 landObjList[i].SetActive(true);
                 landObjList[i].GetComponent<LandController>().LandSetting(landNum); //Weather, BG                
                 PuzzleManager.instance.currentLandObj = landObjList[i];
-                CurrentLandSetting(false);
+                CurrentLandSetting(false); //UI, Unit
             }
         }//gotLandObjList는 1부터 순서대로 쌓인다.
         views.againView.transform.GetChild(0).GetComponent<AdminViewController>().SetAdminView();
@@ -224,7 +224,7 @@ public class LandManager : MonoBehaviour {
 
     public void LandChange(string dir)
     {
-        Debug.Log("Try_LandChange");
+        //Debug.Log("Try_LandChange");
         int landNum = currentLand.id;
 
         if (dir == "R" || dir == "r") { landNum++; }

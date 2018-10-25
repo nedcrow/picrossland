@@ -82,7 +82,7 @@ Animator:
   m_GameObject: {fileID: 1588249399327806}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 70f352bb876dcc349a120ee962518273, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3cee4c7722c72ab49822dccf965a29d6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -102,11 +102,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponID: 
+  searchMode: 0
   atkMode: 0
-  AtkDelay: 0.4
-  HP: 0
+  afraideMode: 0
+  oneHit: 0
+  dead: 0
+  AtkDelayA: 0.8
+  AtkDelayB: 1
+  HP: 1
   AtkPoint: 0
   firstPos: {x: 0, y: 0, z: 0}
+  lastTargetPos: {x: 0, y: 0, z: 0}
+  targetList: []
+  hitList: []
 --- !u!114 &114233184754569082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -119,7 +127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  cutLine: 4
+  waitTimeForMove: 4
+  twoDir: 0
+  goal: 0
 --- !u!114 &114884218627394766
 MonoBehaviour:
   m_ObjectHideFlags: 1

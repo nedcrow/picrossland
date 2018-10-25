@@ -5,16 +5,24 @@ using UnityEngine;
 public class FightController : MonoBehaviour {
 
     public string weaponID;
-    public bool atkMode = false; //false면 그냥 돌아다님.
-    public float AtkDelay = 0.4f;
+    public bool searchMode = false;
+    public bool atkMode = false; 
+    public bool afraideMode = false; 
+    public bool oneHit = false; //true면 한 대만 침.
+    public bool dead = false;
+    public float AtkDelayA = 0.4f;
+    public float AtkDelayB = 0.4f;
     public float HP = 0;
     public float AtkPoint = 0;
     public Vector3 firstPos;
+    public Vector3 lastTargetPos; // 비교할일 없으면 삭제예정.
+    public List<GameObject> targetList;
+    public List<GameObject> hitList;
     GameObject target;
-    bool dead=false;
+    
 
     private void Start()
-    {
+    {        
         EventManager.instance.AttackedEvent += (HPCheck);
     }
 
@@ -26,7 +34,9 @@ public class FightController : MonoBehaviour {
     /// <param name="addPos"></param>
     /// <param name="targetID"></param>
     /// <param name="mode"> M : navigation , D : who is afraid. </param>
-    public void Search_U(Vector3 addPos, string[] targetIDs, string mode = "", float range = 0.0f) {
+    public void Search_U(Vector3 addPos, string[] targetIDs, string mode = "", float range = 0.0f)
+    {
+        hitList = new List<GameObject>();
         StopAllCoroutines();
         StartCoroutine(Search_U_Co(addPos, targetIDs, mode, range));
     }
@@ -35,52 +45,54 @@ public class FightController : MonoBehaviour {
     {
         float sec = 0.01f;
         float time = 0;
+        targetList = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, targetIDs, false);
+        searchMode = true;
         while (true)
         {
             time = time + sec;
-
-            target = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position , targetIDs);
-
-            if (target == null)
+            if (targetList == null || atkMode == true || afraideMode == true)
             {
-                if (GetComponent<MoveupController>()) { GetComponent<MoveupController>().StopAllCoroutines(); }
+                //조건별 타겟 리셋
             }
             else
             {
-                if(mode == "M")
-                {                    
-                    if(atkMode == false) {
-                        Vector3 tPos = (target.transform.localPosition) + addPos;
-                        GetComponent<MoveupController>().MoveUp(tPos,1);
-                        atkMode = true;
-                    }
-                    else
+                SelectTarget(LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, targetIDs, true));//가장 가까운 타겟.
+                if (mode == "M" && target != null)
+                {
+                    if (FrontTarget(range) == true && searchMode == false)
                     {
-                        if (FrontTarget(range)) {
-                            Debug.Log("stopMove");
-                            StartCoroutine(EyeShoping_A(range));
-                            break;
-                        }
+                        StartCoroutine(EyeShoping_A(range));
+                        break;
                     }
-                }//atkMode가 off일 때, 순찰. 
-                else if(mode == "D"){
-                    Debug.Log(target.name);
-                    if (FrontTarget(range)) {
+                    else if (searchMode == true)
+                    {
+                        Vector3 tPos = (target.transform.localPosition) + addPos;
+                        GetComponent<MoveupController>().MoveUp(tPos, 1);
+                        searchMode = false;
+                    }
+                    else if (GetComponent<MoveupController>().goal == true) { searchMode = true; }
+                }//이동식 1회용 탐색모드. 갔는데 없으면 다시 탐색.
+                else if (mode == "D" )
+                {
+                    if (FrontTarget(range) == true && afraideMode == false)
+                    {
                         yield return new WaitForSeconds(0.5f);
                         Afraide_U();
-                        yield return new WaitForSeconds(2f); 
-                    }                    
-                }//겁에 질리는 모드.
+                        yield return new WaitForSeconds(AtkDelayB);
+                    }
+                }//재자리 지속 탐색모드.
             }
             yield return new WaitForSeconds(sec);
         }
     }
     #endregion
 
-    public void HPCheck(GameObject target, int unitNum)
+    public void HPCheck(GameObject attacker, GameObject target, int unitNum)
     {
-        if(target == gameObject && unitNum == GetComponent<UnitBase>().unitNum && HP <= 0 && dead == false) {
-            StopAllCoroutines();
+        Debug.Log(name+" HPCheck, Attacker : "+attacker.name);
+        Debug.Log("Target : " + target.name + " : " + target.GetComponent<FightController>().HP);
+        if (target == gameObject && unitNum == GetComponent<UnitBase>().unitNum && HP <= 0 && dead == false) {
+            //StopAllCoroutines();
             if (transform.GetChild(transform.GetChildCount() - 1)) {
                 if(transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>())
                 {
@@ -89,6 +101,9 @@ public class FightController : MonoBehaviour {
             }
             Unit.UnitBase.Unit_Death(transform.GetChild(0).gameObject);
             dead = true;
+            atkMode = false;            
+            afraideMode = false;
+            StopAllCoroutines();
         }
     }
 
@@ -99,84 +114,136 @@ public class FightController : MonoBehaviour {
     /// <returns></returns>
     bool FrontTarget(float range)
     {
-        Vector3 tPos = new Vector3(target.transform.localPosition.x, target.transform.localPosition.y, 0);
-        Vector3 mPos = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
-        float dist = Vector3.Distance(tPos, mPos);        
-        if (dist < range)
+        bool success = false;
+        for(int i=0; i< targetList.Count; i++)
         {
-            //Debug.Log(dist);
-            return true;
+            Vector3 mPos = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
+            Vector3 tPos = new Vector3(targetList[i].transform.localPosition.x, targetList[i].transform.localPosition.y, 0);
+            lastTargetPos = tPos;
+            float dist = Vector3.Distance(tPos, mPos);
+            
+            if (dist < range && target != null)
+            {
+                if(targetList[i].transform.position == target.transform.position) { success = true; }                
+            }            
         }
-        else { return false; }
+        return success;
+    }//Target이 Range 안에 들어오면 True.
+
+    void SelectTarget(List<GameObject> tList)
+    {
+        target = null;
+        List<GameObject> tempList = new List<GameObject>();
+
+        #region minusHits
+        bool success = true;        
+        for (int i = 0; i < tList.Count; i++)
+        {
+            for (int j = 0; j < hitList.Count; j++)
+            {
+                if (tList[i] == hitList[j]) { success = false; }
+            }
+            if (success == true) { tempList.Add(tList[i]); }
+        }
+        #endregion
+
+        if (tempList.Count > 0) { target = tempList[0]; }
+        if (target.GetComponent<FightController>()) { if (target.GetComponent<FightController>().dead == true) { target = null; } }
     }
 
     #region Afraide 
     void Afraide_U()
     {
-        Unit.Fighter.Afraide(transform.GetChild(0).gameObject);
-        StartCoroutine(Afraide_U_Co());
+        if (transform.GetChildCount()>0) { Unit.FighterMotion.Afraide(transform.GetChild(0).gameObject); }   //childs 가 1 이상이면, AfraideAni    
+        if (afraideMode == false) { StartCoroutine(Afraide_U_Co(AtkDelayA)); }
     }
 
-    IEnumerator Afraide_U_Co()
+    IEnumerator Afraide_U_Co(float cutLine = 1)
     {
+        afraideMode = true;
         float sec = 0.1f;
         float time = 0;//target이 근처에 있을 때부터 누적.
-        float cutLine = 1;
         while (true)
         {
             time = time + sec;
 //            Debug.Log("Time + FrontTarget : " + time + ", " + FrontTarget(0.7f));
-            if (time > cutLine && FrontTarget(0.7f)) {
+            if (time > cutLine && FrontTarget(0.7f)==true) {
                 List<string> clearPuzzleList = UserManager.Instance.GetCurrentInGotLandList(LandManager.instance.currentLand.id).clearPuzzleList;
                 for (int i=0; i< clearPuzzleList.Count; i++)
                 {
                     if (clearPuzzleList[i] == weaponID)
-                    {
-                        yield return new WaitForSeconds(1.2f);
-                        Unit.Fighter.Attack(transform.GetChild(0).gameObject);
-                        EventManager.instance.AttackedFunc(target, target.GetComponent<UnitBase>().unitNum);
-                        atkMode = true;
-                        StartCoroutine(AtkMode_U_Co());
+                    {      
+                        atkMode = true;                        
+                        StartCoroutine(AtkMode_U_Co());                        
                         break;
                     }
                 }
-                break;
+                //afraideMode = false;
+                //break;
             }
             yield return new WaitForSeconds(sec);
         }
     }
     #endregion 
-    //덜덜 떨고있다가, 무기가 있으면 공격모드로 바뀜.
+    //일정기간 동안 적이 계속 근처에 있으면, 무기가 있으면, 공격모드로 바뀜.
 
-
-    void Attack_U(GameObject moveTarget = null)
+    void Attack_U(bool hpAtk = false, GameObject potalTarget = null)
     {
-        if (moveTarget != null)
+        #region animation
+        if (potalTarget != null)
         {
-            transform.position = target.transform.position;
+            transform.position = potalTarget.transform.position;
         }
-        if (target.GetComponent<FightController>())
+        else
+        {
+            if (transform.GetChildCount() > 0) { Unit.FighterMotion.Attack(transform.GetChild(0).gameObject); }//childs 가 1 이상이면, AttackAni
+        }
+        #endregion
+
+        #region HP
+        if (hpAtk == true && target.GetComponent<FightController>())
         {
             target.GetComponent<FightController>().HP = target.GetComponent<FightController>().HP - AtkPoint;
-            if(target.GetComponent<FightController>().HP < 0) { target.GetComponent<FightController>().HP = 0; }
-            EventManager.instance.AttackedFunc(target, target.GetComponent<UnitBase>().unitNum);
+            if (target.GetComponent<FightController>().HP < 0) { target.GetComponent<FightController>().HP = 0; }  
         }
-    }//HP감소 시킬 때만 사용. moveTarget이 있으면 해당 위치로 순간이동.
+        #endregion
+
+        EventManager.instance.AttackedFunc(gameObject, target, target.GetComponent<UnitBase>().unitNum);
+    }//hpAtk이 트루면 HP감소( 기본 false). potalTarget이 있으면 해당 위치로 순간이동.
 
     IEnumerator AtkMode_U_Co()
     {
         float sec = 0.02f;     
         while (true)
         {
-            if (!FrontTarget(1f))
+            if (FrontTarget(0.7f)==true && atkMode==true)
             {
-                StopAllCoroutines();
+                if (oneHit == true)
+                {
+                    if (hitList.Count == targetList.Count) { break; } // target 다 때렸으면 끝.
+                    else
+                    {
+                        if (hitList.Find(x => x == target) == null) { hitList.Add(target); } // hitList 안에 target이 없으면 추가.
+                    }
+                    atkMode = false;
+                    Attack_U();
+                    break;
+                }
+                else
+                {
+                    Attack_U();
+                    yield return new WaitForSeconds(AtkDelayB);
+                }//oneHit면 한 번만 때리고 공격 끝.  
+            }
+            else
+            {
                 Afraide_U();
                 atkMode = false;
+                break;
             }
             yield return new WaitForSeconds(sec);
         }
-    }//target이 벗어날때 까지 주시.
+    }//target이 벗어날때 까지 주시. 일정기간 안에 안 나가면 공격.
 
     IEnumerator EyeShoping_A(float range)
     {
@@ -184,30 +251,38 @@ public class FightController : MonoBehaviour {
         float time = 0;
         while (true)
         {
-            if (FrontTarget(range))//타겟이 눈앞이고,
+            Debug.Log(target.name + " : " + target.GetComponent<FightController>().atkMode);
+            if (FrontTarget(range)==true)//타겟이 눈앞이고,
             {
                 if (target.GetComponent<FightController>())
                 {
+                    Debug.Log(target.name + " : " + target.GetComponent<FightController>().atkMode);
                     if (target.GetComponent<FightController>().atkMode == true) //타겟이 공격모드면
                     {
+                        Debug.Log(name+" : 깜짝! :");
                         yield return new WaitForSeconds(2f); //잠시 상황보다가
-                        Unit.Fighter.Afraide(transform.GetChild(0).gameObject); //놀라고
+                        Unit.FighterMotion.Afraide(transform.GetChild(0).gameObject); //놀라고
                         yield return new WaitForSeconds(0.35f);
-                        GetComponent<MoveupController>().MoveUp(firstPos,0.1f); //튄다.
+                        atkMode = false;
+                        GetComponent<MoveupController>().MoveUp(firstPos,0.1f); //튄다.     
+                        atkMode = false;
                         break;
                     }
                     else
                     {
-                        if (time > 2 && target.GetComponent<FightController>().HP > 0) {
-                            Unit.Fighter.Attack(transform.GetChild(0).gameObject);
-                            yield return new WaitForSeconds(AtkDelay);
-                            Attack_U(target);
-                            yield return new WaitForSeconds(AtkDelay);                            
+                        Debug.Log("아니네"+time);
+                        if (time > 30 && target.GetComponent<FightController>().HP > 0) {
+                            Unit.FighterMotion.Attack(transform.GetChild(0).gameObject);
+                            yield return new WaitForSeconds(AtkDelayB);
+                            Attack_U(true, target);
+                            yield return new WaitForSeconds(AtkDelayB);                            
                         }
                         else if(target.GetComponent<FightController>().HP <= 0)
                         {
                             yield return new WaitForSeconds(1.2f);
-                            GetComponent<MoveupController>().MoveUp(firstPos, 0.1f); //귀가.
+                            atkMode = false;
+                            GetComponent<MoveupController>().MoveUp(firstPos, 0.1f); //귀가.    
+                            Debug.Log(firstPos);
                             break;
                         }
                     }
@@ -216,7 +291,7 @@ public class FightController : MonoBehaviour {
             time = time + sec;
             yield return new WaitForSeconds(sec);
         }
-    }//공격해도 되는 상대면 공격하고 HP를 0으로 만들면 집으로 귀가.
+    }//공격해도 되는 상대면 공격하고 HP를 0으로 만들면 집으로 귀가(Afraid 켬).
 
    
 
