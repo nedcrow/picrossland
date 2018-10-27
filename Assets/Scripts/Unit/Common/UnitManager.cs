@@ -30,7 +30,7 @@ public class UnitManager : MonoBehaviour {
                     target.transform.SetParent(PuzzleManager.instance.currentLandObj.GetComponent<LandController>().units.transform);
                     target.name = puzzleID;
                     unitList.Add(target);
-                    if (afterClear)
+                    if (afterClear == true)
                     {
                         UserManager.Instance.GetCurrentInGotLandList(LandManager.instance.currentLand.id).unitList.Add(puzzleID);//저장정보 unitList in gotLandList
                     }
@@ -50,13 +50,13 @@ public class UnitManager : MonoBehaviour {
     {
         for (int i = 0; i < unitList.Count; i++)
         {
-            int unitNum = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(unitList[i].name, 2));
-            //Debug.Log("landNum : " + landNum + ", " + "" + unitNum);
+            int unitNum = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(unitList[i].name, 2));            
             if (unitNum != landNum)
             {
                 if (unitList[i].GetComponent<MoveupController>())
                 {
                     EventManager.instance.LandActivatedEvent -= (unitList[i].GetComponent<MoveupController>().MoveUp);
+                    Debug.Log("MinusEvent_MoveUp" + unitList[i].name);
                 }
             }
             else

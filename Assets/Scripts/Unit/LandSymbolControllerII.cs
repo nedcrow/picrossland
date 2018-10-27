@@ -19,7 +19,7 @@ public class LandSymbolControllerII : MonoBehaviour {
         BaseSetting();
 
         EventManager.instance.WeatherChangedEvent += (BaseSetting);
-        EventManager.instance.AttackedEvent += (Hit);
+//        EventManager.instance.AttackedEvent += (Hit);
     }
 		
 	void BaseSetting ()
@@ -38,11 +38,11 @@ public class LandSymbolControllerII : MonoBehaviour {
         #endregion
     }
 
-    void Hit(GameObject attacker, GameObject target, int unitNum)
+    public void Hit(GameObject attacker, GameObject target)
     {
         int currentWeather = UserManager.Instance.GetWeather(LandManager.instance.currentLand.id);
         //Debug.Log(target.name+", "+unitNum);
-        if (target.name == gameObject.name && unitNum == 999)
+        if (target.name == gameObject.name)
         {
             EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f);
             Unit.FighterMotion.Hit(LandSymbols[currentWeather]);

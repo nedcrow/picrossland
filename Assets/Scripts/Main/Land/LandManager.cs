@@ -116,7 +116,7 @@ public class LandManager : MonoBehaviour {
             landObjList[i].gameObject.SetActive(true);
             landObjList[i].gameObject.name = (i + 1).ToString();
             landObjList[i].transform.SetParent(transform);
-            landObjList[i].GetComponent<LandController>().LandSetting(i+1); // LandSetting( Land ID );
+            landObjList[i].GetComponent<LandController>().LandSettingBG(i+1); // LandSetting( Land ID );
         } // LandObjBase Setting
 
         if (UserManager.Instance.currentUser.PlayTime == 0)
@@ -167,7 +167,7 @@ public class LandManager : MonoBehaviour {
             else
             {
                 landObjList[i].SetActive(true);
-                landObjList[i].GetComponent<LandController>().LandSetting(landNum); //Weather, BG                
+                landObjList[i].GetComponent<LandController>().LandSettingBG(landNum); //Weather, BG                
                 PuzzleManager.instance.currentLandObj = landObjList[i];
                 CurrentLandSetting(false); //UI, Unit
             }
@@ -181,23 +181,34 @@ public class LandManager : MonoBehaviour {
     {
          Debug.Log("afterClear : "+afterClear + " / CurrentLand ID : "+currentLand.id);
 
-
+        #region Ui
         PuzzleManager.instance.viewCon.puzzleView.SetActive(false);
         PuzzleManager.instance.viewCon.againView.SetActive(true); //Canvas
         PuzzleManager.instance.viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().SetPuzzleIconList(currentLand.id);//PuzzleIcon
         PuzzleManager.instance.viewCon.againView.transform.GetChild(1).GetComponent<LandViewController>().SetLandName(currentLand.id);
 
         Camera.main.transform.position = Camera.main.GetComponent<CameraController>().CameraPos_Land();//Camera
-        Camera.main.orthographicSize = 4f;
-
-        //DebugViewer.Instance.debugTextObjectList[3].GetComponent<Text>().text = "camera Pos = "+ Camera.main.transform.position+", size = "+ Camera.main.orthographicSize;
-        //UserManager.Instance.currentUser.name = "nonFirst";//local ID 만들어서 넣어야함.    
+        Camera.main.orthographicSize = 4f;  
+        #endregion
 
         #region Units
-        
+
         if (afterClear == false) {
             List<string> unitList = UserManager.Instance.GetCurrentInGotLandList(currentLand.id).unitList;
-            if (unitList.Count > GetComponent<UnitManager>().unitList.Count)
+            List<GameObject> unitObjectList = GetComponent<UnitManager>().unitList;
+            List<GameObject> CurrentLandUnitList = new List<GameObject>();
+            if (unitObjectList.Count > 0)
+            {
+                foreach (GameObject unitObj in unitObjectList) {
+                    int unitObjLand = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(unitObj.name, 2));
+                    if (unitObjLand == currentLand.id)
+                    {
+                        CurrentLandUnitList.Add(unitObj);
+                    }
+                }
+            }
+
+            if (unitList.Count > CurrentLandUnitList.Count)
             {
                 for (int i = 0; i < unitList.Count; i++)
                 {
@@ -208,16 +219,11 @@ public class LandManager : MonoBehaviour {
                     }// CurrentLand Unit만 생성.                    
                 }
             }
-            if(firstGame == true) { PuzzleManager.instance.viewCon.againView.SetActive(false); firstGame = false; }            
-        }
+            if(firstGame == true) { PuzzleManager.instance.viewCon.againView.SetActive(false); firstGame = false; }
+        }//afterClear가 true면 Unit추가 생성은 ClearCheck에서 실행.
         EventManager.instance.LandActivatedFunc();
         EventManager.instance.WeatherChangedFunc();//날씨 바뀜 선언. unit motion 초기화.
 
-        //GameObject units = PuzzleManager.instance.currentLandObj.GetComponent<LandController>().units;
-        //for (int i = 0; i < units.transform.childCount; i++)
-        //{
-        //    if (units.transform.GetChild(i).GetComponent<MoveupController>()) { units.transform.GetChild(i).GetComponent<MoveupController>().MoveUp(); }
-        //}//활성화 유닛들에게 움직이라고 강요.
         #endregion
     }//Canvas + Camera + PuzzleIcon + unit
 

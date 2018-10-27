@@ -40,18 +40,27 @@ public class FightController : MonoBehaviour {
         StopAllCoroutines();
         StartCoroutine(Search_U_Co(addPos, targetIDs, mode, range));
     }
-        
+        /// <summary>
+        /// 타겟'들'중, 가장 가까운 대상을 타겟으로 지정하고, 타입에 맞춰 찾는다.  
+        /// </summary>
+        /// <param name="addPos"></param>
+        /// <param name="targetIDs"></param>
+        /// <param name="mode">M : 이동 탐색, D : 재자리 탐색</param>
+        /// <param name="range"></param>
+        /// <returns></returns>
     IEnumerator Search_U_Co(Vector3 addPos, string[] targetIDs, string mode = "", float range = 0.0f)
     {
         float sec = 0.01f;
-        float time = 0;
+        float time = 0; //searching 확인 용.
         targetList = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, targetIDs, false);
         searchMode = true;
         while (true)
         {
             time = time + sec;
+            //Debug.Log(targetList.Count + ", " + atkMode + ", " + afraideMode);
             if (targetList == null || atkMode == true || afraideMode == true)
             {
+                if(targetList == null) { break; } // Target이 Land에 없으면 search 종료.
                 //조건별 타겟 리셋
             }
             else
@@ -74,6 +83,7 @@ public class FightController : MonoBehaviour {
                 }//이동식 1회용 탐색모드. 갔는데 없으면 다시 탐색.
                 else if (mode == "D" )
                 {
+                    if (target.GetComponent<UnitBase>()) { Debug.Log(target.name + " : " +target.GetComponent<UnitBase>().unitNum); }
                     if (FrontTarget(range) == true && afraideMode == false)
                     {
                         yield return new WaitForSeconds(0.5f);
@@ -82,30 +92,11 @@ public class FightController : MonoBehaviour {
                     }
                 }//재자리 지속 탐색모드.
             }
+            Debug.Log("Searching : " + time);
             yield return new WaitForSeconds(sec);
         }
     }
-    #endregion
-
-    public void HPCheck(GameObject attacker, GameObject target, int unitNum)
-    {
-        Debug.Log(name+" HPCheck, Attacker : "+attacker.name);
-        Debug.Log("Target : " + target.name + " : " + target.GetComponent<FightController>().HP);
-        if (target == gameObject && unitNum == GetComponent<UnitBase>().unitNum && HP <= 0 && dead == false) {
-            //StopAllCoroutines();
-            if (transform.GetChild(transform.GetChildCount() - 1)) {
-                if(transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>())
-                {
-                    transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>().NineTeenMotion(1.5f);
-                }                
-            }
-            Unit.UnitBase.Unit_Death(transform.GetChild(0).gameObject);
-            dead = true;
-            atkMode = false;            
-            afraideMode = false;
-            StopAllCoroutines();
-        }
-    }
+    #endregion   
 
     /// <summary>
     /// neer by target.
@@ -136,19 +127,52 @@ public class FightController : MonoBehaviour {
         List<GameObject> tempList = new List<GameObject>();
 
         #region minusHits
-        bool success = true;        
+        bool differentSuccess = true;        
         for (int i = 0; i < tList.Count; i++)
         {
             for (int j = 0; j < hitList.Count; j++)
-            {
-                if (tList[i] == hitList[j]) { success = false; }
+            {                
+                if (tList[i] == hitList[j]) {
+                    differentSuccess = false;
+                    if (tList[i].GetComponent<UnitBase>()) {
+                        Debug.Log(tList[i].GetComponent<UnitBase>().unitNum + " vs " + hitList[j].GetComponent<UnitBase>().unitNum);
+                        if (tList[i].GetComponent<UnitBase>().unitNum != hitList[j].GetComponent<UnitBase>().unitNum) { differentSuccess = true; Debug.Log("Add TempTargetList"); }
+                    }
+                }
             }
-            if (success == true) { tempList.Add(tList[i]); }
-        }
+            if (differentSuccess == true) { tempList.Add(tList[i]); }
+        }//hitList GameObject 제외.
         #endregion
 
-        if (tempList.Count > 0) { target = tempList[0]; }
-        if (target.GetComponent<FightController>()) { if (target.GetComponent<FightController>().dead == true) { target = null; } }
+        if (tempList.Count > 0) { target = tempList[0]; Debug.Log("Target : "+target.name + ", "+transform.position); }
+        if(target != null)
+        {
+            if (target.GetComponent<FightController>()) {
+                if (target.GetComponent<FightController>().dead == true) { target = null; Debug.Log("Target Null"); }
+            }
+        }
+        
+    }
+
+    public void HPCheck(GameObject attacker, GameObject target, int unitNum)
+    {
+        Debug.Log(name + " HPCheck, Attacker : " + attacker.name);
+        if (target == gameObject && unitNum == GetComponent<UnitBase>().unitNum && HP <= 0 && dead == false)
+        {
+            if (transform.GetChild(transform.GetChildCount() - 1))
+            {
+                if (transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>())
+                {
+                    transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>().NineTeenMotion(1.5f);
+                }
+            }// childs에 19금 obj가 붙어 있으면, 19금 obj 모션 실행.
+            Unit.UnitBase.Unit_Death(transform.GetChild(0).gameObject);
+            if (hitList.Find(x => x == target) != null) { hitList.Remove(target); } // hitList에서 Target이 있으면 리무브.
+            dead = true;
+            atkMode = false;
+            afraideMode = false;
+            StopAllCoroutines();
+        }//Target이 일치하고, HP가 0이하, dead가 false일 때
     }
 
     #region Afraide 
@@ -173,7 +197,8 @@ public class FightController : MonoBehaviour {
                 {
                     if (clearPuzzleList[i] == weaponID)
                     {      
-                        atkMode = true;                        
+                        atkMode = true;
+                        afraideMode = false;
                         StartCoroutine(AtkMode_U_Co());                        
                         break;
                     }
@@ -223,21 +248,34 @@ public class FightController : MonoBehaviour {
                     if (hitList.Count == targetList.Count) { break; } // target 다 때렸으면 끝.
                     else
                     {
-                        if (hitList.Find(x => x == target) == null) { hitList.Add(target); } // hitList 안에 target이 없으면 추가.
+                        bool success = false;
+                        
+                        if (hitList.Find(x => x == target) == null) {
+                            success = true;
+                        }
+                        else if (hitList.Find(x => x == target).GetComponent<UnitBase>() != null)
+                        {
+                            int unitNum = hitList.Find(x => x == target).GetComponent<UnitBase>().unitNum; //Debug.Log(hitList.Find(x => x == target)+" : "+unitNum);
+                            if (unitNum != target.GetComponent<UnitBase>().unitNum) { success = true; }
+                        }
+                        
+                        if(success == true) {
+                            hitList.Add(target);
+                            Attack_U();
+                            atkMode = false; Debug.Log("LastAttack");
+                            break;
+                        }//hitList에 target이 없으면 추가.
                     }
-                    atkMode = false;
-                    Attack_U();
-                    break;
                 }
                 else
                 {
-                    Attack_U();
+                    Attack_U(); Debug.Log("ContinueAttack");
                     yield return new WaitForSeconds(AtkDelayB);
                 }//oneHit면 한 번만 때리고 공격 끝.  
             }
             else
             {
-                Afraide_U();
+                //Afraide_U();
                 atkMode = false;
                 break;
             }
@@ -259,7 +297,6 @@ public class FightController : MonoBehaviour {
                     Debug.Log(target.name + " : " + target.GetComponent<FightController>().atkMode);
                     if (target.GetComponent<FightController>().atkMode == true) //타겟이 공격모드면
                     {
-                        Debug.Log(name+" : 깜짝! :");
                         yield return new WaitForSeconds(2f); //잠시 상황보다가
                         Unit.FighterMotion.Afraide(transform.GetChild(0).gameObject); //놀라고
                         yield return new WaitForSeconds(0.35f);
@@ -270,8 +307,7 @@ public class FightController : MonoBehaviour {
                     }
                     else
                     {
-                        Debug.Log("아니네"+time);
-                        if (time > 30 && target.GetComponent<FightController>().HP > 0) {
+                        if (time > 3 && target.GetComponent<FightController>().HP > 0) {
                             Unit.FighterMotion.Attack(transform.GetChild(0).gameObject);
                             yield return new WaitForSeconds(AtkDelayB);
                             Attack_U(true, target);

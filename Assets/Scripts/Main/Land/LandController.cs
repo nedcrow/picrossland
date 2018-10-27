@@ -19,7 +19,7 @@ public class LandController : MonoBehaviour {
         backgroundObj = transform.GetChild(4).gameObject;
     }
 
-    public void LandSetting(int landID)
+    public void LandSettingBG(int landID)
     {
         name = "land" + landID;
 

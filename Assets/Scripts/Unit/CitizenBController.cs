@@ -47,21 +47,25 @@ public class CitizenBController : MonoBehaviour {
             int currentWeather = UserManager.Instance.GetWeather(LandManager.instance.currentLand.id);
             if (attacker.name == "0201" && currentWeather == 0)
             {
+                #region Atk
                 for (int i = 0; i < transform.GetChildCount(); i++)
                 {
                     Unit.FighterMotion.Attack(transform.GetChild(i).gameObject);
                 }
+                attacker.GetComponent<LandSymbolControllerII>().Hit(gameObject, attacker);
+                #endregion
 
-                EventManager.instance.AttackedFunc(gameObject, PuzzleManager.instance.currentLandObj.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject);
-
+                #region Movement
                 if (UserManager.Instance.ClearPuzzleCheck("0204"))
                 {
-                    GetComponent<MoveupController>().MoveUp(fourthPos[GetComponent<UnitBase>().unitNum], 0.8f);
+                    GetComponent<MoveupController>().MoveUp(fourthPos[GetComponent<UnitBase>().unitNum], 0.4f);
                 }//0204퍼즐을 클리어 했으면,4번 위치로 이동.
                 else
                 {
-                    GetComponent<MoveupController>().MoveUp(thirdPos[GetComponent<UnitBase>().unitNum], 0.8f);
+                    GetComponent<MoveupController>().MoveUp(thirdPos[GetComponent<UnitBase>().unitNum], 0.4f);
                 }//클리어 안 했으면 3번 위치로 이동.
+                #endregion
+
             }//unit을 때린 Gameobject가 LandObj2이면, 투표 후 3,4번 목적지 중 하나로 이동.
             else
             {
@@ -73,4 +77,11 @@ public class CitizenBController : MonoBehaviour {
             }//unit을 때린 Gameobject가 LandObj2가 아니면, 사진찍고 바로 종점으로 이동.
         }//Unit ID와 Num으로 피격대상이 본인인지 확인.
     }
+
+    IEnumerator Hit_Co(GameObject attacker, GameObject target, int unitNum)
+    {
+        yield return new WaitForSeconds(0.01f);
+        EventManager.instance.AttackedFunc(gameObject, PuzzleManager.instance.currentLandObj.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject);
+        yield return null;
+    }//Event 중첩 방지용 코루틴.
 }

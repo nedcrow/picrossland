@@ -97,7 +97,7 @@ public class MoveupController : MonoBehaviour {
                     if (dist < 0.1f) {
                         time = 0;
                         for (int i=0; i< transform.GetChildCount(); i++) { Unit.UnitBase.UnitIdle(transform.GetChild(i).gameObject); }                        
-                        Debug.Log("moveEnd");                       
+                        Debug.Log("moveEnd : "+name + ", "+GetComponent<UnitBase>().unitNum);                       
                         goal = true;                        
                         break;                        
                     }

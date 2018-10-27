@@ -41,18 +41,19 @@ public class CitizenAController : MonoBehaviour {
         GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTime); 
     }
 
-    void Hit(GameObject attacker, GameObject target, int unitNum) {        
+    public void Hit(GameObject attacker, GameObject target, int unitNum) {    
         if (target.name == gameObject.name && GetComponent<UnitBase>().unitNum == unitNum)
         {
             int currentWeather = UserManager.Instance.GetWeather(LandManager.instance.currentLand.id);
             if (attacker.name == "0201" && currentWeather == 0)
             {
+                Debug.Log("I'am Hit : "+name+", num : " + unitNum);
                 #region Atk
                 for (int i = 0; i < transform.GetChildCount(); i++)
                 {
                     Unit.FighterMotion.Attack(transform.GetChild(i).gameObject);
                 }
-                EventManager.instance.AttackedFunc(gameObject, PuzzleManager.instance.currentLandObj.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject);
+                attacker.GetComponent<LandSymbolControllerII>().Hit(gameObject,attacker);
                 #endregion
 
                 #region Movement
@@ -77,4 +78,11 @@ public class CitizenAController : MonoBehaviour {
             }//unit을 때린 Gameobject가 LandObj2가 아니면, 사진찍고 바로 종점으로 이동.
         }//Unit ID와 Num으로 피격대상이 본인인지 확인.
     }
+
+    IEnumerator Hit_Co(GameObject attacker, GameObject target, int unitNum)
+    {
+        yield return new WaitForSeconds(0.01f);
+        EventManager.instance.AttackedFunc(gameObject, PuzzleManager.instance.currentLandObj.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject);
+        yield return null;
+    }//Event 중첩 방지용 코루틴.
 }
