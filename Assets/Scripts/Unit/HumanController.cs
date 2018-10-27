@@ -42,6 +42,7 @@ public class HumanController : MonoBehaviour
         //  --------------  ETC  --------------  //
         IdleSelect();
         GetComponent<FightController>().HP = 1;
+        GetComponent<FightController>().dead = false;
         GetComponent<FightController>().oneHit = true;
         GetComponent<FightController>().weaponID = "0105";
         string[] targetIDs = { "0110" };

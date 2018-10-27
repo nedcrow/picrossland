@@ -53,6 +53,7 @@ public class UnitManager : MonoBehaviour {
             int unitNum = System.Convert.ToInt32(HarimTool.EditValue.EditText.Left(unitList[i].name, 2));            
             if (unitNum != landNum)
             {
+                Debug.Log(unitList[i].name + " activeSelf : " + unitList[i].activeSelf);
                 if (unitList[i].GetComponent<MoveupController>())
                 {
                     EventManager.instance.LandActivatedEvent -= (unitList[i].GetComponent<MoveupController>().MoveUp);

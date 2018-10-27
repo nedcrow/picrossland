@@ -98,11 +98,12 @@ public class EventManager : MonoBehaviour
     {
         try {            
             if (LandActivatedEvent != null) {
-                //Debug.Log("LandActiveatedFunc0");
-                foreach (LandActivated d in AttackedEvent.GetInvocationList())
-                {
-                    //Debug.Log(d.Target.ToString());
-                }
+                //Debug.Log("LandActiveatedFunc0 : "+ LandActivatedEvent.GetInvocationList().Length);
+                //foreach (LandActivated d in LandActivatedEvent.GetInvocationList())
+                //{
+                //    string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
+                //    Debug.Log(unitID);
+                //}
                 LandActivatedEvent(pos, waitTime);
             }            
         }

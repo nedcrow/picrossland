@@ -60,7 +60,8 @@ public class FightController : MonoBehaviour {
             //Debug.Log(targetList.Count + ", " + atkMode + ", " + afraideMode);
             if (hitList.Count == targetList.Count || atkMode == true || afraideMode == true)
             {
-                if(hitList.Count == targetList.Count) { break; } // Target이 Land에 없으면 search 종료.
+                if(hitList.Count == targetList.Count) { Debug.Log(name +" End Searching _ All Target Hit"); break; } // Target이 Land에 없으면 search 종료.
+                else if(TargetDeadAll(targetList) == true) { Debug.Log(name + " End Searching _ All Target Dead"); break; } // 모든 Target이 죽어있으면 search 종료.
                 //조건별 타겟 리셋
             }
             else
@@ -157,6 +158,20 @@ public class FightController : MonoBehaviour {
             }
         }
         
+    }
+
+    bool TargetDeadAll(List<GameObject> targetList) {
+        bool someLive = false;
+        foreach(GameObject t in targetList)
+        {
+            if (t.GetComponent<FightController>()) {
+                if (t.GetComponent<FightController>().dead == false)
+                {
+                    someLive = true;
+                }
+            }
+        }
+        return !someLive;
     }
 
     public void HPCheck(GameObject attacker, GameObject target, int unitNum)
@@ -300,7 +315,7 @@ public class FightController : MonoBehaviour {
             {
                 if (target.GetComponent<FightController>())
                 {
-                    Debug.Log(target.name + " : " + target.GetComponent<FightController>().atkMode);
+                    //Debug.Log(target.name + " : " + target.GetComponent<FightController>().atkMode);
                     if (target.GetComponent<FightController>().atkMode == true) //타겟이 공격모드면
                     {
                         yield return new WaitForSeconds(2f); //잠시 상황보다가

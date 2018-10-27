@@ -62,7 +62,7 @@ public class LandManager : MonoBehaviour {
         if (afterClear)
         {
             SelectLandOnly(currentLand.id);
-            CurrentLandSetting(true); //after clear
+            CurrentLand_Unit(true); //after clear
         }
         else
         {
@@ -106,6 +106,9 @@ public class LandManager : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// BaseSetting ( BG, ETC )
+    /// </summary>
     public void LandObjectSetting()
     {        
         for(int i=0; i< landList.Count; i++)
@@ -144,19 +147,17 @@ public class LandManager : MonoBehaviour {
             currentLand = landList[UserManager.Instance.currentUser.lastLand-1];
             PuzzleManager.instance.currentLandObj = landObjList[currentLand.id - 1];        
 
-            CurrentLandSetting(false);  //after clear
+            //CurrentLandSetting(false);  //after clear
 
         } // first가 아니면 currentLand 불러오기. + Land Setting.
         //Destroy(tempLand);
         SelectLandOnly(currentLand.id);
         //Debug.Log("gotLandCount : "+UserManager.Instance.currentUser.gotLandList.Count);
     }
-        
 
+    #region Active One Land Only
     void SelectLandOnly(int landNum)
     {
-        GetComponent<UnitManager>().SetUnitsEvents(landNum); 
-
         for (int i = 0; i < landObjList.Count; i++)
         {
             if (i + 1 != landNum)
@@ -169,30 +170,37 @@ public class LandManager : MonoBehaviour {
                 landObjList[i].SetActive(true);
                 landObjList[i].GetComponent<LandController>().LandSettingBG(landNum); //Weather, BG                
                 PuzzleManager.instance.currentLandObj = landObjList[i];
-                CurrentLandSetting(false); //UI, Unit
-            }
+                CurrentLand_UI();  //UI
+                CurrentLand_Unit(false);  //Unit Spawn.
+                if (firstGame == true) { PuzzleManager.instance.viewCon.againView.SetActive(false); firstGame = false; }
+            }//입력반은 landNum의 Land만 활성화.
         }//gotLandObjList는 1부터 순서대로 쌓인다.
+
+        GetComponent<UnitManager>().SetUnitsEvents(landNum);//Unit의 필요 Event만 추리기.
+
         views.againView.transform.GetChild(0).GetComponent<AdminViewController>().SetAdminView();
         views.againView.transform.GetChild(4).GetComponent<LockController>().OnLock();
+
+        EventManager.instance.LandActivatedFunc();
+        EventManager.instance.WeatherChangedFunc();//날씨 바뀜 선언. unit motion 초기화.
     }//현재 Land만 활성화
 
-
-    void CurrentLandSetting(bool afterClear)
+    void CurrentLand_UI()
     {
-         Debug.Log("afterClear : "+afterClear + " / CurrentLand ID : "+currentLand.id);
-
-        #region Ui
         PuzzleManager.instance.viewCon.puzzleView.SetActive(false);
         PuzzleManager.instance.viewCon.againView.SetActive(true); //Canvas
         PuzzleManager.instance.viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>().SetPuzzleIconList(currentLand.id);//PuzzleIcon
         PuzzleManager.instance.viewCon.againView.transform.GetChild(1).GetComponent<LandViewController>().SetLandName(currentLand.id);
 
         Camera.main.transform.position = Camera.main.GetComponent<CameraController>().CameraPos_Land();//Camera
-        Camera.main.orthographicSize = 4f;  
-        #endregion
+        Camera.main.orthographicSize = 4f;
+    }
+
+    void CurrentLand_Unit(bool afterClear)
+    {
+         Debug.Log("afterClear : "+afterClear + " / CurrentLand ID : "+currentLand.id);
 
         #region Units
-
         if (afterClear == false) {
             List<string> unitList = UserManager.Instance.GetCurrentInGotLandList(currentLand.id).unitList;
             List<GameObject> unitObjectList = GetComponent<UnitManager>().unitList;
@@ -206,7 +214,7 @@ public class LandManager : MonoBehaviour {
                         CurrentLandUnitList.Add(unitObj);
                     }
                 }
-            }
+            }//생성해야할 UnitList확보.
 
             if (unitList.Count > CurrentLandUnitList.Count)
             {
@@ -218,15 +226,14 @@ public class LandManager : MonoBehaviour {
                         GetComponent<UnitManager>().UnitSpawn(unitList[i], false, 1); // 퍼즐ID, 생성수량     
                     }// CurrentLand Unit만 생성.                    
                 }
-            }
-            if(firstGame == true) { PuzzleManager.instance.viewCon.againView.SetActive(false); firstGame = false; }
+            }//생성 명령.
+
         }//afterClear가 true면 Unit추가 생성은 ClearCheck에서 실행.
-        EventManager.instance.LandActivatedFunc();
-        EventManager.instance.WeatherChangedFunc();//날씨 바뀜 선언. unit motion 초기화.
-
         #endregion
-    }//Canvas + Camera + PuzzleIcon + unit
 
+        
+    }//Canvas + Camera + PuzzleIcon + unit
+    #endregion
 
     public void LandChange(string dir)
     {
