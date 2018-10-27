@@ -58,14 +58,14 @@ public class FightController : MonoBehaviour {
         {
             time = time + sec;
             //Debug.Log(targetList.Count + ", " + atkMode + ", " + afraideMode);
-            if (targetList == null || atkMode == true || afraideMode == true)
+            if (hitList.Count == targetList.Count || atkMode == true || afraideMode == true)
             {
-                if(targetList == null) { break; } // Target이 Land에 없으면 search 종료.
+                if(hitList.Count == targetList.Count) { break; } // Target이 Land에 없으면 search 종료.
                 //조건별 타겟 리셋
             }
             else
             {
-                SelectTarget(LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, targetIDs, true));//가장 가까운 타겟.
+                SelectTarget(LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, targetIDs, true));
                 if (mode == "M" && target != null)
                 {
                     if (FrontTarget(range) == true && searchMode == false)
@@ -83,7 +83,6 @@ public class FightController : MonoBehaviour {
                 }//이동식 1회용 탐색모드. 갔는데 없으면 다시 탐색.
                 else if (mode == "D" )
                 {
-                    if (target.GetComponent<UnitBase>()) { Debug.Log(target.name + " : " +target.GetComponent<UnitBase>().unitNum); }
                     if (FrontTarget(range) == true && afraideMode == false)
                     {
                         yield return new WaitForSeconds(0.5f);
@@ -92,7 +91,7 @@ public class FightController : MonoBehaviour {
                     }
                 }//재자리 지속 탐색모드.
             }
-            Debug.Log("Searching : " + time);
+            //Debug.Log("Searching : " + time);
             yield return new WaitForSeconds(sec);
         }
     }
@@ -127,28 +126,34 @@ public class FightController : MonoBehaviour {
         List<GameObject> tempList = new List<GameObject>();
 
         #region minusHits
-        bool differentSuccess = true;        
+        bool OutOfHitList = true;        
         for (int i = 0; i < tList.Count; i++)
         {
             for (int j = 0; j < hitList.Count; j++)
-            {                
+            {
+                //Debug.Log(tList[i].GetComponent<UnitBase>().unitNum + " vs " + hitList[j].GetComponent<UnitBase>().unitNum);
                 if (tList[i] == hitList[j]) {
-                    differentSuccess = false;
+                    OutOfHitList = false;
                     if (tList[i].GetComponent<UnitBase>()) {
-                        Debug.Log(tList[i].GetComponent<UnitBase>().unitNum + " vs " + hitList[j].GetComponent<UnitBase>().unitNum);
-                        if (tList[i].GetComponent<UnitBase>().unitNum != hitList[j].GetComponent<UnitBase>().unitNum) { differentSuccess = true; Debug.Log("Add TempTargetList"); }
+                        //Debug.Log(tList[i].GetComponent<UnitBase>().unitNum + " vs " + hitList[j].GetComponent<UnitBase>().unitNum);
+                        if (tList[i].GetComponent<UnitBase>().unitNum != hitList[j].GetComponent<UnitBase>().unitNum) { OutOfHitList = true; Debug.Log("Add TempTargetList"); }
                     }
                 }
+                //Debug.Log("OutOfHitList : " + OutOfHitList);
             }
-            if (differentSuccess == true) { tempList.Add(tList[i]); }
+            if (OutOfHitList == true) { tempList.Add(tList[i]); } else {  }
         }//hitList GameObject 제외.
         #endregion
 
-        if (tempList.Count > 0) { target = tempList[0]; Debug.Log("Target : "+target.name + ", "+transform.position); }
-        if(target != null)
+        //if (tempList.Count > 0) { target = tempList[0]; Debug.Log("Target : "+target.name + ", "+transform.position); }
+        if(tempList != null)
         {
-            if (target.GetComponent<FightController>()) {
-                if (target.GetComponent<FightController>().dead == true) { target = null; Debug.Log("Target Null"); }
+            if(tempList.Count > 0) {
+                target = tempList[0];
+                if (target.GetComponent<FightController>())
+                {
+                    if (target.GetComponent<FightController>().dead == true) { target = null; Debug.Log("Target Null"); }
+                }
             }
         }
         
@@ -261,6 +266,7 @@ public class FightController : MonoBehaviour {
                         
                         if(success == true) {
                             hitList.Add(target);
+//                            targetList.Remove(target);
                             Attack_U();
                             atkMode = false; Debug.Log("LastAttack");
                             break;
@@ -289,7 +295,7 @@ public class FightController : MonoBehaviour {
         float time = 0;
         while (true)
         {
-            Debug.Log(target.name + " : " + target.GetComponent<FightController>().atkMode);
+//            Debug.Log(target.name + " : " + target.GetComponent<FightController>().atkMode);
             if (FrontTarget(range)==true)//타겟이 눈앞이고,
             {
                 if (target.GetComponent<FightController>())

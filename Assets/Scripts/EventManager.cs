@@ -52,25 +52,34 @@ public class EventManager : MonoBehaviour
         {
 //            EventCount = WeatherChangedEvent.GetInvocationList().Length;
             List<GameObject> unitList = LandManager.instance.GetComponent<UnitManager>().unitList;
-            Debug.Log("weatherChange0");
+            //Debug.Log("weatherChange0");
             if (WeatherChangedEvent != null)
             {
                 //TempWeatherEvent = new WeatherChanged();
                 foreach (WeatherChanged d in WeatherChangedEvent.GetInvocationList())
                 {
                     string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
-
-                    if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == false)
+                    //Debug.Log(unitID);
+                    bool sleepCheck = true;
+                    if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID) != null)
+                    {
+                        if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == true)
+                        {
+                            sleepCheck = false; //찾는 GameObject가 Active상태면 비활성화시키지 않음.
+                        }
+                    }
+                    if (sleepCheck == true)
                     {
                         WeatherChangedEvent -= d;
                         TempWeatherEvent += d;
-                        Debug.Log("TempWeatherEvent.GetInvocationList().Length : " + TempWeatherEvent.GetInvocationList().Length);
-                    }//active fales인 Event를 임시보관하고
+                        //Debug.Log("TempWeatherEvent.GetInvocationList().Length : " + TempWeatherEvent.GetInvocationList().Length);
+                    } //active fales 또는 존재하지 않는 GameObject의 Event를 임시보관함.     
+
                 }
             }
-            Debug.Log("weatherChange1");
+            //Debug.Log("weatherChange1");
             if (WeatherChangedEvent != null) { if (WeatherChangedEvent.GetInvocationList() != null) { WeatherChangedEvent(); } }
-            Debug.Log("weatherChange2");
+            //Debug.Log("weatherChange2");
         }
         catch { Debug.Log("Error_weatherChange"); } 
         if (TempWeatherEvent != null)
@@ -87,11 +96,12 @@ public class EventManager : MonoBehaviour
 
     public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0)//---------------메뉴명 확인
     {
-        try {
+        try {            
             if (LandActivatedEvent != null) {
+                //Debug.Log("LandActiveatedFunc0");
                 foreach (LandActivated d in AttackedEvent.GetInvocationList())
                 {
-                    Debug.Log(d.Target);
+                    //Debug.Log(d.Target.ToString());
                 }
                 LandActivatedEvent(pos, waitTime);
             }            
@@ -113,26 +123,29 @@ public class EventManager : MonoBehaviour
             foreach (Attacked d in AttackedEvent.GetInvocationList())
             {
                 string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
-                Debug.Log(attacker.name+", "+target.name+", "+ unitID);
-                if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == true)
+                //Debug.Log(attacker.name+", "+target.name+", "+ unitID);
+                if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID) != null)
                 {
-                    if (unitID  == target.name && attacker.name != target.name)
+                    if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == true)
                     {
-                        TempAttackedEvent += d;
-                    }//맞는놈이랑 UnitID가 같고, 때리는놈이랑 맞는놈이 다르면,
-                }//active true인 Event를 임시보관한다.
+                        if (unitID == target.name && attacker.name != target.name)
+                        {
+                            TempAttackedEvent += d;
+                        }//UnitID로 맞는놈이랑 확인했는데, 때리는놈이랑 맞는놈이 다르면,  Event를 임시보관한다.
+                    }//찾은 게임오브젝트가 active true이고,
+                }//찾는 게임오브젝트가 있고,
             }
         }
         try
         {
             if (TempAttackedEvent != null)
             {
-                Debug.Log("AttackEvent0");
+//                Debug.Log("AttackEvent0");
                 TempAttackedEvent(attacker, target, unitNum);
             }
-            Debug.Log("AttackEvent1");
+//            Debug.Log("AttackEvent1");
             foreach (Attacked d in TempAttackedEvent.GetInvocationList()) { TempAttackedEvent -= d; }//임시보관 초기화.
-            Debug.Log("AttackEvent2");
+//            Debug.Log("AttackEvent2");
         }
         catch { Debug.Log("Error_AttackEvent"); }
     }

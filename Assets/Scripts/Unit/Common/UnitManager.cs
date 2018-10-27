@@ -84,7 +84,8 @@ public class UnitManager : MonoBehaviour {
             for (int i = 0; i < unitList.Count; i++)
             {
                 if (unitList[i].name == unitID) { return unitList[i]; }
-            }
+            }//먼저 UnitList를 뒤진다. 있으면 Return.
+
             GameObject symbol = PuzzleManager.instance.currentLandObj.GetComponent<LandController>().backgroundObj.gameObject;
             if (symbol.transform.GetChildCount() > 0)
             {
@@ -93,7 +94,7 @@ public class UnitManager : MonoBehaviour {
                 {
                     return symbol;
                 }
-            }            
+            }//Land Background와 비교해보고      
             return null;
         }
         else
@@ -102,7 +103,14 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
-    public List<GameObject> SearchUnits(Vector3 mPosition, string[] unitIDs, bool nearby)  //TargetName이 같을 때 구별하는 방법 추가해야함.
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="mPosition"></param>
+    /// <param name="unitIDs"></param>
+    /// <param name="nearby"> True면 가까운 순서대로 정렬. </param>
+    /// <returns></returns>
+    public List<GameObject> SearchUnits(Vector3 mPosition, string[] unitIDs, bool nearby) 
     {
         if (unitList.Count > 0)
         {
@@ -125,13 +133,15 @@ public class UnitManager : MonoBehaviour {
             }
             if(targetList.Count == 0) { return null; }
             else {
-                if(nearby == false) { return targetObjectList; } else
+                if(nearby == false) { return targetObjectList; }
+                else
                 {
                     targetList.Sort(delegate (Target a, Target b) {
                         return a.dist.CompareTo(b.dist);
                     }); //First is minimom value in dists.  
                     targetObjectList = new List<GameObject>();
-                    targetObjectList.Add(targetList[0].gObject);
+                    foreach (Target go in targetList) { targetObjectList.Add(go.gObject); }
+//                    targetObjectList.Add(targetList[0].gObject);
                     return targetObjectList;
                 }                
             }
