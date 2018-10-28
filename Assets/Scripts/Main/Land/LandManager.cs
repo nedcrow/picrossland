@@ -170,8 +170,10 @@ public class LandManager : MonoBehaviour {
                 landObjList[i].SetActive(true);
                 landObjList[i].GetComponent<LandController>().LandSettingBG(landNum); //Weather, BG                
                 PuzzleManager.instance.currentLandObj = landObjList[i];
-                CurrentLand_UI();  //UI
+                
                 CurrentLand_Unit(false);  //Unit Spawn.
+                CurrentLand_UI();  //UI
+
                 if (firstGame == true) { PuzzleManager.instance.viewCon.againView.SetActive(false); firstGame = false; }
             }//입력반은 landNum의 Land만 활성화.
         }//gotLandObjList는 1부터 순서대로 쌓인다.
