@@ -6,6 +6,7 @@ public class MoveupController : MonoBehaviour {
     public float speed=1;
     public float waitTimeForMove = 4;
     public bool twoDir = false;
+    public bool havntGoal = false;
     public bool goal = false;
     int coroutineCnt = 0;
 
@@ -105,7 +106,7 @@ public class MoveupController : MonoBehaviour {
                 }                
                 #endregion
             }
-            if(goal == true) { break; }
+            if(goal == true && havntGoal == false) { break; }
             yield return new WaitForSeconds(sec);
         }
     }   

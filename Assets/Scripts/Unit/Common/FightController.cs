@@ -57,7 +57,7 @@ public class FightController : MonoBehaviour {
         while (true)
         {
             time = time + sec;
-            //Debug.Log(targetList.Count + ", " + atkMode + ", " + afraideMode);
+            //Debug.Log(hitList.Count + ", " + atkMode + ", " + afraideMode);
             if (hitList.Count == targetList.Count || atkMode == true || afraideMode == true)
             {
                 if(hitList.Count == targetList.Count) { Debug.Log(name +" End Searching _ All Target Hit"); break; } // Target이 Land에 없으면 search 종료.
@@ -127,7 +127,7 @@ public class FightController : MonoBehaviour {
         List<GameObject> tempList = new List<GameObject>();
 
         #region minusHits
-        bool OutOfHitList = true;        
+        bool OutOfHitList = true;
         for (int i = 0; i < tList.Count; i++)
         {
             for (int j = 0; j < hitList.Count; j++)
@@ -196,10 +196,11 @@ public class FightController : MonoBehaviour {
     }
 
     #region Afraide 
+    Coroutine Afraide;
     void Afraide_U()
     {
         if (transform.GetChildCount()>0) { Unit.FighterMotion.Afraide(transform.GetChild(0).gameObject); }   //childs 가 1 이상이면, AfraideAni    
-        if (afraideMode == false) { StartCoroutine(Afraide_U_Co(AtkDelayA)); }
+        if (afraideMode == false) { Afraide = StartCoroutine(Afraide_U_Co(AtkDelayA)); }
     }
 
     IEnumerator Afraide_U_Co(float cutLine = 1)
@@ -219,7 +220,7 @@ public class FightController : MonoBehaviour {
                     {      
                         atkMode = true;
                         afraideMode = false;
-                        StartCoroutine(AtkMode_U_Co());                        
+                        StartCoroutine(AtkMode_U_Co());
                         break;
                     }
                 }
@@ -268,22 +269,23 @@ public class FightController : MonoBehaviour {
                     if (hitList.Count == targetList.Count) { break; } // target 다 때렸으면 끝.
                     else
                     {
-                        bool success = false;
+                        bool HitListAddable = false;
                         
                         if (hitList.Find(x => x == target) == null) {
-                            success = true;
-                        }
+                            HitListAddable = true;
+                        }//hitList에 타겟이 없으면
                         else if (hitList.Find(x => x == target).GetComponent<UnitBase>() != null)
                         {
-                            int unitNum = hitList.Find(x => x == target).GetComponent<UnitBase>().unitNum; //Debug.Log(hitList.Find(x => x == target)+" : "+unitNum);
-                            if (unitNum != target.GetComponent<UnitBase>().unitNum) { success = true; }
-                        }
-                        
-                        if(success == true) {
+                            int unitNum = hitList.Find(x => x == target).GetComponent<UnitBase>().unitNum; //Debug.Log(target.name+": " + target.GetComponent<UnitBase>().unitNum + " vs "+ hitList.Find(x => x == target)+" : "+unitNum);
+                            if (unitNum != target.GetComponent<UnitBase>().unitNum) { HitListAddable = true; }
+                        }//hitList에 타겟이 있는데, unitNum이 다르면
+
+                        if (HitListAddable == true) {
                             hitList.Add(target);
 //                            targetList.Remove(target);
                             Attack_U();
                             atkMode = false; Debug.Log("LastAttack");
+                            StopCoroutine(Afraide);
                             break;
                         }//hitList에 target이 없으면 추가.
                     }
