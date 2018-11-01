@@ -38,8 +38,8 @@ public class KeyCreator : MonoBehaviour {
 
         }
         //test(r);
-        Debug.Log(puzzleM.currentPuzzle.id);
-        Debug.Log(puzzleM.currentPuzzle.useSpriteNum1 +", "+ puzzleM.currentPuzzle.useSpriteNum2 + ", "+r + ", " + puzzleM.currentSprites.Length);
+        //Debug.Log(puzzleM.currentPuzzle.id + ", " + r + ", " + puzzleM.currentSprites.Length);
+        Debug.Log("puzzleM.currentPuzzle.useSpriteNum1~2 : " + puzzleM.currentPuzzle.useSpriteNum1 +", "+ puzzleM.currentPuzzle.useSpriteNum2);
         puzzleM.currentSprite = puzzleM.currentSprites[r];        
     }
 

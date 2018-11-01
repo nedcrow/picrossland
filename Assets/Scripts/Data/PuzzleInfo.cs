@@ -67,24 +67,25 @@ namespace PuzzleInfo
 
     public class FindPuzzleEffect
     {
-        static string[][] weatherEffects = {
+        static string[][] weatherEffectNums = {
             new string[] {"0101","0201" },
-          new string[] {"0103","0204" },
-          new string[] {"0108" },
-          new string[] {"0309" }
+          new string[] {"0103","0205" },
+          new string[] {"0108","0208" },
+          new string[] {"0309","0211" }
         };
 
         public static int FindWeatherNum(string puzzleID)
         {
-            bool findS = false;
+            bool found=false;
             int weather=0;
             for (int i=0; i<4; i++)
             {
-                foreach (string x in weatherEffects[i])
+                foreach (string x in weatherEffectNums[i])
                 {
-                    if (puzzleID == x) { weather = i; }
+                    if (puzzleID == x) { weather = i; found = true; }
                 }
             }
+            if(found == false) { Debug.Log("Error_no found weatherEffectNymber : "+puzzleID); }
             return weather;
         }// [x][y]일때, puzzleID가 들어있는 배열의 순서, 즉 x가 weather.(0~3)
 

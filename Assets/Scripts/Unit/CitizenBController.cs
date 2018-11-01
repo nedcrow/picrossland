@@ -8,6 +8,7 @@ public class CitizenBController : MonoBehaviour {
     Vector3[] secondPos = { new Vector3(0, -0.3f, -3.3f), new Vector3(-0.4f, -0.3f, -3.3f), new Vector3(-0.2f, -0.3f, -3.3f) };//-20~20, -3f+y;
     Vector3[] thirdPos = { new Vector3(-0.2f, -4f, -7f), new Vector3(-0.3f, -4f, -7f), new Vector3(-0f, -4f, -7f) };//-20~20, -3f+y;
     Vector3[] fourthPos = { new Vector3(1.3f, -1.1f, -4.1f), new Vector3(0.9f, -1.3f, -4.3f), new Vector3(1f, -1.4f, -4.4f) };//-20~20, -3f+y;
+    Vector3[] fifthPos = { new Vector3(-1.4f, -1.5f, -4.5f), new Vector3(1.3f, -2f, -5.3f), new Vector3(1.5f, -4.4f, -7.4f) };//-20~20, -3f+y;
     RuntimeAnimatorController[] animators;
 
     void Start()
@@ -37,8 +38,22 @@ public class CitizenBController : MonoBehaviour {
     {
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController = animators[GetComponent<UnitBase>().unitNum];
-        float waitTime = GetComponent<MoveupController>().waitTimeForMove * GetComponent<UnitBase>().unitNum+0.1f; 
-        GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTime); 
+        switch (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id))
+        {
+            case 0:
+                float waitTime = GetComponent<MoveupController>().waitTimeForMove * GetComponent<UnitBase>().unitNum + 0.1f;
+                GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTime);
+                break;
+            case 1:
+                GetComponent<MoveupController>().MoveUp(fifthPos[GetComponent<UnitBase>().unitNum], 1);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
     }
 
     void Hit(GameObject attacker, GameObject target, int unitNum) {        

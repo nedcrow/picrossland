@@ -299,14 +299,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponID: 0201
+  searchMode: 0
   atkMode: 0
   afraideMode: 0
   oneHit: 1
+  dead: 0
   AtkDelayA: 0.2
   AtkDelayB: 1
-  HP: 0
+  HP: 1
   AtkPoint: 0
   firstPos: {x: 0, y: 0, z: 0}
+  lastTargetPos: {x: 0, y: 0, z: 0}
   targetList: []
   hitList: []
 --- !u!212 &212017564248681362

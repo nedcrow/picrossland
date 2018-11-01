@@ -11,7 +11,8 @@ public class WeatherController : MonoBehaviour {
         {"0101","GoodMorning"},
         {"0103","GoodNight" },
         {"0108","GoodNight" },
-        {"0201","Vote"},
+        {"0201","Land2"},
+        {"0205","Land2"},
         {"0301","RadioActive" }
     };
 
@@ -120,14 +121,15 @@ public class WeatherController : MonoBehaviour {
     }//검은 알파값을 증가시킴.
 
 
-    IEnumerator Vote()
+    IEnumerator Land2()
     {
         GameObject backgroundObj = transform.parent.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject;
         GameObject currentSymbol = null;
 
         if (backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol !=null) { currentSymbol = backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol; }
-        else { currentSymbol = backgroundObj.transform.GetChild(0).gameObject; }
-        currentSymbol.GetComponent<Animator>().Play("0201_Idle");
+        else { currentSymbol = backgroundObj.transform.GetChild(0).gameObject; Debug.Log("Error_Null : currentSymbol"); }
+        //Debug.Log(currentSymbol);
+        if (currentSymbol.GetComponent<Animator>()) { currentSymbol.GetComponent<Animator>().Play("0201_Idle"); }
         yield return null;
     }
 

@@ -30,11 +30,18 @@ public class LandSymbolControllerII : MonoBehaviour {
         pickUpObject.SetActive(false);
         #endregion
 
+        #region Targets
+        string[][] targetIDs = {
+           new string[] { "0202", "0203" },
+           new string[] { "0206" },
+        };
+        string[] targetID = targetIDs[UserManager.Instance.GetWeather(LandManager.instance.currentLand.id)];
+        #endregion
+
         #region FightController
-        visitCount = 0;
-        string[] targetIDs = { "0202", "0203" };
+        visitCount = 0; 
         GetComponent<FightController>().oneHit = true;
-        GetComponent<FightController>().Search_U(Vector3.zero, targetIDs, "D", 0.5f);
+        GetComponent<FightController>().Search_U(Vector3.zero, targetID, "D", 0.5f);
         #endregion
     }
 
@@ -66,6 +73,7 @@ public class LandSymbolControllerII : MonoBehaviour {
             if (LandSymbols[i]) { LandSymbols[i].SetActive(false); }
         }
         currentSymbol = LandSymbols[UserManager.Instance.GetWeather(LandManager.instance.currentLand.id)];
+        //Debug.Log("currentSymbol : " + currentSymbol);
         currentSymbol.SetActive(true);
     }
 }
