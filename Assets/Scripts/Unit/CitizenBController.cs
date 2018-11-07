@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CitizenBController : MonoBehaviour {
-
+    #region Position_A_For_Weather
     Vector3[] firstPos = { new Vector3(-2f, -1f, -4f), new Vector3(10f, -2f, -5f), new Vector3(1f, -4f, -7f) };//-20~20, -3f+y;
-    Vector3[] secondPos = { new Vector3(0, -0.3f, -3.3f), new Vector3(-0.4f, -0.3f, -3.3f), new Vector3(-0.2f, -0.3f, -3.3f) };//-20~20, -3f+y;
+    Vector3[] secondPos = { new Vector3(0, 0.2f, -2.8f), new Vector3(-0.4f, 0.2f, -2.8f), new Vector3(-0.2f, 0.2f, -2.8f) };//-20~20, -3f+y;
     Vector3[] thirdPos = { new Vector3(-0.2f, -4f, -7f), new Vector3(-0.3f, -4f, -7f), new Vector3(-0f, -4f, -7f) };//-20~20, -3f+y;
     Vector3[] fourthPos = { new Vector3(1.3f, -1.1f, -4.1f), new Vector3(0.9f, -1.3f, -4.3f), new Vector3(1f, -1.4f, -4.4f) };//-20~20, -3f+y;
-    Vector3[] fifthPos = { new Vector3(-1.4f, -1.5f, -4.5f), new Vector3(1.3f, -2f, -5.3f), new Vector3(1.5f, -4.4f, -7.4f) };//-20~20, -3f+y;
+    #endregion
+    #region Position_B_For_Weather
+    Vector3[] fifthPos = { new Vector3(-1.6f, -1.5f, -4.5f), new Vector3(1.3f, -2f, -5.3f), new Vector3(1.5f, -4.4f, -7.4f) };//-20~20, -3f+y;
+    #endregion
     RuntimeAnimatorController[] animators;
 
     void Start()

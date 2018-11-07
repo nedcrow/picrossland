@@ -126,10 +126,10 @@ public class WeatherController : MonoBehaviour {
         GameObject backgroundObj = transform.parent.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject;
         GameObject currentSymbol = null;
 
-        if (backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol !=null) { currentSymbol = backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol; }
-        else { currentSymbol = backgroundObj.transform.GetChild(0).gameObject; Debug.Log("Error_Null : currentSymbol"); }
-        //Debug.Log(currentSymbol);
-        if (currentSymbol.GetComponent<Animator>()) { currentSymbol.GetComponent<Animator>().Play("0201_Idle"); }
+        //if (backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol !=null) { currentSymbol = backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol; }
+        //else { currentSymbol = backgroundObj.transform.GetChild(0).gameObject; Debug.Log("Error_Null : currentSymbol"); }
+        ////Debug.Log(currentSymbol);
+        //if (currentSymbol.GetComponent<Animator>()) { currentSymbol.GetComponent<Animator>().Play("0201_Idle"); }
         yield return null;
     }
 

@@ -143,10 +143,8 @@ public class EventManager : MonoBehaviour
             {
 //                Debug.Log("AttackEvent0");
                 TempAttackedEvent(attacker, target, unitNum);
+                foreach (Attacked d in TempAttackedEvent.GetInvocationList()) { TempAttackedEvent -= d; }//임시보관 초기화.
             }
-//            Debug.Log("AttackEvent1");
-            foreach (Attacked d in TempAttackedEvent.GetInvocationList()) { TempAttackedEvent -= d; }//임시보관 초기화.
-//            Debug.Log("AttackEvent2");
         }
         catch { Debug.Log("Error_AttackEvent"); }
     }

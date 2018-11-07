@@ -11,7 +11,7 @@ namespace Unit
             if (target.GetComponent<Animator>())
             {
                 string aniName = target.transform.parent.name + "_Idle"; //Debug.Log("aniName(Idle) : "+aniName);
-                aniName = IdleNum == "" ? aniName : aniName + IdleNum;
+                aniName = (IdleNum == "") || (IdleNum == "0") ? aniName : aniName + IdleNum;
                 target.GetComponent<Animator>().Play(aniName);
             }
         }
@@ -70,7 +70,7 @@ namespace Unit
         {
             if (target.GetComponent<Animator>())
             {
-                string aniName = target.transform.parent.name + "_Attack"+attackKind; //Debug.Log(aniName);
+                string aniName = target.transform.parent.name + "_Attack"+attackKind; Debug.Log(aniName);
                 target.GetComponent<Animator>().Play(aniName);
             }
         }       

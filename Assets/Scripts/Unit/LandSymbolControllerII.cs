@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class LandSymbolControllerII : MonoBehaviour {
 
+    public int visitCount = 0;
+    public GameObject currentSymbol = null;
+
     GameObject[] LandSymbols;
     GameObject ballotBox;
     GameObject balanceScale;
     GameObject deceasedPortrait;
     GameObject pickUpObject;
-    public GameObject currentSymbol=null;
-    public int visitCount = 0;
 
+    float[] ranges = {0.5f, 2.1f, 1f, 0f };
+    string[] weaponIds = {"0201", "0207", "0201", "0201" };
+    string[][] targetIDs = {
+           new string[] { "0202", "0203" },
+           new string[] { "0206" },
+        };
 
     void Start () {        
         transform.name = "0201";
@@ -24,24 +31,24 @@ public class LandSymbolControllerII : MonoBehaviour {
 		
 	void BaseSetting ()
     {
+        transform.position = new Vector3(transform.position.x, 0.5f, -2.5f);
+        int weatherID = UserManager.Instance.GetWeather(LandManager.instance.currentLand.id);
+
         #region ChildObjects
         LandSymbolChange();
         pickUpObject = transform.GetChild(transform.GetChildCount() - 1).gameObject;
         pickUpObject.SetActive(false);
         #endregion
 
-        #region Targets
-        string[][] targetIDs = {
-           new string[] { "0202", "0203" },
-           new string[] { "0206" },
-        };
-        string[] targetID = targetIDs[UserManager.Instance.GetWeather(LandManager.instance.currentLand.id)];
+        #region Targets        
+        string[] targetID = targetIDs[weatherID];
         #endregion
 
-        #region FightController
-        visitCount = 0; 
+        #region FightController        
+        visitCount = 0;        
         GetComponent<FightController>().oneHit = true;
-        GetComponent<FightController>().Search_U(Vector3.zero, targetID, "D", 0.5f);
+        GetComponent<FightController>().weaponID = weaponIds[weatherID];
+        GetComponent<FightController>().Search_U(Vector3.zero, targetID, "D", ranges[weatherID]);
         #endregion
     }
 
@@ -65,7 +72,8 @@ public class LandSymbolControllerII : MonoBehaviour {
         ballotBox = transform.GetChild(0).gameObject;
         balanceScale = transform.GetChild(1).gameObject;
         deceasedPortrait = transform.GetChild(2).gameObject;
-        LandSymbols = new GameObject[]{ ballotBox, balanceScale, deceasedPortrait };        
+        LandSymbols = new GameObject[]{ ballotBox, balanceScale, deceasedPortrait, null };
+        currentSymbol = LandSymbols[UserManager.Instance.GetWeather(LandManager.instance.currentLand.id)]; Debug.Log("currentSymbol : " + currentSymbol);
     }
     void LandSymbolChange()
     {
