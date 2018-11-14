@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveupController : MonoBehaviour {
     public float speed=1;
+    public float runSpeed=1;
     public float waitTimeForMove = 4;
     public bool twoDir = false;
     public bool havntGoal = false;
@@ -14,7 +15,13 @@ public class MoveupController : MonoBehaviour {
     Coroutine moveCoroutine;
     Coroutine moveLoopCoroutine;
 
-    public void MoveUp(Vector3[] targetPoss, float waitTime = 0)
+    public void Run(Vector3 targetPoss, float waitTime = 0, float speed = 1)
+    {
+        runSpeed = speed;
+        MoveUp(targetPoss, waitTime, true);
+    }
+
+    public void MoveUp(Vector3[] targetPoss, float waitTime = 0, bool run = false)
     {
         lastGoal = false;
         if (moveLoopCoroutineCnt > 0) { Debug.Log(name + " CoroutineCount : " + moveLoopCoroutineCnt); StopCoroutine(moveLoopCoroutine); moveLoopCoroutineCnt = 0; }
@@ -24,13 +31,13 @@ public class MoveupController : MonoBehaviour {
         }
     }//For Many Target
 
-    public void MoveUp(Vector3 targetPos, float waitTime = 0)
+    public void MoveUp(Vector3 targetPos, float waitTime = 0, bool run = false)
     {
         //Debug.Log(name + " CoroutineCount : " + moveCoroutineCnt);
         if (moveCoroutineCnt > 0) { StopCoroutine(moveCoroutine); moveCoroutineCnt = 0; }
         if (gameObject.transform.parent.parent.gameObject.activeSelf == true)
         {
-            if (gameObject.activeSelf == true) { moveCoroutine = StartCoroutine(MoveUp_U(targetPos, waitTime)); }
+            if (gameObject.activeSelf == true) { moveCoroutine = StartCoroutine(MoveUp_U(targetPos, waitTime, run)); }
         }
 
     }//For One Target
@@ -46,7 +53,7 @@ public class MoveupController : MonoBehaviour {
             {
                 if (goal == true) //unit이 정지 걷지 않을 때만 실행.
                 {
-                    Debug.Log("MoveName : " + name);
+                    //Debug.Log("MoveName : " + name);
                     if (gameObject.activeSelf == true) { MoveUp(targetPoss[clearPos], waitTime); clearPos++; }
                 }
             }
@@ -64,7 +71,7 @@ public class MoveupController : MonoBehaviour {
         }
     }
 
-    IEnumerator MoveUp_U(Vector3 targetPos = new Vector3(), float waitTime = 0)
+    IEnumerator MoveUp_U(Vector3 targetPos = new Vector3(), float waitTime = 0, bool run = false)
     {
         float sec = 0.01f;
         float time = 0;
@@ -76,33 +83,7 @@ public class MoveupController : MonoBehaviour {
             time = time + sec;
             if (waitTime == 0) { waitTime = waitTimeForMove; }
             if (time > waitTime)
-            {
-                #region TargetPos                
-                int loop = 20;
-                float dir = transform.localPosition.y > 1.1f ? -0.1f : 0.1f;//y값 증감할 때 방향 정한 것.
-                if (firstTargetPos == Vector3.zero)
-                {
-                    for (int i = 0; i < loop; i++)
-                    {
-                        targetPos = Unit.UnitBase.RandomUnitPos(20, 20);//왠만하면 고정.
-                        if (SpawnRule.SpawnPossible.UnitSpawnPossibe(transform.name, targetPos))//만약 위치해도 괜찮은 곳이면,
-                        {
-                            i = loop;  //for문 종료.
-                        }
-                        else
-                        {
-                            if (i == loop - 1) { targetPos = transform.localPosition; }
-                            else
-                            {
-                                if (i / 2 == 0) { targetPos = new Vector3(targetPos.x, targetPos.y + dir, targetPos.z + dir); }//y값 증감.   
-                                else { targetPos = new Vector3(targetPos.x + dir, targetPos.y, targetPos.z); }//x값 증감.      
-                            }
-                        }
-                    }//10번만 시도. 
-                }//targetPos가 중앙이면 랜덤으로 위치변경.
-                else { }
-                #endregion
-
+            {                
                 #region  Direction
                 string checkedDir = DirectionCheck(targetPos);
                 for (int i = 0; i < transform.GetChildCount(); i++)
@@ -110,15 +91,17 @@ public class MoveupController : MonoBehaviour {
                     switch (checkedDir)
                     {
                         case "u":
-                            //Debug.Log("childCnt : "+i);
-                            Unit.MoverMotion.UnitMove(transform.GetChild(i).gameObject, "Up");
+                            if (run == true) { Unit.MoverMotion.UnitRun(transform.GetChild(i).gameObject, "Up"); }
+                            else { Unit.MoverMotion.UnitMove(transform.GetChild(i).gameObject, "Up"); }                            
                             break;
                         case "d":
-                            Unit.MoverMotion.UnitMove(transform.GetChild(i).gameObject, "Down");
+                            if (run == true) { Unit.MoverMotion.UnitRun(transform.GetChild(i).gameObject, "Down"); }
+                            else { Unit.MoverMotion.UnitMove(transform.GetChild(i).gameObject, "Down"); }                            
                             break;
                         case "r":
                         case "l":
-                            Unit.MoverMotion.UnitMove(transform.GetChild(i).gameObject);
+                            if (run == true) { Unit.MoverMotion.UnitRun(transform.GetChild(i).gameObject); }
+                            else { Unit.MoverMotion.UnitMove(transform.GetChild(i).gameObject); }                            
                             break;
                         default: break;
                     }
@@ -126,11 +109,13 @@ public class MoveupController : MonoBehaviour {
                 #endregion
 
                 #region Translate   
+                float tempSpeed;
+                if (run == true) { tempSpeed = runSpeed; yield return new WaitForSeconds(1.5f); } else { tempSpeed = speed; }
                 while (true)
-                {
+                {                    
                     Vector3 _dir = (targetPos - transform.localPosition).normalized;
                     //Debug.Log(name+", tp : "+targetPos+", dir : "+_dir+", lp : "+ transform.localPosition);
-                    transform.Translate(_dir * Time.deltaTime * speed);
+                    transform.Translate(_dir * Time.deltaTime * tempSpeed);
                     transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -3 + transform.localPosition.y);
                     Vector3 tempPos = new Vector3(transform.localPosition.x, transform.localPosition.y, targetPos.z);
                     float dist = Vector3.Distance(targetPos, tempPos); //Debug.Log(name+", dist : "+ dist);

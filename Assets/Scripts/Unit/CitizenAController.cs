@@ -15,11 +15,11 @@ public class CitizenAController : MonoBehaviour {
     #endregion
 
     #region Position_B_For_Weather
-    Vector3[] fifthPos = { new Vector3(-1.8f, -1f, -4f), new Vector3(1.6f, -2f, -5f), new Vector3(1.8f, -4f, -7f) };//-20~20, -3f+y;
+    Vector3[] fifthPos = { new Vector3(-1.8f, -1f, -4f), new Vector3(-1.6f, -2f, -5f), new Vector3(-1.8f, -4f, -7f) };//-20~20, -3f+y;
     Vector3[][] sixthPos = {
-        new Vector3[]{new Vector3(-1.25f, -1.5f, -4.5f), new Vector3(-1f, -1.5f, -4.5f)},
-        new Vector3[]{new Vector3(1.7f, -1.7f, -4.7f), new Vector3(1.5f, -1.5f, -4.5f)},
-        new Vector3[]{new Vector3(1.8f, -1.7f, -4.7f), new Vector3(1.6f, -1.5f, -4.5f) }
+        new Vector3[]{new Vector3(-1.8f, -1.5f, -4.5f), new Vector3(-1.5f, -1.7f, -4.7f)},
+        new Vector3[]{new Vector3(-1.7f, -1.7f, -4.7f), new Vector3(-1.5f, -1.7f, -4.7f)},
+        new Vector3[]{new Vector3(-1.8f, -1.7f, -4.7f), new Vector3(-1.3f, -1.7f, -4.7f) }
     };//-20~20, -3f+y;
     #endregion
 
@@ -61,6 +61,7 @@ public class CitizenAController : MonoBehaviour {
                 GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTime);
                 break;
             case 1:
+                transform.position = fifthPos[GetComponent<UnitBase>().unitNum];
                 GetComponent<MoveupController>().MoveUp(fifthPos[GetComponent<UnitBase>().unitNum], 1);
                 break;
             case 2:
@@ -129,12 +130,24 @@ public class CitizenAController : MonoBehaviour {
     {
         transform.localPosition = targetPos;
         for (int i = 0; i < transform.GetChildCount(); i++) { Unit.MoverMotion.Contact(transform.GetChild(i).gameObject,"0207"); }
+        StartCoroutine(InJailCheck());
     }
 
-    IEnumerator Hit_Co(GameObject attacker, GameObject target, int unitNum)
+    IEnumerator InJailCheck()
     {
-        yield return new WaitForSeconds(0.01f);
-        EventManager.instance.AttackedFunc(gameObject, PuzzleManager.instance.currentLandObj.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject);
-        yield return null;
-    }//Event 중첩 방지용 코루틴.
+        while (true)
+        {
+            if (UserManager.Instance.ClearPuzzleCheck("0206") == true)
+            {
+                GameObject target = LandManager.instance.GetComponent<UnitManager>().SearchUnit("0206");  //defendant
+                if (target.GetComponent<DefendantController>().inJail == true)
+                {
+                    Vector3 lastPos = new Vector3(3f, transform.position.y, transform.position.z);
+                    GetComponent<MoveupController>().MoveUp(lastPos, 0.1f);
+                    break;
+                }
+            }
+            yield return new WaitForSeconds(0.01f);
+        }
+    }// 피고가 감옥에 수감되면 집으로 Go Go.
 }

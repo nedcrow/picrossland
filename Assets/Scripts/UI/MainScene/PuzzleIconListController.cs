@@ -151,7 +151,7 @@ public class PuzzleIconListController : MonoBehaviour {
             new Vector3[]{new Vector3(-18, -20, 0),new Vector3(0,-15,0),new Vector3(18, -20, 0) }
         };
                 
-        Sprite[] icons = Resources.LoadAll<Sprite>("Sprite/Icon");        
+        Sprite[] icons = UserManager.Instance.GetComponent<SpriteManager>().icons;
         for (int i=0; i< puzzleIconList_N_Active.Count; i++)
         {
             string puzzleID = HarimTool.EditValue.EditText.Right(puzzleIconList_N_Active[i].name, 4);

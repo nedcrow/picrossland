@@ -32,7 +32,7 @@ public class EventManager : MonoBehaviour
     public event WeatherChanged WeatherChangedEvent;
     public event WeatherChanged TempWeatherEvent;
 
-    public delegate void LandActivated(Vector3 target, float waitTime);
+    public delegate void LandActivated(Vector3 target, float waitTime, bool run);
     public event LandActivated LandActivatedEvent;
 
     public delegate void NickNameChecked(bool success);
@@ -94,7 +94,7 @@ public class EventManager : MonoBehaviour
         //Debug.Log("weatherChange3");
     }
 
-    public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0)//---------------메뉴명 확인
+    public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0, bool run=false)//---------------메뉴명 확인
     {
         try {            
             if (LandActivatedEvent != null) {
@@ -104,11 +104,11 @@ public class EventManager : MonoBehaviour
                 //    string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
                 //    Debug.Log(unitID);
                 //}
-                LandActivatedEvent(pos, waitTime);
+                LandActivatedEvent(pos, waitTime, run);
             }            
         }
         catch { Debug.Log("Error_LandActiveatedFunc"); }
-    }
+    }//For unit's MoveEvent
 
     public void NickNameCheckedFunc(bool success)
     {

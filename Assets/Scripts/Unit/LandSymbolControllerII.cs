@@ -15,9 +15,6 @@ public class LandSymbolControllerII : MonoBehaviour {
 
     Vector3 pickUpBasePos;
 
-    Sprite minusIcon;
-
-
     float[] ranges = {0.5f, 2.1f, 1f, 0f };
     string[] weaponIds = {"0201", "0201", "0201", "0201" };
     string[][] targetIDs = {
@@ -69,6 +66,7 @@ public class LandSymbolControllerII : MonoBehaviour {
             {
                 case 0:
                     pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
+                    pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().ballot;
                     EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
                     Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
                     visitCount++;
@@ -79,6 +77,7 @@ public class LandSymbolControllerII : MonoBehaviour {
                     break;
                 case 1:
                     pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
+                    pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
                     EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
                     Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
                     break;

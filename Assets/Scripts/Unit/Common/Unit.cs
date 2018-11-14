@@ -115,6 +115,24 @@ namespace Unit
             }
         }
 
+        public static void UnitRun(GameObject target, string Dir = "")
+        {
+            if (target.GetComponent<Animator>())
+            {
+                string aniName;
+                if (Dir == "")
+                {
+                    aniName = target.transform.parent.name + "_Run";
+                }
+                else
+                {
+                    aniName = target.transform.parent.name + "_Run" + Dir;
+                }
+                target.GetComponent<Animator>().Play(aniName);
+                //Debug.Log("aniName(Move) : " + aniName);
+            }
+        }
+
         public static void Contact(GameObject target, string unitID)
         {
             if (target.GetComponent<Animator>())

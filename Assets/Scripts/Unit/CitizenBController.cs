@@ -17,11 +17,11 @@ public class CitizenBController : MonoBehaviour {
     #endregion
     
     #region Position_B_For_Weather
-    Vector3[] fifthPos = { new Vector3(-1.6f, -1.5f, -4.5f), new Vector3(1.3f, -2f, -5.3f), new Vector3(1.5f, -4.4f, -7.4f) };//-20~20, -3f+y;
+    Vector3[] fifthPos = { new Vector3(-1.6f, -1.5f, -4.5f), new Vector3(-1.8f, -2f, -5.3f), new Vector3(-1.8f, -4.4f, -7.4f) };//-20~20, -3f+y;
     Vector3[][] sixthPos = {
-        new Vector3[]{ new Vector3(-1.3f, -2.2f, -5.2f), new Vector3(-1f, -2.2f, -5.2f) },
-        new Vector3[]{ new Vector3(1.9f, -2.3f, -5.2f), new Vector3(1.6f, -2.2f, -5.2f) },
-        new Vector3[]{ new Vector3(0.6f, -2.5f, -5.5f), new Vector3(-0.1f, -2.2f, -5.2f) }
+        new Vector3[]{ new Vector3(-1.8f, -2.2f, -5.2f), new Vector3(-1.4f, -2.2f, -5.2f) },
+        new Vector3[]{ new Vector3(-1.6f, -2.3f, -5.3f), new Vector3(-1.5f, -2.2f, -5.2f) },
+        new Vector3[]{ new Vector3(-1.7f, -2.5f, -5.5f), new Vector3(-1.3f, -2.2f, -5.2f) }
     };
     #endregion
 
@@ -63,6 +63,7 @@ public class CitizenBController : MonoBehaviour {
                 GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTime);
                 break;
             case 1:
+                transform.position = fifthPos[GetComponent<UnitBase>().unitNum]; Debug.Log(GetComponent<UnitBase>().unitNum);
                 GetComponent<MoveupController>().MoveUp(fifthPos[GetComponent<UnitBase>().unitNum], 1);
                 break;
             case 2:
@@ -132,8 +133,27 @@ public class CitizenBController : MonoBehaviour {
     {
         transform.localPosition = targetPos;
         for (int i = 0; i < transform.GetChildCount(); i++) { Unit.MoverMotion.Contact(transform.GetChild(i).gameObject, "0207"); }
+        StartCoroutine(InJailCheck());
     }
 
+    IEnumerator InJailCheck()
+    {
+        while (true)
+        {
+            if (UserManager.Instance.ClearPuzzleCheck("0206") == true)
+            {
+                GameObject target = LandManager.instance.GetComponent<UnitManager>().SearchUnit("0206");  //defendant
+                if (target.GetComponent<DefendantController>().inJail == true)
+                {
+                    yield return new WaitForSeconds(1.5f);
+                    Vector3 lastPos = new Vector3(3f, transform.position.y, transform.position.z);
+                    GetComponent<MoveupController>().MoveUp(lastPos, 0.1f);
+                    break;
+                }
+            }
+            yield return new WaitForSeconds(0.01f);
+        }
+    }// 피고가 감옥에 수감되면 집으로 Go Go.
     IEnumerator Hit_Co(GameObject attacker, GameObject target, int unitNum)
     {
         yield return new WaitForSeconds(0.01f);

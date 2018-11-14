@@ -57,14 +57,14 @@ public class UnitManager : MonoBehaviour {
                 {
                     unitList[i].GetComponent<MoveupController>().StopAllCoroutines();
                     EventManager.instance.LandActivatedEvent -= (unitList[i].GetComponent<MoveupController>().MoveUp);
-                    Debug.Log("MinusEvent_MoveUp" + unitList[i].name);
+                   // Debug.Log("MinusEvent_MoveUp" + unitList[i].name);
                 }
             }
             else
             {
                 if (unitList[i].GetComponent<MoveupController>())
                 {
-                    Debug.Log("PlusEvent_MoveUp : "+unitList[i].name);
+                   // Debug.Log("PlusEvent_MoveUp : "+unitList[i].name);
                     EventManager.instance.LandActivatedEvent += (unitList[i].GetComponent<MoveupController>().MoveUp);
                 }
             }
