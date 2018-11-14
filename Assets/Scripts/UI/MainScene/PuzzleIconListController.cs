@@ -170,7 +170,7 @@ public class PuzzleIconListController : MonoBehaviour {
                 puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(j).GetComponent<RectTransform>().anchoredPosition3D = starPos[maxCnt - 1][j];
             }//Set Stars Position
             int unitCnt = LandManager.instance.GetComponent<UnitManager>().UnitCountCheck(puzzleID);
-            int clearCnt = System.Convert.ToInt32(unitCnt / spawnCnt); Debug.Log(puzzleID +"(CUC / SC) : "+unitCnt + " / "+ spawnCnt);
+            int clearCnt = System.Convert.ToInt32(unitCnt / spawnCnt); //Debug.Log(puzzleID +"(ClearUnitCnt / SpawnCnt) : "+unitCnt + " / "+ spawnCnt);
             if (UserManager.Instance.ClearPuzzleCheck(puzzleID))
             {
                 puzzleIconList_N_Active[i].transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = icons[10];

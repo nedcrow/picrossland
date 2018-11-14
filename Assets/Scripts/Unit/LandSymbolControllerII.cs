@@ -13,12 +13,18 @@ public class LandSymbolControllerII : MonoBehaviour {
     GameObject deceasedPortrait;
     GameObject pickUpObject;
 
+    Vector3 pickUpBasePos;
+
+    Sprite minusIcon;
+
+
     float[] ranges = {0.5f, 2.1f, 1f, 0f };
-    string[] weaponIds = {"0201", "0207", "0201", "0201" };
+    string[] weaponIds = {"0201", "0201", "0201", "0201" };
     string[][] targetIDs = {
            new string[] { "0202", "0203" },
            new string[] { "0206" },
         };
+
 
     void Start () {        
         transform.name = "0201";
@@ -37,7 +43,8 @@ public class LandSymbolControllerII : MonoBehaviour {
         #region ChildObjects
         LandSymbolChange();
         pickUpObject = transform.GetChild(transform.GetChildCount() - 1).gameObject;
-        pickUpObject.SetActive(false);
+        pickUpBasePos = pickUpObject.transform.position;
+        pickUpObject.SetActive(false);        
         #endregion
 
         #region Targets        
@@ -58,11 +65,26 @@ public class LandSymbolControllerII : MonoBehaviour {
         //Debug.Log(target.name+", "+unitNum);
         if (target.name == gameObject.name)
         {
-            EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f);
-            Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
-            visitCount++;
-            if (visitCount >= GetComponent<FightController>().targetList.Count) {
-                Unit.FighterMotion.Hit(LandSymbols[currentWeather],"1");
+            switch (currentWeather)
+            {
+                case 0:
+                    pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
+                    EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
+                    Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
+                    visitCount++;
+                    if (visitCount >= GetComponent<FightController>().targetList.Count)
+                    {
+                        Unit.FighterMotion.Hit(LandSymbols[currentWeather], "1");
+                    }
+                    break;
+                case 1:
+                    pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
+                    EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
+                    Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
+                    break;
+                default :
+                    break;
+                    
             }
         }
     }

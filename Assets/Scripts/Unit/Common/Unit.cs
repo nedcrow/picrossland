@@ -114,5 +114,18 @@ namespace Unit
                 //Debug.Log("aniName(Move) : " + aniName);
             }
         }
+
+        public static void Contact(GameObject target, string unitID)
+        {
+            if (target.GetComponent<Animator>())
+            {
+                string aniName = target.transform.parent.name + "_Contact_"+unitID;
+                //Debug.Log(aniName);
+                target.GetComponent<Animator>().Play(aniName);
+            }
+        }
+
     }
+
+
 }

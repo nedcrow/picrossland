@@ -162,6 +162,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1.2
   waitTimeForMove: 2.5
+  twoDir: 0
+  havntGoal: 0
+  goal: 0
+  lastGoal: 0
 --- !u!114 &114859106912179472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -173,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0ae4270037d6524e9923980626cecfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readySeat: 0
 --- !u!212 &212380585214081286
 SpriteRenderer:
   m_ObjectHideFlags: 1

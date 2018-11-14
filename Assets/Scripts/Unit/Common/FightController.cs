@@ -60,9 +60,10 @@ public class FightController : MonoBehaviour {
         while (true)
         {
             time = time + sec;
-            //Debug.Log(hitList.Count + ", " + atkMode + ", " + afraideMode);            
+            //if(hitList.Count != null) { Debug.Log(hitList.Count + ", " + atkMode + ", " + afraideMode); }
             if (atkMode == true || afraideMode == true)
             {
+                //Debug.Log("Target : " + target.name);
                 if (hitList != null && targetList != null)
                 {
                     if (hitList.Count == targetList.Count) { Debug.Log(name + " End Searching _ All Target Hit"); break; } // Target이 Land에 없으면 search 종료.
@@ -110,16 +111,17 @@ public class FightController : MonoBehaviour {
     /// <param name="range"></param>
     /// <returns></returns>
     bool FrontTarget(float range)
-    {
+    {   
         bool success = false;
         if(targetList != null)
         {
+            //Debug.Log(target.name+", "+ target.GetComponent<UnitBase>().unitNum);
             for (int i = 0; i < targetList.Count; i++)
             {
                 Vector3 mPos = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
                 Vector3 tPos = new Vector3(targetList[i].transform.localPosition.x, targetList[i].transform.localPosition.y, 0);
                 lastTargetPos = tPos;
-                float dist = Vector3.Distance(tPos, mPos); //Debug.Log(dist);                
+                float dist = Vector3.Distance(tPos, mPos); //Debug.Log(name +", dist :"+ dist);   if (name == "0207") { Debug.Log(dist); }
                 if (dist < range && target != null)
                 {
                     if (targetList[i].transform.position == target.transform.position) { success = true; }
@@ -132,48 +134,47 @@ public class FightController : MonoBehaviour {
     void SelectTarget(List<GameObject> tList)
     {
         target = null;
-        List<GameObject> tempList = new List<GameObject>();
-
-        #region minusHits
-        bool OutOfHitList = true;
+        List<GameObject> tempList = new List<GameObject>();        
+        #region minusHits        
         if (tList != null) {
             for (int i = 0; i < tList.Count; i++)
             {
+                bool OutOfHitList = true;
                 for (int j = 0; j < hitList.Count; j++)
-                {
-                    //Debug.Log(tList[i].GetComponent<UnitBase>().unitNum + " vs " + hitList[j].GetComponent<UnitBase>().unitNum);
+                {                    
                     if (tList[i] == hitList[j])
                     {
                         OutOfHitList = false;
                         if (tList[i].GetComponent<UnitBase>())
                         {
-                            //Debug.Log(tList[i].GetComponent<UnitBase>().unitNum + " vs " + hitList[j].GetComponent<UnitBase>().unitNum);
-                            if (tList[i].GetComponent<UnitBase>().unitNum != hitList[j].GetComponent<UnitBase>().unitNum) { OutOfHitList = true; Debug.Log("Add TempTargetList"); }
+                           // Debug.Log( tList[i].name + " : " + tList[i].GetComponent<UnitBase>().unitNum + " vs " + hitList[j].name + " : " + hitList[j].GetComponent<UnitBase>().unitNum);
+                            if (tList[i].GetComponent<UnitBase>().unitNum != hitList[j].GetComponent<UnitBase>().unitNum) { OutOfHitList = true; }
                         }
-                    }
-                    //Debug.Log("OutOfHitList : " + OutOfHitList);
+                    }                   
+                    //타입이 같아도 unitNum이 다르면 tempList에 추가.
                 }
-                if (OutOfHitList == true) { tempList.Add(tList[i]); } else { }
-            }//hitList GameObject 제외.
+                //Debug.Log(tList[i].name + "'s OutOfHitList : " + OutOfHitList);
+                if (OutOfHitList == true) {
+                    bool dead = false;
+                    if (tList[i].GetComponent<FightController>())
+                    {
+                        if (tList[i].GetComponent<FightController>().dead == true) { dead = true; }
+                    }
+                    if(dead == false) { tempList.Add(tList[i]); }                   
+                } //HitList 밖이고 Dead상태가 아니면 TempList에 추가.
+            }//targetList에서 hitList GameObject들을 제외.
         }
         #endregion
-
-        //if (tempList.Count > 0) { target = tempList[0]; Debug.Log("Target : "+target.name + ", "+transform.position); }
         if (tempList != null)
         {
             if(tempList.Count > 0) {
-                target = tempList[0];
-                if (target.GetComponent<FightController>())
-                {
-                    if (target.GetComponent<FightController>().dead == true) { target = null; Debug.Log("Target Null"); }
-                }
+                target = tempList[0]; // Debug.Log("Target : " + target.name + ", " +target.GetComponent<UnitBase>().unitNum); 
             }
-        }
-        
+        }        
     }
 
     bool TargetDeadAll(List<GameObject> targetList) {
-        bool someLive = false;
+        bool someLive = false;        
         foreach(GameObject t in targetList)
         {
             if (t.GetComponent<FightController>()) {
@@ -182,9 +183,12 @@ public class FightController : MonoBehaviour {
                     someLive = true;
                 }
             }
+            else {
+                someLive = true;
+            }
         }
         return !someLive;
-    }//Target에 FightController가 없어도 True
+    }//Target에 FightController를 참고하여 죽었는지 확인. 
 
     public void HPCheck(GameObject attacker, GameObject target, int unitNum)
     {
@@ -228,13 +232,16 @@ public class FightController : MonoBehaviour {
                 List<string> clearPuzzleList = UserManager.Instance.GetCurrentInGotLandList(LandManager.instance.currentLand.id).clearPuzzleList;
                 for (int i=0; i< clearPuzzleList.Count; i++)
                 {
-                    if (clearPuzzleList[i] == weaponID)
+                    if (clearPuzzleList[i] == weaponID)//무기가 있으면
                     {
                         gotWeapon = true;
                         atkMode = true;
                         afraideMode = false;
                         StartCoroutine(AtkMode_U_Co());
                         break;
+                    }
+                    else {
+
                     }
                 }
                 //afraideMode = false;
@@ -255,6 +262,7 @@ public class FightController : MonoBehaviour {
             {
                 if (oneHit == true)
                 {
+                    //Debug.Log(target.name + " in TargetList ( "+targetList.Count+" )");
                     if (hitList.Count == targetList.Count) { Debug.Log("HitAll"); break; } // target 다 때렸으면 끝.
                     else
                     {
@@ -272,9 +280,8 @@ public class FightController : MonoBehaviour {
 
                         if (HitListAddable == true) {
                             hitList.Add(target);
-//                            targetList.Remove(target);
                             Attack_U();
-                            atkMode = false; Debug.Log("LastAttack");
+                            atkMode = false; Debug.Log(name+", LastAttack");
                             StopCoroutine(Afraide);
                             break;
                         }//hitList에 target이 없으면 추가.

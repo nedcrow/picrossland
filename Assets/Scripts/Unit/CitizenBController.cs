@@ -2,16 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// CityzenA와 차이 : 0204(SNS) 클리어 시 사진찍음.
+/// </summary>
 public class CitizenBController : MonoBehaviour {
+
+    public bool readySeat = false;
+
     #region Position_A_For_Weather
     Vector3[] firstPos = { new Vector3(-2f, -1f, -4f), new Vector3(10f, -2f, -5f), new Vector3(1f, -4f, -7f) };//-20~20, -3f+y;
     Vector3[] secondPos = { new Vector3(0, 0.2f, -2.8f), new Vector3(-0.4f, 0.2f, -2.8f), new Vector3(-0.2f, 0.2f, -2.8f) };//-20~20, -3f+y;
     Vector3[] thirdPos = { new Vector3(-0.2f, -4f, -7f), new Vector3(-0.3f, -4f, -7f), new Vector3(-0f, -4f, -7f) };//-20~20, -3f+y;
     Vector3[] fourthPos = { new Vector3(1.3f, -1.1f, -4.1f), new Vector3(0.9f, -1.3f, -4.3f), new Vector3(1f, -1.4f, -4.4f) };//-20~20, -3f+y;
     #endregion
+    
     #region Position_B_For_Weather
     Vector3[] fifthPos = { new Vector3(-1.6f, -1.5f, -4.5f), new Vector3(1.3f, -2f, -5.3f), new Vector3(1.5f, -4.4f, -7.4f) };//-20~20, -3f+y;
+    Vector3[][] sixthPos = {
+        new Vector3[]{ new Vector3(-1.3f, -2.2f, -5.2f), new Vector3(-1f, -2.2f, -5.2f) },
+        new Vector3[]{ new Vector3(1.9f, -2.3f, -5.2f), new Vector3(1.6f, -2.2f, -5.2f) },
+        new Vector3[]{ new Vector3(0.6f, -2.5f, -5.5f), new Vector3(-0.1f, -2.2f, -5.2f) }
+    };
     #endregion
+
+    Color[] colors = { new Vector4(1, 1, 1, 1), new Vector4(0.9f, 1f, 0.8f, 1), new Vector4(1f, 0.8f, 0.8f, 1) };
     RuntimeAnimatorController[] animators;
 
     void Start()
@@ -40,11 +54,12 @@ public class CitizenBController : MonoBehaviour {
     public void IdleSelect()
     {
         transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().color = colors[GetComponent<UnitBase>().unitNum];
         transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController = animators[GetComponent<UnitBase>().unitNum];
         switch (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id))
         {
             case 0:
-                float waitTime = GetComponent<MoveupController>().waitTimeForMove * GetComponent<UnitBase>().unitNum + 0.1f;
+                float waitTime = 3*(GetComponent<UnitBase>().unitNum * 2 + 1f);
                 GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTime);
                 break;
             case 1:
@@ -59,41 +74,64 @@ public class CitizenBController : MonoBehaviour {
         }
     }
 
-    void Hit(GameObject attacker, GameObject target, int unitNum) {        
+    public void Hit(GameObject attacker, GameObject target, int unitNum)
+    {
         if (target.name == gameObject.name && GetComponent<UnitBase>().unitNum == unitNum)
         {
             int currentWeather = UserManager.Instance.GetWeather(LandManager.instance.currentLand.id);
-            if (attacker.name == "0201" && currentWeather == 0)
+            #region currentWeather_0
+            if (currentWeather == 0)
             {
-                #region Atk
-                for (int i = 0; i < transform.GetChildCount(); i++)
+                if (attacker.name == "0201")
                 {
-                    Unit.FighterMotion.Attack(transform.GetChild(i).gameObject);
-                }
-                attacker.GetComponent<LandSymbolControllerII>().Hit(gameObject, attacker);
-                #endregion
+                    Debug.Log("I'am Hit : " + name + ", num : " + unitNum);
+                    #region Atk
+                    for (int i = 0; i < transform.GetChildCount(); i++)
+                    {
+                        Unit.FighterMotion.Attack(transform.GetChild(i).gameObject);
+                    }
+                    attacker.GetComponent<LandSymbolControllerII>().Hit(gameObject, attacker);
+                    #endregion
 
-                #region Movement
-                if (UserManager.Instance.ClearPuzzleCheck("0204"))
-                {
-                    GetComponent<MoveupController>().MoveUp(fourthPos[GetComponent<UnitBase>().unitNum], 0.4f);
-                }//0204퍼즐을 클리어 했으면,4번 위치로 이동.
-                else
-                {
-                    GetComponent<MoveupController>().MoveUp(thirdPos[GetComponent<UnitBase>().unitNum], 0.4f);
-                }//클리어 안 했으면 3번 위치로 이동.
-                #endregion
+                    #region Movement
+                    if (UserManager.Instance.ClearPuzzleCheck("0204"))
+                    {
+                        GetComponent<MoveupController>().MoveUp(fourthPos[GetComponent<UnitBase>().unitNum], 0.4f);
+                    }//0204퍼즐을 클리어 했으면,4번 위치로 이동.
+                    else
+                    {
+                        GetComponent<MoveupController>().MoveUp(thirdPos[GetComponent<UnitBase>().unitNum], 0.4f);
+                    }//클리어 안 했으면 3번 위치로 이동.
+                    #endregion
 
-            }//unit을 때린 Gameobject가 LandObj2이면, 투표 후 3,4번 목적지 중 하나로 이동.
-            else
+                }//unit을 때린 Gameobject가 LandObj2이면, 투표 후 3,4번 목적지 중 하나로 이동.
+                else if (attacker.name == "0204")
+                {
+                    for (int i = 0; i < transform.GetChildCount(); i++)
+                    {
+                        Unit.FighterMotion.Attack(transform.GetChild(i).gameObject, "1");
+                    }
+                    GetComponent<MoveupController>().MoveUp(thirdPos[GetComponent<UnitBase>().unitNum], 0.8f);
+                }//unit을 때린 Gameobject가 LandObj2가 아니면, 사진찍고 바로 종점으로 이동.
+            }
+            #endregion
+
+            #region currentWeather_1
+            else if (currentWeather == 1)
             {
-                for (int i = 0; i < transform.GetChildCount(); i++)
+                if (attacker.name == "0207")
                 {
-                    Unit.FighterMotion.Attack(transform.GetChild(i).gameObject,"1");
+                    GetComponent<MoveupController>().MoveUp(sixthPos[GetComponent<UnitBase>().unitNum], 0.1f);
                 }
-                GetComponent<MoveupController>().MoveUp(thirdPos[GetComponent<UnitBase>().unitNum], 0.8f);
-            }//unit을 때린 Gameobject가 LandObj2가 아니면, 사진찍고 바로 종점으로 이동.
+            }
+            #endregion
         }//Unit ID와 Num으로 피격대상이 본인인지 확인.
+    }
+
+    public void Seat(Vector3 targetPos)
+    {
+        transform.localPosition = targetPos;
+        for (int i = 0; i < transform.GetChildCount(); i++) { Unit.MoverMotion.Contact(transform.GetChild(i).gameObject, "0207"); }
     }
 
     IEnumerator Hit_Co(GameObject attacker, GameObject target, int unitNum)

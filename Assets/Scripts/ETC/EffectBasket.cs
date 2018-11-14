@@ -27,15 +27,15 @@ namespace EffectBasket
         }
         #endregion
         
-        public void Pickup(GameObject go, float limit, float speed = 0.01f)
+        public void Pickup(GameObject go, float limit, float speed = 0.01f, Vector3 startPos = new Vector3())
         {
+            if (startPos == Vector3.zero) { startPos = go.transform.position; }
             go.SetActive(true);
-            StartCoroutine(Pickup_Co(go, limit, speed));
+            StartCoroutine(Pickup_Co(go, limit, speed, startPos));
         }//target GameObject를 특정 속도로 수직 상승하게 함.
 
-        IEnumerator Pickup_Co(GameObject go, float limit, float speed)
+        IEnumerator Pickup_Co(GameObject go, float limit, float speed, Vector3 startPos)
         {
-            Vector3 startPos = go.transform.position;
             float addP = 0;            
             while (true)
             {

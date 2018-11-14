@@ -8,27 +8,67 @@ public class MoveupController : MonoBehaviour {
     public bool twoDir = false;
     public bool havntGoal = false;
     public bool goal = false;
-    int coroutineCnt = 0;
+    public bool lastGoal = false;
+    int moveCoroutineCnt = 0;
+    int moveLoopCoroutineCnt = 0;
+    Coroutine moveCoroutine;
+    Coroutine moveLoopCoroutine;
 
-
-    private void Start()
+    public void MoveUp(Vector3[] targetPoss, float waitTime = 0)
     {
-        //EventManager.instance.LandActivatedEvent += (MoveUp);   -   unitManager로 이동.
-    }
+        lastGoal = false;
+        if (moveLoopCoroutineCnt > 0) { Debug.Log(name + " CoroutineCount : " + moveLoopCoroutineCnt); StopCoroutine(moveLoopCoroutine); moveLoopCoroutineCnt = 0; }
+        if (gameObject.transform.parent.parent.gameObject.activeSelf == true)
+        {
+            if (gameObject.activeSelf == true) { moveLoopCoroutine = StartCoroutine(MoveUp_U_Loop(targetPoss, waitTime)); }
+        }
+    }//For Many Target
 
     public void MoveUp(Vector3 targetPos, float waitTime = 0)
     {
-        if (coroutineCnt > 0) { StopAllCoroutines(); coroutineCnt = 0; }
-        //Debug.Log(name + " : MoveUp : " + targetPos + ", " + coroutineCnt);   -    코루틴 수량 초기화.
-        if (gameObject.activeSelf == true) { StartCoroutine(MoveUp_U(targetPos, waitTime)); }
+        //Debug.Log(name + " CoroutineCount : " + moveCoroutineCnt);
+        if (moveCoroutineCnt > 0) { StopCoroutine(moveCoroutine); moveCoroutineCnt = 0; }
+        if (gameObject.transform.parent.parent.gameObject.activeSelf == true)
+        {
+            if (gameObject.activeSelf == true) { moveCoroutine = StartCoroutine(MoveUp_U(targetPos, waitTime)); }
+        }
+
+    }//For One Target
+
+    IEnumerator MoveUp_U_Loop(Vector3[] targetPoss, float waitTime = 0)
+    {
+        int clearPos = 0;
+        goal = true;
+        moveLoopCoroutineCnt++;
+        while (true)
+        {           
+            if (clearPos < targetPoss.Length)
+            {
+                if (goal == true) //unit이 정지 걷지 않을 때만 실행.
+                {
+                    Debug.Log("MoveName : " + name);
+                    if (gameObject.activeSelf == true) { MoveUp(targetPoss[clearPos], waitTime); clearPos++; }
+                }
+            }
+            else
+            {
+                if (goal == true)
+                {
+                    Debug.Log("LastGoal : " + name);
+                    lastGoal = true;
+                    StopAllCoroutines();
+                    break;
+                }
+            }
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 
-    
     IEnumerator MoveUp_U(Vector3 targetPos = new Vector3(), float waitTime = 0)
     {
         float sec = 0.01f;
         float time = 0;
-        coroutineCnt += 1;      // Debug.Log("coroutineCnt : "+coroutineCnt);
+        moveCoroutineCnt += 1;      // Debug.Log("coroutineCnt : "+coroutineCnt);
         Vector3 firstTargetPos = targetPos; //Debug.Log(targetPos);
         goal = false;
         while (true)
@@ -85,7 +125,7 @@ public class MoveupController : MonoBehaviour {
                 }
                 #endregion
 
-                #region Translate                
+                #region Translate   
                 while (true)
                 {
                     Vector3 _dir = (targetPos - transform.localPosition).normalized;
@@ -99,7 +139,7 @@ public class MoveupController : MonoBehaviour {
                         time = 0;
                         for (int i=0; i< transform.GetChildCount(); i++) { Unit.UnitBase.UnitIdle(transform.GetChild(i).gameObject); }                        
                         Debug.Log("moveEnd : "+name + ", "+GetComponent<UnitBase>().unitNum);                       
-                        goal = true;                        
+                        goal = true;
                         break;                        
                     }
                     yield return new WaitForSeconds(sec);
@@ -109,7 +149,9 @@ public class MoveupController : MonoBehaviour {
             if(goal == true && havntGoal == false) { break; }
             yield return new WaitForSeconds(sec);
         }
-    }   
+    }
+
+
 
     /// <summary>
     /// return one of [u(p),d(own),r(ight),l(eft)]
