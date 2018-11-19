@@ -29,6 +29,7 @@ public class DefendantController : MonoBehaviour {
     {
         if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 1)//Day
         {
+            inJail = false;
             transform.GetChild(0).gameObject.SetActive(true);
             transform.GetChild(1).gameObject.SetActive(false);
             GetComponent<MoveupController>().MoveUp(secondPos,0.5f);
