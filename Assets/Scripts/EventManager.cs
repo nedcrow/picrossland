@@ -52,7 +52,7 @@ public class EventManager : MonoBehaviour
         {
 //            EventCount = WeatherChangedEvent.GetInvocationList().Length;
             List<GameObject> unitList = LandManager.instance.GetComponent<UnitManager>().unitList;
-            //Debug.Log("weatherChange0");
+            Debug.Log("weatherChange0");
             if (WeatherChangedEvent != null)
             {
                 //TempWeatherEvent = new WeatherChanged();
@@ -77,9 +77,9 @@ public class EventManager : MonoBehaviour
 
                 }
             }
-            //Debug.Log("weatherChange1");
+            Debug.Log("weatherChange1");
             if (WeatherChangedEvent != null) { if (WeatherChangedEvent.GetInvocationList() != null) { WeatherChangedEvent(); } }
-            //Debug.Log("weatherChange2");
+            Debug.Log("weatherChange2");
         }
         catch { Debug.Log("Error_weatherChange"); } 
         if (TempWeatherEvent != null)

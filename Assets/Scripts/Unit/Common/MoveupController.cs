@@ -15,7 +15,7 @@ public class MoveupController : MonoBehaviour {
     Coroutine moveCoroutine;
     Coroutine moveLoopCoroutine;
 
-    public void Run(Vector3 targetPoss, float waitTime = 0, float speed = 1)
+    public void Run(Vector3 targetPoss, float waitTime, float speed = 1)
     {
         runSpeed = speed;
         MoveUp(targetPoss, waitTime, true);
@@ -110,7 +110,7 @@ public class MoveupController : MonoBehaviour {
 
                 #region Translate   
                 float tempSpeed;
-                if (run == true) { tempSpeed = runSpeed; yield return new WaitForSeconds(1.5f); } else { tempSpeed = speed; }
+                if (run == true) { tempSpeed = runSpeed; yield return new WaitForSeconds(0.2f); } else { tempSpeed = speed; }
                 while (true)
                 {                    
                     Vector3 _dir = (targetPos - transform.localPosition).normalized;

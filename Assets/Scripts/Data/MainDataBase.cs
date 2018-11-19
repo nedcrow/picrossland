@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainDataBase : MonoBehaviour
 {
@@ -250,6 +251,7 @@ public class MainDataBase : MonoBehaviour
 
     IEnumerator LoadAllCheck()
     {
+        float time = 0;
         while (true)
         {
             if(loadLand == true && loadPuzzle == true)
@@ -257,8 +259,10 @@ public class MainDataBase : MonoBehaviour
                 loadAll = true;
                 break;
             }
+            else if(time>7){ SceneManager.LoadScene("TitleScene"); Debug.Log("Error_DB Load");  break; }
             //Debug.Log(string.Format( "loadLand : {0},  loadPuzzle : {1}",loadLand, loadPuzzle));
             yield return new WaitForSeconds(0.2f);
+            time = time + Time.deltaTime;
         }
     }
     #endregion

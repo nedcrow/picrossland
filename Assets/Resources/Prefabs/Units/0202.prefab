@@ -73,7 +73,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 4411984518447612}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4411984518447612
 Transform:
@@ -85,8 +85,8 @@ Transform:
   m_LocalPosition: {x: -0.729, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
-  - {fileID: 4164429983687836}
   - {fileID: 4513872541697586}
+  - {fileID: 4164429983687836}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -101,7 +101,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 4411984518447612}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &95091055692314850
 Animator:
@@ -149,7 +149,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1.5
+  runSpeed: 1
   waitTimeForMove: 1.5
+  twoDir: 0
+  havntGoal: 0
+  goal: 0
+  lastGoal: 0
 --- !u!114 &114859106912179472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41c46ccfc9f95d47b7166872e930036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readySeat: 0
 --- !u!212 &212230825395886774
 SpriteRenderer:
   m_ObjectHideFlags: 1

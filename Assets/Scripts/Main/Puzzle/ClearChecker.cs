@@ -50,7 +50,7 @@ public class ClearChecker : MonoBehaviour {
             LandManager.instance.GetComponent<UnitManager>().UnitSpawn(PuzzleManager.instance.currentPuzzle.id, true, cnt); // 유닛생성 명령. 
 
             int weather = PuzzleInfo.FindPuzzleEffect.FindWeatherNum(PuzzleManager.instance.currentPuzzle.id); Debug.Log(weather);
-            EventManager.instance.WeatherChangedFunc(); // Weather 바뀜 선언.
+            //EventManager.instance.WeatherChangedFunc(); // Weather 바뀜 선언.
         }
         else
         {

@@ -16,10 +16,8 @@ public class CitizenAController : MonoBehaviour {
 
     #region Position_B_For_Weather
     Vector3[] fifthPos = { new Vector3(-1.8f, -1f, -4f), new Vector3(-1.6f, -2f, -5f), new Vector3(-1.8f, -4f, -7f) };//-20~20, -3f+y;
-    Vector3[][] sixthPos = {
-        new Vector3[]{new Vector3(-1.8f, -1.5f, -4.5f), new Vector3(-1.5f, -1.7f, -4.7f)},
-        new Vector3[]{new Vector3(-1.7f, -1.7f, -4.7f), new Vector3(-1.5f, -1.7f, -4.7f)},
-        new Vector3[]{new Vector3(-1.8f, -1.7f, -4.7f), new Vector3(-1.3f, -1.7f, -4.7f) }
+    Vector3[] sixthPos = {
+       new Vector3(-0.657f, -1.506f, -4.506f), new Vector3(0f, -1.506f, -4.506f), new Vector3(0.657f, -1.506f, -4.506f),
     };//-20~20, -3f+y;
     #endregion
 
@@ -36,7 +34,6 @@ public class CitizenAController : MonoBehaviour {
 
         SetBase();
         EventManager.instance.WeatherChangedEvent += (SetBase);
-        //EventManager.instance.WeatherChangedEvent += (IdleSelect);
         EventManager.instance.AttackedEvent += (Hit);
     }
 
@@ -45,15 +42,15 @@ public class CitizenAController : MonoBehaviour {
     /// </summary>
     void SetBase()
     {
-        IdleSelect();
         transform.position = firstPos[GetComponent<UnitBase>().unitNum];
+        IdleSelect();
     }
 
     public void IdleSelect()
     {
-        transform.GetChild(0).gameObject.SetActive(true);
-        transform.GetChild(1).GetComponent<SpriteRenderer>().color = colors[GetComponent<UnitBase>().unitNum];
-        transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController = animators[GetComponent<UnitBase>().unitNum]; //Debug.Log(name + " active : " + gameObject.activeSelf);
+//        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = colors[GetComponent<UnitBase>().unitNum];
+        transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController = animators[GetComponent<UnitBase>().unitNum]; //Debug.Log(name + " active : " + gameObject.activeSelf);
         switch (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id))
         {
             case 0:
@@ -61,8 +58,8 @@ public class CitizenAController : MonoBehaviour {
                 GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTime);
                 break;
             case 1:
-                transform.position = fifthPos[GetComponent<UnitBase>().unitNum];
-                GetComponent<MoveupController>().MoveUp(fifthPos[GetComponent<UnitBase>().unitNum], 1);
+                transform.localPosition = sixthPos[GetComponent<UnitBase>().unitNum];
+                GetComponent<MoveupController>().StopAllCoroutines();
                 break;
             case 2:
                 break;
@@ -119,16 +116,16 @@ public class CitizenAController : MonoBehaviour {
             else if (currentWeather == 1) {
                 if (attacker.name == "0207")
                 {
-                    GetComponent<MoveupController>().MoveUp(sixthPos[GetComponent<UnitBase>().unitNum], 0.1f);
+                    Seat();
+                    //GetComponent<MoveupController>().MoveUp(sixthPos[GetComponent<UnitBase>().unitNum], 0.1f);
                 }
             }
             #endregion
         }//Unit ID와 Num으로 피격대상이 본인인지 확인.
     }
 
-    public void Seat(Vector3 targetPos)
+    public void Seat()
     {
-        transform.localPosition = targetPos;
         for (int i = 0; i < transform.GetChildCount(); i++) { Unit.MoverMotion.Contact(transform.GetChild(i).gameObject,"0207"); }
         StartCoroutine(InJailCheck());
     }

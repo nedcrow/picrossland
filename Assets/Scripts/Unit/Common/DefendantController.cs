@@ -62,7 +62,7 @@ public class DefendantController : MonoBehaviour {
                     }
                     else
                     {
-                        StartCoroutine(DropJail());
+                        StartCoroutine(DropJail(attacker));
                     }
                 }               
             }
@@ -72,30 +72,36 @@ public class DefendantController : MonoBehaviour {
     }
 
     void MinusMoney() {
-        Vector3 pickUpPos = new Vector3(transform.position.x, transform.position.y+ 2,transform.position.z -0.5f);
+        Vector3 pickUpPos = new Vector3(transform.position.x+1, transform.position.y+ 2,transform.position.z -0.5f);
         pickUpBox.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().minusIcon;
         pickUpBox.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
         EffectBasket.EffectBasket.instance.Pickup(pickUpBox, 0.2f, 0.02f, pickUpPos);
     }
 
-    IEnumerator DropJail()
+    IEnumerator DropJail(GameObject target)
     {
         while (true)
         {
             if (GetComponent<MoveupController>().goal == true)
             {
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(4f);
                 transform.GetChild(1).gameObject.SetActive(true);
-                transform.GetChild(1).GetComponent<Animator>().Play("Jail_Setting");
+                transform.GetChild(1).GetComponent<Animator>().Play("Jail_Setting"); //감옥 시작
                 yield return new WaitForSeconds(2f);
-                inJail = true;
-                yield return new WaitForSeconds(5f);
-                MinusMoney();
-                yield return new WaitForSeconds(2f);
-                transform.GetChild(1).GetComponent<Animator>().Play("Jail_Open_1");
-                transform.GetChild(1).SetParent(transform.parent);
-                GetComponent<MoveupController>().Run(thirdPos, 0.01f, 3);
 
+                inJail = true;
+                yield return new WaitForSeconds(5f); //감옥 On
+
+                MinusMoney();
+                EventManager.instance.AttackedFunc(gameObject,target); // 뇌물 주기
+                yield return new WaitForSeconds(2f);
+
+                transform.GetChild(0).GetComponent<Animator>().Play("0206_StartRun");
+                transform.GetChild(1).GetComponent<Animator>().Play("Jail_Open_1"); //감옥 열고 튈 준비
+                yield return new WaitForSeconds(2f);
+
+                transform.GetChild(1).SetParent(transform.parent);
+                GetComponent<MoveupController>().Run(thirdPos, 0.01f, 2.5f); //튐.
                 break;
             }
             yield return new WaitForSeconds(0.01f);

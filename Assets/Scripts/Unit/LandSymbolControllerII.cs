@@ -39,8 +39,7 @@ public class LandSymbolControllerII : MonoBehaviour {
 
         #region ChildObjects
         LandSymbolChange();
-        pickUpObject = transform.GetChild(transform.GetChildCount() - 1).gameObject;
-        pickUpBasePos = pickUpObject.transform.position;
+        pickUpObject = transform.GetChild(transform.GetChildCount() - 1).gameObject;        
         pickUpObject.SetActive(false);        
         #endregion
 
@@ -67,6 +66,7 @@ public class LandSymbolControllerII : MonoBehaviour {
                 case 0:
                     pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
                     pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().ballot;
+                    pickUpBasePos = pickUpObject.transform.position;
                     EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
                     Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
                     visitCount++;
@@ -78,6 +78,7 @@ public class LandSymbolControllerII : MonoBehaviour {
                 case 1:
                     pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
                     pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
+                    pickUpBasePos = new Vector3(pickUpObject.transform.position.x+1f, pickUpObject.transform.position.y, pickUpObject.transform.position.z);
                     EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
                     Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
                     break;
