@@ -76,12 +76,21 @@ public class LandSymbolControllerII : MonoBehaviour {
                     }
                     break;
                 case 1:
-                    pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
-                    pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
-                    pickUpBasePos = new Vector3(pickUpObject.transform.position.x+1f, pickUpObject.transform.position.y, pickUpObject.transform.position.z);
-                    EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
-                    Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
+                    if (attacker.GetComponent<DefendantController>())
+                    {
+                        if (attacker.GetComponent<DefendantController>().inJail == false) {
+                            balanceScale.GetComponent<Animator>().Play("0201_Attack"); Debug.Log("weather_1_Hit");
+                        }
+                        else {
+                            pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
+                            pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
+                            pickUpBasePos = new Vector3(pickUpObject.transform.position.x + 0.8f, pickUpObject.transform.position.y + 0.4f, pickUpObject.transform.position.z);
+                            EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
+                            Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
+                        }
+                    }
                     break;
+
                 default :
                     break;
                     

@@ -36,6 +36,7 @@ namespace EffectBasket
 
         IEnumerator Pickup_Co(GameObject go, float limit, float speed, Vector3 startPos)
         {
+            go.SetActive(true);
             float addP = 0;            
             while (true)
             {

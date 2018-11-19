@@ -193,22 +193,24 @@ public class FightController : MonoBehaviour {
     public void HPCheck(GameObject attacker, GameObject target, int unitNum)
     {
         Debug.Log(name + " HPCheck, Attacker : " + attacker.name);
-        if (target == gameObject && unitNum == GetComponent<UnitBase>().unitNum && HP <= 0 && dead == false)
-        {
-            if (transform.GetChild(transform.GetChildCount() - 1))
+        if (GetComponent<UnitBase>()) {
+            if (target == gameObject && unitNum == GetComponent<UnitBase>().unitNum && HP <= 0 && dead == false)
             {
-                if (transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>())
+                if (transform.GetChild(transform.GetChildCount() - 1))
                 {
-                    transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>().NineTeenMotion(1.5f);
-                }
-            }// childs에 19금 obj가 붙어 있으면, 19금 obj 모션 실행.
-            Unit.UnitBase.Unit_Death(transform.GetChild(0).gameObject);
-            if (hitList.Find(x => x == target) != null) { hitList.Remove(target); } // hitList에서 Target이 있으면 리무브.
-            dead = true;
-            atkMode = false;
-            afraideMode = false;
-            StopAllCoroutines();
-        }//Target이 일치하고, HP가 0이하, dead가 false일 때
+                    if (transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>())
+                    {
+                        transform.GetChild(transform.GetChildCount() - 1).GetComponent<MarkNineTeen>().NineTeenMotion(1.5f);
+                    }
+                }// childs에 19금 obj가 붙어 있으면, 19금 obj 모션 실행.
+                Unit.UnitBase.Unit_Death(transform.GetChild(0).gameObject);
+                if (hitList.Find(x => x == target) != null) { hitList.Remove(target); } // hitList에서 Target이 있으면 리무브.
+                dead = true;
+                atkMode = false;
+                afraideMode = false;
+                StopAllCoroutines();
+            }//Target이 일치하고, HP가 0이하, dead가 false일 때
+        }
     }
 
     #region Afraide 

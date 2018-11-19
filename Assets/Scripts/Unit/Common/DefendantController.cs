@@ -85,17 +85,20 @@ public class DefendantController : MonoBehaviour {
         {
             if (GetComponent<MoveupController>().goal == true)
             {
-                yield return new WaitForSeconds(4f);
+                target.GetComponent<LandSymbolControllerII>().Hit(gameObject, target); //판결 요청
+                yield return new WaitForSeconds(5f);
+
                 transform.GetChild(1).gameObject.SetActive(true);
                 transform.GetChild(1).GetComponent<Animator>().Play("Jail_Setting"); //감옥 시작
                 yield return new WaitForSeconds(2f);
 
                 inJail = true;
-                yield return new WaitForSeconds(5f); //감옥 On
+                yield return new WaitForSeconds(5.5f); //감옥 On
 
                 MinusMoney();
-                EventManager.instance.AttackedFunc(gameObject,target); // 뇌물 주기
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(0.5f);
+                target.GetComponent<LandSymbolControllerII>().Hit(gameObject, target);
+                yield return new WaitForSeconds(2f);//뇌물
 
                 transform.GetChild(0).GetComponent<Animator>().Play("0206_StartRun");
                 transform.GetChild(1).GetComponent<Animator>().Play("Jail_Open_1"); //감옥 열고 튈 준비

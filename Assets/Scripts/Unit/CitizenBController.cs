@@ -60,7 +60,7 @@ public class CitizenBController : MonoBehaviour {
                 GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTime);
                 break;
             case 1:
-                transform.localPosition = sixthPos[GetComponent<UnitBase>().unitNum]; Debug.Log(transform.position);
+                transform.localPosition = sixthPos[GetComponent<UnitBase>().unitNum]; //Debug.Log(transform.position);
                 GetComponent<MoveupController>().StopAllCoroutines();
                 break;
             case 2:
