@@ -80,11 +80,20 @@ public class DefendantController : MonoBehaviour {
         }//Unit ID와 Num으로 피격대상이 본인인지 확인.
     }
 
-    void MinusMoney() {
-        Vector3 pickUpPos = new Vector3(transform.position.x+1, transform.position.y+ 2,transform.position.z -0.5f);
+    IEnumerator MinusMoney()
+    {
+        string[] citiyzen = { "0202", "0203" };
+        int cnt = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, citiyzen, false).Count;
+        cnt = cnt > 1 ? cnt : 1;
         pickUpBox.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().minusIcon;
         pickUpBox.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
-        EffectBasket.EffectBasket.instance.Pickup(pickUpBox, 0.2f, 0.02f, pickUpPos);
+        Vector3 pickUpPos = new Vector3(transform.position.x + 1, transform.position.y + 2, transform.position.z - 0.5f);
+
+        for (int i = 0; i < cnt; i++)
+        {
+            EffectBasket.EffectBasket.instance.Pickup(pickUpBox, 0.2f, 0.02f, pickUpPos);
+            yield return new WaitForSeconds(0.15f);
+        }
     }
 
     IEnumerator DropJail(GameObject target)
@@ -103,7 +112,7 @@ public class DefendantController : MonoBehaviour {
                 inJail = true;
                 yield return new WaitForSeconds(5.5f); //감옥 On
 
-                MinusMoney();
+                StartCoroutine(MinusMoney());
                 yield return new WaitForSeconds(0.5f);
                 target.GetComponent<LandSymbolControllerII>().Hit(gameObject, target);
                 yield return new WaitForSeconds(2f);//뇌물

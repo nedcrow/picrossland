@@ -82,10 +82,7 @@ public class LandSymbolControllerII : MonoBehaviour {
                             balanceScale.GetComponent<Animator>().Play("0201_Attack"); Debug.Log("weather_1_Hit");
                         }
                         else {
-                            pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
-                            pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
-                            pickUpBasePos = new Vector3(pickUpObject.transform.position.x + 0.8f, pickUpObject.transform.position.y + 0.4f, pickUpObject.transform.position.z);
-                            EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
+                            StartCoroutine(PickupMoney());
                             Unit.FighterMotion.Hit(LandSymbols[currentWeather]);
                         }
                     }
@@ -114,5 +111,21 @@ public class LandSymbolControllerII : MonoBehaviour {
         currentSymbol = LandSymbols[UserManager.Instance.GetWeather(LandManager.instance.currentLand.id)];
         //Debug.Log("currentSymbol : " + currentSymbol);
         currentSymbol.SetActive(true);
+    }
+
+    IEnumerator PickupMoney()
+    {
+        string[] citiyzen = { "0202", "0203" };
+        int cnt = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, citiyzen, false).Count;
+        cnt = cnt > 1 ? cnt : 1;
+        pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
+        pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
+        pickUpBasePos = new Vector3(transform.position.x + 0.6f, transform.position.y + 1.5f, transform.position.z);
+        
+        for (int i=0; i< cnt; i++)
+        {
+            EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
+            yield return new WaitForSeconds(0.15f);
+        }
     }
 }
