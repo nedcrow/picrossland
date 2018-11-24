@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.8
+  runSpeed: 1
   waitTimeForMove: 4
   twoDir: 1
   havntGoal: 0
@@ -344,6 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91adabfac2907c0409f909224f755ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUpBox: {fileID: 0}
+  jail: {fileID: 0}
   inJail: 0
 --- !u!212 &212077471350608396
 SpriteRenderer:
@@ -483,7 +486,7 @@ SpriteRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1773086681560644}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -516,7 +519,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.75, y: 1.5625}
+  m_Size: {x: 1.3125, y: 1.875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0

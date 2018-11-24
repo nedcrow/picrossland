@@ -28,6 +28,9 @@ public class CitizenBController : MonoBehaviour {
 
     void Start()
     {
+        EventManager.instance.WeatherChangedEvent += (SetBase);
+        EventManager.instance.AttackedEvent += (Hit);
+
         animators = new RuntimeAnimatorController[] {
         Resources.Load<RuntimeAnimatorController>("Animations/0203/0203_A"),
         Resources.Load<RuntimeAnimatorController>("Animations/0203/0203_B"),
@@ -35,8 +38,6 @@ public class CitizenBController : MonoBehaviour {
         };
 
         SetBase();
-        EventManager.instance.WeatherChangedEvent += (SetBase);
-        EventManager.instance.AttackedEvent += (Hit);
     }
 
     /// <summary>

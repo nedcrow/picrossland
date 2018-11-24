@@ -49,22 +49,23 @@ public class EventManager : MonoBehaviour
     {
         int EventCount = 0;
         try
-        {
-//            EventCount = WeatherChangedEvent.GetInvocationList().Length;
+        {            
             List<GameObject> unitList = LandManager.instance.GetComponent<UnitManager>().unitList;
             //Debug.Log("weatherChange0");
             if (WeatherChangedEvent != null)
             {
+                //Debug.Log("EventCount = " + WeatherChangedEvent.GetInvocationList().Length);
                 //TempWeatherEvent = new WeatherChanged();
                 foreach (WeatherChanged d in WeatherChangedEvent.GetInvocationList())
                 {
                     string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
-                    //Debug.Log(unitID);
+                    //Debug.Log("unitID : "+unitID);
                     bool sleepCheck = true;
                     if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID) != null)
                     {
                         if (LandManager.instance.GetComponent<UnitManager>().SearchUnit(unitID).transform.parent.parent.gameObject.activeSelf == true)
                         {
+                            //Debug.Log("activeUnitID : " + unitID);
                             sleepCheck = false; //찾는 GameObject가 Active상태면 비활성화시키지 않음.
                         }
                     }
@@ -76,8 +77,8 @@ public class EventManager : MonoBehaviour
                     } //active fales 또는 존재하지 않는 GameObject의 Event를 임시보관함.     
 
                 }
+                //Debug.Log("weatherChange1");
             }
-            //Debug.Log("weatherChange1");
             if (WeatherChangedEvent != null) { if (WeatherChangedEvent.GetInvocationList() != null) { WeatherChangedEvent(); } }
             //Debug.Log("weatherChange2");
         }
@@ -91,7 +92,7 @@ public class EventManager : MonoBehaviour
                 WeatherChangedEvent += d;
             }
         }//Event 실행 후 임시보관 중 Event가 있다면 원래 위치로 복구.      
-        //Debug.Log("weatherChange3");
+        Debug.Log("weatherChangeEnd");
     }
 
     public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0, bool run=false)//---------------메뉴명 확인
@@ -141,7 +142,7 @@ public class EventManager : MonoBehaviour
         {
             if (TempAttackedEvent != null)
             {
-                Debug.Log("AttackEvent0");
+                //Debug.Log("AttackEvent0 : "+ TempAttackedEvent.GetInvocationList().Length);
                 TempAttackedEvent(attacker, target, unitNum);
                 foreach (Attacked d in TempAttackedEvent.GetInvocationList()) { TempAttackedEvent -= d; }//임시보관 초기화.
             }

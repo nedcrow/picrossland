@@ -51,7 +51,7 @@ public class LandSymbolControllerII : MonoBehaviour {
         visitCount = 0;        
         GetComponent<FightController>().oneHit = true;
         GetComponent<FightController>().weaponID = weaponIds[weatherID];
-        GetComponent<FightController>().Search_U(Vector3.zero, targetID, "D", ranges[weatherID]);
+        GetComponent<FightController>().Search_U(Vector3.zero, targetID, "D", ranges[weatherID]); Debug.Log("target : " + targetID[0]);
         #endregion
     }
 

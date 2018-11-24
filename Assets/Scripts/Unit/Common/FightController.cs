@@ -57,6 +57,8 @@ public class FightController : MonoBehaviour {
         float time = 0; //searching 확인 용.
         targetList = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, targetIDs, false);
         searchMode = true;
+        atkMode = false;
+        afraideMode = false;
         while (true)
         {
             time = time + sec;

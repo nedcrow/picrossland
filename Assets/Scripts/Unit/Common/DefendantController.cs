@@ -4,34 +4,42 @@ using UnityEngine;
 
 public class DefendantController : MonoBehaviour {
 
-    public bool inJail = false;
-
-    GameObject pickUpBox;
+    public GameObject pickUpBox;
+    public GameObject jail;
+    public bool inJail = false;   
+        
     Vector3 firstPos = new Vector3(3f, -0.5f, -3.5f);//-20~20, -3f+y;    
     Vector3 secondPos = new Vector3(-0.1f, -0.5f, -3.5f);//-20~20, -3f+y;    
     Vector3 thirdPos = new Vector3(-3.5f, -0.5f, -3.5f);//-20~20, -3f+y;    
 
     void Start()
     {
+        SetChild();
         SetTransform();
         EventManager.instance.WeatherChangedEvent += (SetTransform);
         EventManager.instance.AttackedEvent += (Hit);
     }
 
-    void SetTransform() {
+    void SetChild() {
+        jail = transform.GetChild(1).gameObject;
         pickUpBox = transform.GetChild(2).gameObject;
+    }
+
+    void SetTransform() {        
         transform.localPosition = firstPos;
+        jail.transform.SetParent(transform);
+        jail.transform.position = transform.position;
+        jail.SetActive(false);
         IdleSelect();
     }
 
-
     public void IdleSelect()
-    {
+    {        
         if (UserManager.Instance.GetWeather(LandManager.instance.currentLand.id) == 1)//Day
         {
             inJail = false;
             transform.GetChild(0).gameObject.SetActive(true);
-            transform.GetChild(1).gameObject.SetActive(false);
+            jail.gameObject.SetActive(false);
             GetComponent<MoveupController>().MoveUp(secondPos,0.5f);
         }
         else
@@ -88,8 +96,8 @@ public class DefendantController : MonoBehaviour {
                 target.GetComponent<LandSymbolControllerII>().Hit(gameObject, target); //판결 요청
                 yield return new WaitForSeconds(5f);
 
-                transform.GetChild(1).gameObject.SetActive(true);
-                transform.GetChild(1).GetComponent<Animator>().Play("Jail_Setting"); //감옥 시작
+                jail.SetActive(true);
+                jail.GetComponent<Animator>().Play("Jail_Setting"); //감옥 시작
                 yield return new WaitForSeconds(2f);
 
                 inJail = true;
@@ -101,10 +109,10 @@ public class DefendantController : MonoBehaviour {
                 yield return new WaitForSeconds(2f);//뇌물
 
                 transform.GetChild(0).GetComponent<Animator>().Play("0206_StartRun");
-                transform.GetChild(1).GetComponent<Animator>().Play("Jail_Open_1"); //감옥 열고 튈 준비
+                jail.GetComponent<Animator>().Play("Jail_Open_1"); //감옥 열고 튈 준비
                 yield return new WaitForSeconds(2f);
 
-                transform.GetChild(1).SetParent(transform.parent);
+                jail.transform.SetParent(transform.parent);
                 GetComponent<MoveupController>().Run(thirdPos, 0.01f, 2.5f); //튐.
                 break;
             }
