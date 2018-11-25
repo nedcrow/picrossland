@@ -142,7 +142,7 @@ public class CitizenBController : MonoBehaviour {
                 GameObject target = LandManager.instance.GetComponent<UnitManager>().SearchUnit("0206");  //defendant
                 if (target.GetComponent<DefendantController>().inJail == true)
                 {
-                    yield return new WaitForSeconds(1.5f);
+                    //yield return new WaitForSeconds(1.5f);
                     Vector3 lastPos = new Vector3(3f, transform.position.y, transform.position.z);
                     GetComponent<MoveupController>().MoveUp(lastPos, 0.1f);
                     break;

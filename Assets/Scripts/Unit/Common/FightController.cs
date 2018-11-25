@@ -285,7 +285,7 @@ public class FightController : MonoBehaviour {
                         if (HitListAddable == true) {
                             hitList.Add(target);
                             Attack_U();
-                            atkMode = false; Debug.Log(name+", LastAttack");
+                            atkMode = false; //Debug.Log(name+", LastAttack");
                             StopCoroutine(Afraide);
                             break;
                         }//hitList에 target이 없으면 추가.

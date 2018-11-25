@@ -36,76 +36,97 @@ namespace EffectBasket
         {
             for(int i=0; i<5; i++)
             {
-                effectObjList.Add(new GameObject());
-                effectObjList[i].transform.SetParent(transform);
-                effectObjList[i].SetActive(false);
+                AddEffectObj();
             }
+        }
+
+        void AddEffectObj() {
+            effectObjList.Add(new GameObject());
+            effectObjList[effectObjList.Count - 1].name = "emptyEffect";
+            effectObjList[effectObjList.Count - 1].transform.SetParent(transform);
+            effectObjList[effectObjList.Count - 1].SetActive(false);
         }
 
         public void Pickup(GameObject go, float limit, float speed = 0.01f, Vector3 startPos = new Vector3())
         {
             if (startPos == Vector3.zero) { startPos = go.transform.position; }
-            if (effectObjList.Count == 0) { effectObjList.Add(new GameObject()); }//GameObject부족 시 1차 보충. 
-            Duplicate_AtoB(effectObjList[0], go, go.transform.parent);
+            if (effectObjList.Count == 0) { AddEffectObj(); }//GameObject부족 시 1차 보충. 
+            Duplicate_AtoB(effectObjList[0], go);
             if (go.transform.GetChildCount() > 0)
             {
                 if(go.transform.GetChildCount() > effectObjList.Count - 1) {
-                    for (int i = 0; i < go.transform.GetChildCount()- effectObjList.Count-1; i++){
-                        effectObjList.Add(Instantiate(new GameObject()));
+                    int needCnt = go.transform.GetChildCount() - (effectObjList.Count - 1); //필요 갯수 - 보유 갯수
+                    for (int i = 0; i < needCnt ; i++){
+                        AddEffectObj();
                     }
                 }//GameObject부족 시 2차 보충.
                 for(int i=0; i< go.transform.GetChildCount(); i++)
                 {
-                    Duplicate_AtoB(effectObjList[1],go.transform.GetChild(i).gameObject, effectObjList[0].transform); //need debug
+                    Duplicate_AtoB(effectObjList[1],go.transform.GetChild(i).gameObject, effectObjList[0].transform);
                     effectObjList.RemoveAt(1);
                 }
             }//만약 자식obj가 필요할경우 자식obj도 복사.
             StartCoroutine(Pickup_Co(effectObjList[0], limit, speed, startPos));
             effectObjList.RemoveAt(0);
+            go.SetActive(false);
         }//target GameObject를 특정 속도로 수직 상승하게 함.
 
-        void Duplicate_AtoB(GameObject a, GameObject b, Transform parentPos)
+        void Duplicate_AtoB(GameObject a, GameObject b, Transform parentPos = null)
         {
-            Debug.Log(a.name+", "+ b.name);
+            a.name = b.name;
             a.transform.SetParent(parentPos);
             a.transform.position = b.transform.position;
+            a.transform.localScale = b.transform.lossyScale;
             a.SetActive(true);
             if (b.GetComponent<SpriteRenderer>()) {
-                if (!a.GetComponent<SpriteRenderer>()) { a.AddComponent<SpriteRenderer>(); }
-                else
+                if (!a.GetComponent<SpriteRenderer>()) { a.AddComponent<SpriteRenderer>(); a.GetComponent<SpriteRenderer>().enabled = true; }                
+                a.GetComponent<SpriteRenderer>().sprite = b.GetComponent<SpriteRenderer>().sprite;
+                a.GetComponent<SpriteRenderer>().color = b.GetComponent<SpriteRenderer>().color;
+            }
+            else
+            {
+                if (a.GetComponent<SpriteRenderer>())
                 {
-                    a.GetComponent<SpriteRenderer>().sprite = b.GetComponent<SpriteRenderer>().sprite;
+                    a.GetComponent<SpriteRenderer>().enabled = false;
                 }
             }
         }//기본적인 복사.
 
-        IEnumerator Pickup_Co(GameObject tempObj, float limit, float speed, Vector3 startPos)
+        IEnumerator Pickup_Co(GameObject tempPickUpObj, float limit, float speed, Vector3 startPos)
         {
-            tempObj.SetActive(true);
-            effectObjList_Active.Add(tempObj);
+            tempPickUpObj.SetActive(true);
+            effectObjList_Active.Add(tempPickUpObj);
             active_Num = effectObjList_Active.Count-1;
             int myNum = active_Num;
             float addP = 0;            
             while (true)
             {
                 addP = addP + speed;
-                tempObj.transform.position = new Vector3(startPos.x, startPos.y+addP, startPos.z);
+                tempPickUpObj.transform.position = new Vector3(startPos.x, startPos.y+addP, startPos.z);
                 if(addP > limit) {
-                    int cnt = tempObj.transform.GetChildCount();
-                    if (cnt > 0) {
-                        for (int i = cnt-1; i < cnt; i--)
-                        {
-                            effectObjList.Add(tempObj.transform.GetChild(i).gameObject);
-                        }
-                    }
-                    tempObj.SetActive(false);
-                    tempObj.transform.SetParent(transform);
-                    effectObjList.Add(tempObj);
-                    effectObjList_Active.Remove(tempObj);
+                    RemovPickUpObj(tempPickUpObj);
                     break;
                 }
                 yield return new WaitForSeconds(0.08f);
             }
+        }
+
+        void RemovPickUpObj(GameObject tempPickUpObj)
+        {
+            int cnt = tempPickUpObj.transform.GetChildCount();
+            if (cnt > 0)
+            {
+                for (int i = cnt; i > 0; i--)
+                {
+                    effectObjList.Add(tempPickUpObj.transform.GetChild(i-1).gameObject);
+                    effectObjList[effectObjList.Count - 1].SetActive(false);
+                    effectObjList[effectObjList.Count - 1].transform.SetParent(transform);
+                }
+            }
+            tempPickUpObj.SetActive(false);
+            tempPickUpObj.transform.SetParent(transform);
+            effectObjList.Add(tempPickUpObj);
+            effectObjList_Active.Remove(tempPickUpObj);
         }
     }
 }

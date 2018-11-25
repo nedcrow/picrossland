@@ -83,7 +83,7 @@ public class DefendantController : MonoBehaviour {
     IEnumerator MinusMoney()
     {
         string[] citiyzen = { "0202", "0203" };
-        int cnt = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, citiyzen, false).Count;
+        int cnt = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, citiyzen, false).Count;// Debug.Log(cnt);
         cnt = cnt > 1 ? cnt : 1;
         pickUpBox.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().minusIcon;
         pickUpBox.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
@@ -92,7 +92,7 @@ public class DefendantController : MonoBehaviour {
         for (int i = 0; i < cnt; i++)
         {
             EffectBasket.EffectBasket.instance.Pickup(pickUpBox, 0.2f, 0.02f, pickUpPos);
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.4f);
         }
     }
 

@@ -51,7 +51,7 @@ public class LandSymbolControllerII : MonoBehaviour {
         visitCount = 0;        
         GetComponent<FightController>().oneHit = true;
         GetComponent<FightController>().weaponID = weaponIds[weatherID];
-        GetComponent<FightController>().Search_U(Vector3.zero, targetID, "D", ranges[weatherID]); Debug.Log("target : " + targetID[0]);
+        GetComponent<FightController>().Search_U(Vector3.zero, targetID, "D", ranges[weatherID]); //Debug.Log("target : " + targetID[0]);
         #endregion
     }
 
@@ -116,8 +116,9 @@ public class LandSymbolControllerII : MonoBehaviour {
     IEnumerator PickupMoney()
     {
         string[] citiyzen = { "0202", "0203" };
-        int cnt = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, citiyzen, false).Count;
+        int cnt = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, citiyzen, false).Count; Debug.Log(cnt);
         cnt = cnt > 1 ? cnt : 1;
+        pickUpObject.SetActive(true);
         pickUpObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().plusIcon;
         pickUpObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = UserManager.Instance.GetComponent<SpriteManager>().money;
         pickUpBasePos = new Vector3(transform.position.x + 0.6f, transform.position.y + 1.5f, transform.position.z);
@@ -125,7 +126,7 @@ public class LandSymbolControllerII : MonoBehaviour {
         for (int i=0; i< cnt; i++)
         {
             EffectBasket.EffectBasket.instance.Pickup(pickUpObject, 0.2f, 0.02f, pickUpBasePos);
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.4f);
         }
     }
 }
