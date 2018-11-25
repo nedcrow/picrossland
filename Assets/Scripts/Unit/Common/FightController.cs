@@ -231,7 +231,7 @@ public class FightController : MonoBehaviour {
         while (true)
         {
             time = time + sec;
-//            Debug.Log("Time + FrontTarget : " + time + ", " + FrontTarget(0.7f));
+            //Debug.Log(name + " : FrontTarget(0.7) : " + FrontTarget(0.7f));
             if (time > cutLine && FrontTarget(range)==true) {
                 List<string> clearPuzzleList = UserManager.Instance.GetCurrentInGotLandList(LandManager.instance.currentLand.id).clearPuzzleList;
                 for (int i=0; i< clearPuzzleList.Count; i++)

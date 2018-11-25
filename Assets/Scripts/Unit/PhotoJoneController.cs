@@ -16,8 +16,9 @@ public class PhotoJoneController : MonoBehaviour {
     void BaseSetting()
     {
         transform.localPosition = firstPos;
-        string[] targetIDs = { "0202", "0203" };
+        string[] targetIDs = { "0203" };
         GetComponent<FightController>().oneHit = true;
-        GetComponent<FightController>().Search_U(Vector3.zero, targetIDs, "D", 0.5f);
+        GetComponent<FightController>().weaponID = "0203";
+        GetComponent<FightController>().Search_U(Vector3.zero, targetIDs, "D", 0.7f);
     }
 }

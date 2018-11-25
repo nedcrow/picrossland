@@ -63,6 +63,15 @@ public class CitizenAController : MonoBehaviour {
                 GetComponent<MoveupController>().StopAllCoroutines();
                 break;
             case 2:
+                if (LandManager.instance.GetComponent<UnitManager>().SearchUnit("0209") != null)
+                {
+                    float waitTimeB = 3 * (GetComponent<UnitBase>().unitNum * 2f);
+                    GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTimeB);
+                }
+                else
+                {
+                    GetComponent<MoveupController>().StopAllCoroutines();
+                }
                 break;
             case 3:
                 break;
@@ -120,6 +129,26 @@ public class CitizenAController : MonoBehaviour {
                     Seat();
                     //GetComponent<MoveupController>().MoveUp(sixthPos[GetComponent<UnitBase>().unitNum], 0.1f);
                 }
+            }
+            #endregion
+
+            #region currentWeather_2
+            else if (currentWeather == 2)
+            {
+                if (attacker.name == "0209")
+                {
+                    #region Atk
+                    for (int i = 0; i < transform.GetChildCount(); i++)
+                    {
+                        Unit.FighterMotion.Attack(transform.GetChild(i).gameObject);
+                    }
+                    attacker.GetComponent<RibbonController>().Hit(gameObject, attacker);
+                    #endregion
+
+                    #region Movement
+                    GetComponent<MoveupController>().MoveUp(fourthPos[GetComponent<UnitBase>().unitNum], 0.4f);
+                    #endregion
+                }//ribbon에 도착했으면 ribbon을 atk하고 집으로 귀환.
             }
             #endregion
         }//Unit ID와 Num으로 피격대상이 본인인지 확인.

@@ -8,21 +8,21 @@ namespace PuzzleInfo
     {
         static Vector3[][] normalPuzzlePos_A ={
                  new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(600, 780, 0), new Vector3(650, 530, 0), new Vector3(460, 850, 0), new Vector3(-100, -100, 0), Vector3.zero, new Vector3(320, 750, 0), new Vector3(-100, 0, 0), new Vector3(170, 880, 0) }, //11 (s : 1,3,8)
-                 new Vector3[]{ Vector3.zero, new Vector3(150, 750, 0), new Vector3(160, 620, 0), new Vector3(570, 650, 0), Vector3.zero, new Vector3(-100, -100, 0), new Vector3(-100, -100, 0), new Vector3(-100, -100, 0), Vector3.zero,  new Vector3(-100, 0, 0), Vector3.zero}, //11 (s : 1,5,8,11)
-                 new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),},
+                 new Vector3[]{ Vector3.zero, new Vector3(150, 750, 0), new Vector3(160, 620, 0), new Vector3(570, 650, 0), Vector3.zero, new Vector3(-100, -100, 0), new Vector3(-100, -100, 0), Vector3.zero,  new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero}, //11 (s : 1,5,8,11)
+                 new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0)},
                  new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) }
             };//A[land][puzzle]
 
         static Vector3[][] normalPuzzlePos_B ={
                  new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(-100, 0, 0) , new Vector3(650, 530, 0) , new Vector3(460, 850, 0) , new Vector3(550, 1100, 0) , Vector3.zero, new Vector3(320, 750, 0), new Vector3(-100, 0, 0), new Vector3(170, 880, 0)   },
-                 new Vector3[]{ Vector3.zero, new Vector3(150, 750, 0), new Vector3(160, 620, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(440, 960, 0), new Vector3(560, 620, 0), new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),},
+                 new Vector3[]{ Vector3.zero, new Vector3(150, 750, 0), new Vector3(160, 620, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(440, 960, 0), new Vector3(560, 620, 0), new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0), Vector3.zero},
                  new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) },
                  new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) }
             };//B
 
         static Vector3[][] normalPuzzlePos_C ={
                  new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(-100, 0, 0) , new Vector3(650, 530, 0) , new Vector3(460, 850, 0) , new Vector3(-100, 0, 0) , Vector3.zero, new Vector3(320, 750, 0), new Vector3(550, 1120, 0), new Vector3(170, 880, 0)   },
-                 new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),new Vector3(-100, 0, 0),},
+                 new Vector3[]{ Vector3.zero, new Vector3(150, 750, 0), new Vector3(160, 620, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(340, 650, 0),new Vector3(-100, 0, 0), Vector3.zero},
                  new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) },
                  new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) }
             };//C

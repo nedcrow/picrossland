@@ -20,6 +20,7 @@ public class LandSymbolControllerII : MonoBehaviour {
     string[][] targetIDs = {
            new string[] { "0202", "0203" },
            new string[] { "0206" },
+           new string[] { "0202", "0203" }
         };
 
 
@@ -109,7 +110,7 @@ public class LandSymbolControllerII : MonoBehaviour {
             if (LandSymbols[i]) { LandSymbols[i].SetActive(false); }
         }
         currentSymbol = LandSymbols[UserManager.Instance.GetWeather(LandManager.instance.currentLand.id)];
-        //Debug.Log("currentSymbol : " + currentSymbol);
+        Debug.Log("currentSymbol : " + currentSymbol);
         currentSymbol.SetActive(true);
     }
 
