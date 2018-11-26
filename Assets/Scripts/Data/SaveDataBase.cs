@@ -96,6 +96,13 @@ namespace DataBase {
         public int spawnCount;
         public int maxCount; //1,3,6,9
     }
+
+    [Serializable]
+    public class LocalDB
+    {
+        public List<Land> landList;
+        public Puzzle[][] puzzles;
+    }
 }
 
 
