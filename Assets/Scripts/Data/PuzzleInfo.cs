@@ -22,7 +22,7 @@ namespace PuzzleInfo
 
         static Vector3[][] normalPuzzlePos_C ={
                  new Vector3[]{ Vector3.zero, new Vector3(400, 900, 0), Vector3.zero, new Vector3(-100, 0, 0) , new Vector3(650, 530, 0) , new Vector3(460, 850, 0) , new Vector3(-100, 0, 0) , Vector3.zero, new Vector3(320, 750, 0), new Vector3(550, 1120, 0), new Vector3(170, 880, 0)   },
-                 new Vector3[]{ Vector3.zero, new Vector3(150, 750, 0), new Vector3(160, 620, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(340, 650, 0),new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0)},
+                 new Vector3[]{ Vector3.zero, new Vector3(150, 750, 0), new Vector3(160, 620, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(-100, 0, 0), new Vector3(-100, 0, 0), Vector3.zero, new Vector3(540, 650, 0),new Vector3(510, 780, 0), Vector3.zero, new Vector3(-100, 0, 0)},
                  new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) },
                  new Vector3[]{ Vector3.zero, new Vector3(-100, 0, 0) }
             };//C
