@@ -20,7 +20,7 @@ public class LandSymbolControllerII : MonoBehaviour {
     string[][] targetIDs = {
            new string[] { "0202", "0203" },
            new string[] { "0206" },
-           new string[] { "0202", "0203" }
+           new string[] { "0210" }
         };
 
 

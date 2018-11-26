@@ -63,7 +63,9 @@ public class CitizenAController : MonoBehaviour {
                 GetComponent<MoveupController>().StopAllCoroutines();
                 break;
             case 2:
-                if (LandManager.instance.GetComponent<UnitManager>().SearchUnit("0209") != null)
+                #region Move_0209 
+                GameObject ribbon = LandManager.instance.GetComponent<UnitManager>().SearchUnit("0209");
+                if (ribbon != null && ribbon.GetComponent<UnitBase>().unitNum == 0)
                 {
                     float waitTimeB = 3 * (GetComponent<UnitBase>().unitNum * 2f);
                     GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTimeB);
@@ -72,6 +74,7 @@ public class CitizenAController : MonoBehaviour {
                 {
                     GetComponent<MoveupController>().StopAllCoroutines();
                 }
+                #endregion
                 break;
             case 3:
                 break;
@@ -146,7 +149,7 @@ public class CitizenAController : MonoBehaviour {
                     #endregion
 
                     #region Movement
-                    GetComponent<MoveupController>().MoveUp(fourthPos[GetComponent<UnitBase>().unitNum], 0.4f);
+                    GetComponent<MoveupController>().MoveUp(thirdPos[GetComponent<UnitBase>().unitNum], 0.4f);
                     #endregion
                 }//ribbon에 도착했으면 ribbon을 atk하고 집으로 귀환.
             }

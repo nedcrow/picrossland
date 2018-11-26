@@ -5,6 +5,7 @@ using UnityEngine;
 public class RibbonController : MonoBehaviour {
 
     List<GameObject> flowerList = new List<GameObject>();
+    List<GameObject> flowerList_active = new List<GameObject>();
 
     Vector3[] firstPos = { new Vector3(0f, 0f, -3f), new Vector3(0f, 0f, -3f) };//-20~20, -3f+y;
 
@@ -21,7 +22,7 @@ public class RibbonController : MonoBehaviour {
 	void SetBase () {
         transform.localPosition = firstPos[GetComponent<UnitBase>().unitNum];
 
-        cityzenCount = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, targetIDs[GetComponent<UnitBase>().unitNum], false).Count; Debug.Log(cityzenCount);
+        cityzenCount = LandManager.instance.GetComponent<UnitManager>().SearchUnits(transform.position, targetIDs[GetComponent<UnitBase>().unitNum], false).Count; //Debug.Log(cityzenCount);
         ReadyFlower(cityzenCount);
 
         GetComponent<FightController>().oneHit = true;
@@ -31,22 +32,49 @@ public class RibbonController : MonoBehaviour {
 
     void ReadyFlower(int count)
     {
-        Sprite flower_s = Resources.Load<Sprite>("Sprite/Puzzle/0209_Flower");
-        for(int i=0; i< count; i++)
+        if(flowerList_active.Count > 0)
         {
-            flowerList.Add(new GameObject());
-            int k = flowerList.Count - 1;
-            flowerList[k].name = "flower";
-            flowerList[k].transform.SetParent(transform);
-            flowerList[k].AddComponent<SpriteRenderer>();
-            flowerList[k].GetComponent<SpriteRenderer>().sprite = flower_s;           
+            int cnt = flowerList_active.Count;
+            for (int i=0; i< cnt; i++)
+            {
+                flowerList.Add(flowerList_active[0]);
+                flowerList_active.RemoveAt(0);
+            }
+        }
+
+        if(flowerList.Count < count)
+        {
+            int cnt = count - flowerList.Count;
+            for (int i = 0; i < cnt; i++)
+            {
+                flowerList.Add(new GameObject());
+            }
+        }
+
+        Sprite flower_s = Resources.Load<Sprite>("Sprite/Puzzle/0209_Flower");
+        for(int i=0; i< flowerList.Count; i++)
+        {            
+            flowerList[i].name = "flower";
+            flowerList[i].transform.SetParent(transform);
+            flowerList[i].AddComponent<SpriteRenderer>();
+            flowerList[i].GetComponent<SpriteRenderer>().sprite = flower_s;
+            flowerList[i].transform.localPosition = new Vector3(-10,-10,0);
+            flowerList[i].transform.localScale = new Vector3(0.25f, 0.25f, 1);
             //flowerList[k].SetActive(false);
         }
     }
 
     public void Hit(GameObject attacker, GameObject target)
     {
-        int x = GetComponent<UnitBase>().unitNum == 0 ? 1 : -1;       
-        flowerList[0].transform.position = new Vector3(x * -0.24f* (GetComponent<UnitBase>().unitNum+1), 1.3f, 0.45f);
+        if(target == gameObject)
+        {
+            int plus = attacker.name == "0202" ? 1 : -1;
+            float x = plus * -0.24f * (attacker.GetComponent<UnitBase>().unitNum + 1);
+            flowerList[0].transform.localPosition = new Vector3(x, 1.3f, 0.45f);
+            flowerList_active.Add(flowerList[0]);
+            flowerList.RemoveAt(0);
+            Debug.Log(string.Format("x :{0}",x));
+            Debug.Log("Hit_0209 : End");
+        }
     }
 }

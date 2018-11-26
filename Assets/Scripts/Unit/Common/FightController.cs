@@ -328,8 +328,8 @@ public class FightController : MonoBehaviour {
         }
         #endregion
 
-        EventManager.instance.AttackedFunc(gameObject, target, target.GetComponent<UnitBase>().unitNum);
-    }//hpAtk이 트루면 HP감소( 기본 false). potalTarget이 있으면 해당 위치로 순간이동.
+        EventManager.instance.AttackedFunc(gameObject, target, target.GetComponent<UnitBase>().unitNum); 
+    }//hpAtk이 true면 HP감소( 기본 false). potalTarget이 있으면 해당 위치로 순간이동.
 
 
     /// <summary>
