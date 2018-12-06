@@ -76,7 +76,8 @@ public class LandManager : MonoBehaviour {
         while (true)
         {
             bool passAddWait=false;
-            if(MainDataBase.instance.local == true || MainDataBase.instance.LoginDataCheck() == false) { passAddWait = true; } else { passAddWait = MainDataBase.instance.loadAdmin; } // local 아니면 admin 불러올때까지 더 기다려야함.
+            if(MainDataBase.instance.local == true || MainDataBase.instance.LoginDataCheck() == false) { passAddWait = true; Debug.Log("passAddWait : true"); }
+            else { passAddWait = MainDataBase.instance.loadAdmin; } // local 아니면 admin 불러올때까지 더 기다려야함.
             if (MainDataBase.instance.loadAll == true && passAddWait == true)
             {               
                 Debug.Log("coroutine : _OnLand / "+"PlayTime : "+ UserManager.Instance.currentUser.PlayTime);

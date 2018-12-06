@@ -14,7 +14,21 @@ public class LoginController : MonoBehaviour {
 
     private void Start()
     {
-        TryLoginGP(false);
+        StartCoroutine(TryLoginGP_C());
+        
+    }
+
+    IEnumerator TryLoginGP_C() {
+        float time = 0;
+        while (time<10)
+        {
+            if (NetworkConnectionChecker.instance.success == true)
+            {
+                TryLoginGP(false); break;
+            }
+            yield return new WaitForSeconds(0.02f);
+            time += 0.02f;
+        }
     }
 
     public void TryLoginGP(bool clicked)

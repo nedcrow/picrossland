@@ -66,10 +66,11 @@ public class CitizenBController : MonoBehaviour {
                 break;
             case 2:
                 #region Move_0209 
-                GameObject ribbon = LandManager.instance.GetComponent<UnitManager>().SearchUnit("0209");
-                if (ribbon != null && ribbon.GetComponent<UnitBase>().unitNum == 1)
+                int ribbonCount = LandManager.instance.GetComponent<UnitManager>().CountUnit("0209");               
+                if (ribbonCount == 2)
                 {
-                    float waitTimeB = 3 * (GetComponent<UnitBase>().unitNum * 2f);
+                    float waitTimeB = 3 * (GetComponent<UnitBase>().unitNum * 2f); //Debug.Log("waitTimeB : " + waitTimeB);
+
                     GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTimeB);
                 }
                 else
@@ -105,7 +106,7 @@ public class CitizenBController : MonoBehaviour {
                     #endregion
 
                     #region Movement
-                    if (UserManager.Instance.ClearPuzzleCheck("0204"))
+                    if (UserManager.Instance.ClearPuzzleCheck("0204") && LandManager.instance.GetComponent<UnitManager>().CountUnit("0204") > GetComponent<UnitBase>().unitNum)
                     {
                         GetComponent<MoveupController>().MoveUp(fourthPos[GetComponent<UnitBase>().unitNum], 0.4f);
                     }//0204퍼즐을 클리어 했으면,4번 위치로 이동.

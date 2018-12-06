@@ -33,6 +33,7 @@ public class MainDataBase : MonoBehaviour
     }
     #endregion
 
+    public float checkTime = 2;
     string savePath; // for Local
     string loginDataPath;
 
@@ -54,17 +55,30 @@ public class MainDataBase : MonoBehaviour
         local = false;
         savePath = Application.persistentDataPath + "/Save"; // for Local
         loginDataPath = Application.persistentDataPath + "/loginData"; // for Local
-        //--------------------Set realtime database ----------------------------v
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://land-of-picross-8205260.firebaseio.com/");
-        FirebaseApp.DefaultInstance.SetEditorP12FileName("land-of-picross-8205260-62de3e51bc93.p12");
-        FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("land-of-picross-8205260@appspot.gserviceaccount.com");
-        FirebaseApp.DefaultInstance.SetEditorP12Password("notasecret");
 
-        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;        
+        StartCoroutine (FireBaseDefaultInstanceSetting());
     }
-    #region FireBase
 
-    
+    #region FireBase
+    IEnumerator FireBaseDefaultInstanceSetting() {
+        float time = 0;
+        while (time<checkTime) {
+            if (NetworkConnectionChecker.instance.success == true)
+            {
+                FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://land-of-picross-8205260.firebaseio.com/");
+                FirebaseApp.DefaultInstance.SetEditorP12FileName("land-of-picross-8205260-62de3e51bc93.p12");
+                FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("land-of-picross-8205260@appspot.gserviceaccount.com");
+                FirebaseApp.DefaultInstance.SetEditorP12Password("notasecret");
+
+                DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+                break;
+            }
+            time += 0.01f;
+            yield return new WaitForSeconds(0.01f);
+        }
+    yield return null;
+    }//Set realtime database.
+
     #region BaseDB
     /// <summary>
     /// 0: ID, 1:Name, 2:Size, 3:UseSpriteNum_Min, 4: UseSpriteNum_Max, 5: Type(N or S)
@@ -72,10 +86,12 @@ public class MainDataBase : MonoBehaviour
     /// </summary>
     public void LoadLands() {
         loadAll = false;
+        Debug.Log("tryLoadLand");
         StartCoroutine(LoadAllCheck());
-        List<DataBase.Land> tempLandList = new List<DataBase.Land>();
-        try
+
+        if (NetworkConnectionChecker.instance.success == true)
         {
+            List<DataBase.Land> tempLandList = new List<DataBase.Land>();
             #region LoadLandDB_Firebase
             FirebaseDatabase.DefaultInstance.GetReference("Lands").GetValueAsync().ContinueWith
                 (
@@ -84,8 +100,8 @@ public class MainDataBase : MonoBehaviour
                     if (task.IsFaulted)
                     {
                         Debug.Log("Land, Handle the error");
-                    // Handle the error...
-                }
+                            // Handle the error...
+                        }
                     else if (task.IsCompleted)
                     {
                         Debug.Log("Land, TaskComplite");
@@ -95,13 +111,13 @@ public class MainDataBase : MonoBehaviour
                         {
                             DataBase.Land tempLand = new DataBase.Land();
                             string i_ = i.ToString(); //'Lands'DB 용 ID.
-                        tempLand.id = Convert.ToInt32(snapshot.Child(i_).Child("0").GetValue(true)); //snapShot에서 Land ID가져오기.
-                        tempLand.name = snapshot.Child(i_).Child("1").GetValue(true).ToString();
+                            tempLand.id = Convert.ToInt32(snapshot.Child(i_).Child("0").GetValue(true)); //snapShot에서 Land ID가져오기.
+                            tempLand.name = snapshot.Child(i_).Child("1").GetValue(true).ToString();
                             tempLand.price = Convert.ToInt32(snapshot.Child(i_).Child("7").GetValue(true));
                             string puzzleIDFront = tempLand.id < 10 ? "0" + tempLand.id : tempLand.id.ToString();
 
-                        #region puzzleList_S
-                        List<string> skillNum = new List<string>();
+                                #region puzzleList_S
+                                List<string> skillNum = new List<string>();
                             for (int j = 0; j < 4; j++)
                             {
                                 int tempj = 3 + j;
@@ -111,19 +127,19 @@ public class MainDataBase : MonoBehaviour
                                 {
                                     spNum = System.Convert.ToInt32(spNum) < 10 ? "0" + spNum : spNum;
                                     skillNum.Add(spNum);//skillPuzzleID_Back
-                            }
+                                }
                             }
                             tempLand.puzzleList_S = new List<string>();
                             for (int j = 0; j < skillNum.Count; j++)
                             {
                                 tempLand.puzzleList_S.Add(puzzleIDFront + skillNum[j]);//skillPuzzleID_All
-                        }
-                        #endregion//skill Puzzle 만 모아놓기
+                            }
+                                #endregion//skill Puzzle 만 모아놓기
 
-                        #region puzzleList_N
-                        List<string> normalIDList = new List<string>();
-                        //tempLand.puzzleList_N = new string[System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true))];
-                        for (int j = 0; j < System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true)); j++)
+                                #region puzzleList_N
+                                List<string> normalIDList = new List<string>();
+                                //tempLand.puzzleList_N = new string[System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true))];
+                                for (int j = 0; j < System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true)); j++)
                             {
                                 int sameCnt = 0;
                                 int max = j + 1;
@@ -143,10 +159,10 @@ public class MainDataBase : MonoBehaviour
                             {
                                 tempLand.puzzleList_N.Add(normalIDList[j]);
                             }
-                        #endregion // 모아놓은 skill puzzle을 제외한 normal puzzle만 모아놓기.
+                                #endregion // 모아놓은 skill puzzle을 제외한 normal puzzle만 모아놓기.
 
 
-                        tempLandList.Add(tempLand);
+                                tempLandList.Add(tempLand);
                         }
                         LandManager.instance.landList = tempLandList;
                         loadLand = true;
@@ -156,21 +172,21 @@ public class MainDataBase : MonoBehaviour
          );
             #endregion
         }
-        catch
+        else
         {
-            if (LoadDB_Local() == true) {
-                loadAll = true;
-                Debug.Log("Load_LocalDB");
-            }            
+            loadLand = true;
+           //읽씹.
         }
-    }
+    }//After Check That Internet Connection. 
 
     public void LoadPuzzles()
     {
         loadAll = false;
-        List<DataBase.Puzzle> tempPuzzleList = new List<DataBase.Puzzle>();
-        try
+
+        if (NetworkConnectionChecker.instance.success == true)
         {
+            List<DataBase.Puzzle> tempPuzzleList = new List<DataBase.Puzzle>();
+            #region LoadPuzzleDB_Firebase
             FirebaseDatabase.DefaultInstance.GetReference("Puzzles").GetValueAsync().ContinueWith
               (
               task =>
@@ -243,7 +259,7 @@ public class MainDataBase : MonoBehaviour
                       {
                           for (int j = 0; j < puzzleList[i].Length; j++)
                           {
-                                     
+
                               Array.Sort(puzzleList[i], delegate (DataBase.Puzzle a, DataBase.Puzzle b)
                               {
                                   return a.id.CompareTo(b.id);
@@ -255,21 +271,27 @@ public class MainDataBase : MonoBehaviour
 
                       loadPuzzle = true;
                       SaveDB_Local();
-                      Debug.Log("Kind of Puzzle : Land Count : " + PuzzleManager.instance.puzzles.Length);                      
+                      Debug.Log("Kind of Puzzle : Land Count : " + PuzzleManager.instance.puzzles.Length);
                       // Debug.Log(snapshot.Child("1").Child("0").GetValue(true));
                   }
               }
             );
+            #endregion
         }
-        catch
+        else
         {
-            Debug.Log("Can't Load Puzzles");
+            if (LoadDB_Local() == true)
+            {
+                loadPuzzle = true;
+                Debug.Log("Load_LocalDB");
+            }
         }
-    }
+    }//After Check That Internet Connection. 
 
     IEnumerator LoadAllCheck()
     {
         float time = 0;
+        Debug.Log("LoadAll Start");
         while (true)
         {
             if(loadLand == true && loadPuzzle == true)
@@ -280,13 +302,13 @@ public class MainDataBase : MonoBehaviour
             else if(time>7){ SceneManager.LoadScene("TitleScene"); Debug.Log("Error_DB Load");  break; }
             //Debug.Log(string.Format( "loadLand : {0},  loadPuzzle : {1}",loadLand, loadPuzzle));
             yield return new WaitForSeconds(0.2f);
-            time = time + Time.deltaTime;
+            time = time + 0.2f;
         }
     }
     #endregion
 
 
-    public bool OnLoadAdmin()
+    public void OnLoadAdmin()
     {
         bool firstTime = true;
         Debug.Log("default ID : "+ UserManager.Instance.currentUser.id);
@@ -349,8 +371,6 @@ public class MainDataBase : MonoBehaviour
                loadAdmin = true;
            }           
        });
-
-        return firstTime;
     }
 
 //    void OnLoadLand() { }

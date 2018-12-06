@@ -104,6 +104,30 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
+    public int CountUnit(string unitID)
+    {
+        int count = 0;
+        if (unitList.Count > 0)
+        {
+            for (int i = 0; i < unitList.Count; i++)
+            {
+                if (unitList[i].name == unitID) { count++; }
+            }//먼저 UnitList를 뒤진다. 있으면 +.
+
+            GameObject symbol = PuzzleManager.instance.currentLandObj.GetComponent<LandController>().backgroundObj.gameObject;
+            if (symbol.transform.GetChildCount() > 0)
+            {
+                symbol = symbol.transform.GetChild(0).gameObject;
+                if (unitID == symbol.name)
+                {
+                    count++;
+                }
+            }//Land Background와 비교해보고 있으면 +.            
+        }
+        return count;
+    }
+
+
     /// <summary>
     /// 
     /// </summary>

@@ -79,7 +79,8 @@ namespace EffectBasket
             a.transform.localScale = b.transform.lossyScale;
             a.SetActive(true);
             if (b.GetComponent<SpriteRenderer>()) {
-                if (!a.GetComponent<SpriteRenderer>()) { a.AddComponent<SpriteRenderer>(); a.GetComponent<SpriteRenderer>().enabled = true; }                
+                if (!a.GetComponent<SpriteRenderer>()) { a.AddComponent<SpriteRenderer>(); }
+                a.GetComponent<SpriteRenderer>().enabled = true;
                 a.GetComponent<SpriteRenderer>().sprite = b.GetComponent<SpriteRenderer>().sprite;
                 a.GetComponent<SpriteRenderer>().color = b.GetComponent<SpriteRenderer>().color;
             }

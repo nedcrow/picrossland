@@ -64,8 +64,8 @@ public class CitizenAController : MonoBehaviour {
                 break;
             case 2:
                 #region Move_0209 
-                GameObject ribbon = LandManager.instance.GetComponent<UnitManager>().SearchUnit("0209");
-                if (ribbon != null && ribbon.GetComponent<UnitBase>().unitNum == 0)
+                int ribbonCount = LandManager.instance.GetComponent<UnitManager>().CountUnit("0209");
+                if (ribbonCount >= 1)
                 {
                     float waitTimeB = 3 * (GetComponent<UnitBase>().unitNum * 2f);
                     GetComponent<MoveupController>().MoveUp(secondPos[GetComponent<UnitBase>().unitNum], waitTimeB);

@@ -51,13 +51,13 @@ public class RibbonController : MonoBehaviour {
             }
         }
 
-        Sprite flower_s = Resources.Load<Sprite>("Sprite/Puzzle/0209_Flower");
-        for(int i=0; i< flowerList.Count; i++)
+        Sprite[] flower_s = Resources.LoadAll<Sprite>("Sprite/Puzzle/0209_Flower");
+        for (int i=0; i< flowerList.Count; i++)
         {            
             flowerList[i].name = "flower";
             flowerList[i].transform.SetParent(transform);
             flowerList[i].AddComponent<SpriteRenderer>();
-            flowerList[i].GetComponent<SpriteRenderer>().sprite = flower_s;
+            flowerList[i].GetComponent<SpriteRenderer>().sprite = flower_s[GetComponent<UnitBase>().unitNum];
             flowerList[i].transform.localPosition = new Vector3(-10,-10,0);
             flowerList[i].transform.localScale = new Vector3(0.25f, 0.25f, 1);
             //flowerList[k].SetActive(false);
@@ -73,7 +73,7 @@ public class RibbonController : MonoBehaviour {
             flowerList[0].transform.localPosition = new Vector3(x, 1.3f, 0.45f);
             flowerList_active.Add(flowerList[0]);
             flowerList.RemoveAt(0);
-            Debug.Log(string.Format("x :{0}",x));
+            //Debug.Log(string.Format("x :{0}",x));
             Debug.Log("Hit_0209 : End");
         }
     }

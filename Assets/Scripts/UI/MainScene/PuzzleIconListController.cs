@@ -29,9 +29,12 @@ public class PuzzleIconListController : MonoBehaviour {
 
     private void Awake()
     {
-        BaseSetting(); //addScreen, childs, load Puzzle_Base, touchedSkill<GameObj>
+       // BaseSetting(); 
     }
 
+    /// <summary>
+    /// //addScreen, childs, load Puzzle_Base, touchedSkill<GameObj>
+    /// </summary>
     void BaseSetting() {
         Screen.SetResolution(Screen.width, (Screen.width * 16) / 9, true);
         addScreenX = (float)System.Math.Round((Screen.width / 720.0f), 2);
@@ -76,6 +79,11 @@ public class PuzzleIconListController : MonoBehaviour {
 
     public void SetPuzzleIconList(int currentLandID)
     {
+        if(activeBtns_S == null)
+        {
+            BaseSetting();
+        }
+        Debug.Log(activeBtns_S.name);
         Debug.Log("SetPuzzleIconList ID : "+currentLandID);
         SetIconList_S(currentLandID);
         SetIconList_N(currentLandID);

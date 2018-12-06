@@ -13,12 +13,13 @@ public class WeatherController : MonoBehaviour {
         {"0108","GoodNight" },
         {"0201","Land2"},
         {"0205","Land2"},
-        {"0301","RadioActive" }
+        {"0208","Land2"},
+        {"0211","Land2"},
+        { "0301","RadioActive" }
     };
 
     public void OnWeather(string skillId)
     {
-        Debug.Log("OnWeather : "+skillId);
         try
         {
             StartCoroutine(weatherDic[skillId]);
@@ -123,8 +124,8 @@ public class WeatherController : MonoBehaviour {
 
     IEnumerator Land2()
     {
-        GameObject backgroundObj = transform.parent.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject;
-        GameObject currentSymbol = null;
+        //GameObject backgroundObj = transform.parent.GetComponent<LandController>().backgroundObj.transform.GetChild(0).gameObject;
+        //GameObject currentSymbol = null;
 
         //if (backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol !=null) { currentSymbol = backgroundObj.GetComponent<LandSymbolControllerII>().currentSymbol; }
         //else { currentSymbol = backgroundObj.transform.GetChild(0).gameObject; Debug.Log("Error_Null : currentSymbol"); }

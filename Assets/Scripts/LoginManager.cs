@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 
@@ -41,28 +40,50 @@ public class LoginManager : MonoBehaviour {
 
     string displayName;
     string emailAddress;
-    string photoUrl;
+    //string photoUrl;
 
     void Awake () {
         googleLoginSuccess = false;
-        GooglePlayServiceInitialize();
-        FirebaseInitialize();
-        //게임 로그인 되어 있냐?
+        StartCoroutine(BaseInitialize());
+    }//게임 로그인 되어 있냐?
+
+    IEnumerator BaseInitialize()
+    {
+        float time = 0;
+        while (time < 2f)
+        {
+            if (NetworkConnectionChecker.instance.success == true)
+            {
+                GooglePlayServiceInitialize();
+                FirebaseInitialize();                
+                break;
+            }
+            time += 0.01f;
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 
     void GooglePlayServiceInitialize()
     {
 #if UNITY_ANDROID
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
-            .Builder()
-            .RequestServerAuthCode(false)//option
-            .EnableSavedGames()
-            .RequestIdToken()
-            .Build();
+        try
+        {
+            PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
+                .Builder()
+                .RequestServerAuthCode(false)//option
+                .EnableSavedGames()
+                .RequestIdToken()
+                .Build();
 
-        PlayGamesPlatform.InitializeInstance(config);
-        PlayGamesPlatform.DebugLogEnabled = true;
-        PlayGamesPlatform.Activate();
+            PlayGamesPlatform.InitializeInstance(config);
+            PlayGamesPlatform.DebugLogEnabled = true;
+            PlayGamesPlatform.Activate();
+        }
+        catch
+        {
+            Debug.Log("Please Check Your Network Connection.");
+        }
+
 #endif
     }
 
@@ -98,7 +119,7 @@ public class LoginManager : MonoBehaviour {
     public void OnClickGoogleLogin(bool clicked)
     {
         Debug.Log("Start_Login");
-       // GooglePlayServiceInitialize();
+        GooglePlayServiceInitialize();
        // Debug.Log("GooglePlayServiceInitialize");
 
         Social.localUser.Authenticate((bool success) => // error position
@@ -145,30 +166,34 @@ public class LoginManager : MonoBehaviour {
 
     void SignUp()
     {
-        string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken(); //PlayGamesPlatform.Instance.GetIdToken();
-
-        //Debug.Log("getToken");
-
-
-
-        Firebase.Auth.Credential credential =
-           Firebase.Auth.GoogleAuthProvider.GetCredential(idToken, null);
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+        try
         {
-            if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted)
+            string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken(); //PlayGamesPlatform.Instance.GetIdToken();
+            //Debug.Log("getToken");
+
+            Firebase.Auth.Credential credential =
+               Firebase.Auth.GoogleAuthProvider.GetCredential(idToken, null);
+            auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
             {
-                user = task.Result;
+                if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted)
+                {
+                    user = task.Result;
 
-                //result = string.Format("Email : {0}, name : {1}", user.Email, user.DisplayName);
+                    //result = string.Format("Email : {0}, name : {1}", user.Email, user.DisplayName);
 
-                UserManager.Instance.currentUser.id = user.UserId.ToString();
-                UserManager.Instance.currentUser.name = Social.localUser.userName;
-                Debug.Log("FB : "+user.DisplayName.ToString() + " / Social : " + Social.localUser.userName);
+                    UserManager.Instance.currentUser.id = user.UserId.ToString();
+                    UserManager.Instance.currentUser.name = Social.localUser.userName;
+                    Debug.Log("FB : " + user.DisplayName.ToString() + " / Social : " + Social.localUser.userName);
 
-                googleLoginSuccess = true;
-                MainDataBase.instance.SaveLocal_LoginData("LoginData.txt");
-            }
-        });
+                    googleLoginSuccess = true;
+                    MainDataBase.instance.SaveLocal_LoginData("LoginData.txt");
+                }
+            });
+        }
+        catch
+        {
+            Debug.Log("Please Check Your Network Connection.");
+        }
 
     }
 }

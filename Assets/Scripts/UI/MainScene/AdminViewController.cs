@@ -10,7 +10,7 @@ public class AdminViewController : MonoBehaviour {
     GameObject Gem;
     GameObject SettingButton;
 
-    private void Start()
+    private void Awake()
     {
         NickName = transform.GetChild(1).gameObject;
         Star = transform.GetChild(2).gameObject;
