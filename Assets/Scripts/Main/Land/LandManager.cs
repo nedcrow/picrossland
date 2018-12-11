@@ -44,8 +44,7 @@ public class LandManager : MonoBehaviour {
         views.popupView.GetComponent<PopupViewController>().loadingPop.SetActive(true);
         views.popupView.GetComponent<PopupViewController>().loadingPop.GetComponent<LoadingController>().WaitLoading();
 
-        MainDataBase.instance.LoadLands();
-        MainDataBase.instance.LoadPuzzles();
+        MainDataBase.instance.LoadBaseDB();
         MainDataBase.instance.OnLoadAdmin();
         MainDataBase.instance.LoadSetting();
         OnLand(false);
@@ -76,8 +75,10 @@ public class LandManager : MonoBehaviour {
         while (true)
         {
             bool passAddWait=false;
-            if(MainDataBase.instance.local == true || MainDataBase.instance.LoginDataCheck() == false) { passAddWait = true; Debug.Log("passAddWait : true"); }
-            else { passAddWait = MainDataBase.instance.loadAdmin; } // local 아니면 admin 불러올때까지 더 기다려야함.
+            bool logCheck = MainDataBase.instance.LoginDataCheck(); 
+            if (MainDataBase.instance.local == true || logCheck == false) { passAddWait = true; Debug.Log("passAddWait : true"); }
+            else { passAddWait = MainDataBase.instance.loadAdmin; } // local 아니면, loginData가 없으면, admin 불러올때까지 더 기다려야함.
+            Debug.Log("LoadAll : " + MainDataBase.instance.loadAll + ", passAddWait : " + passAddWait);
             if (MainDataBase.instance.loadAll == true && passAddWait == true)
             {               
                 Debug.Log("coroutine : _OnLand / "+"PlayTime : "+ UserManager.Instance.currentUser.PlayTime);
@@ -102,7 +103,7 @@ public class LandManager : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.02f);
             waitTime += 0.02f;
-            if (waitTime > 3.0f) { Debug.Log("Need_DB_Check"); }
+            if (waitTime > 3.5f) { Debug.Log("Need_DB_Check"); break; }
         }
 
     }

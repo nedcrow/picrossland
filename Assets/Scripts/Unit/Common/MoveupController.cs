@@ -21,6 +21,11 @@ public class MoveupController : MonoBehaviour {
         MoveUp(targetPoss, waitTime, true);
     }
 
+    public void Patrol(string unitID)
+    {   
+        MoveUp(RandomTargetPos(unitID),0,false,unitID);
+    }
+
     public void MoveUp(Vector3[] targetPoss, float waitTime = 0, bool run = false)
     {
         lastGoal = false;
@@ -31,13 +36,13 @@ public class MoveupController : MonoBehaviour {
         }
     }//For Many Target
 
-    public void MoveUp(Vector3 targetPos, float waitTime = 0, bool run = false)
+    public void MoveUp(Vector3 targetPos, float waitTime = 0, bool run = false, string unitID="")
     {
         //Debug.Log(name + " CoroutineCount : " + moveCoroutineCnt);
         if (moveCoroutineCnt > 0) { StopCoroutine(moveCoroutine); moveCoroutineCnt = 0; }
         if (gameObject.transform.parent.parent.gameObject.activeSelf == true)
         {
-            if (gameObject.activeSelf == true) { moveCoroutine = StartCoroutine(MoveUp_U(targetPos, waitTime, run)); }
+            if (gameObject.activeSelf == true) { moveCoroutine = StartCoroutine(MoveUp_U(targetPos, waitTime, run, unitID)); }
         }
 
     }//For One Target
@@ -71,12 +76,11 @@ public class MoveupController : MonoBehaviour {
         }
     }
 
-    IEnumerator MoveUp_U(Vector3 targetPos = new Vector3(), float waitTime = 0, bool run = false)
+    IEnumerator MoveUp_U(Vector3 targetPos = new Vector3(), float waitTime = 0, bool run = false, string unitID = "")
     {
         float sec = 0.01f;
         float time = 0;
         moveCoroutineCnt += 1;      // Debug.Log("coroutineCnt : "+coroutineCnt);
-        Vector3 firstTargetPos = targetPos; //Debug.Log(targetPos);
         goal = false;
         while (true)
         {
@@ -109,22 +113,31 @@ public class MoveupController : MonoBehaviour {
                 #endregion
 
                 #region Translate   
+                Vector3 firstPos = transform.localPosition; //Debug.Log(targetPos);
                 float tempSpeed;
                 if (run == true) { tempSpeed = runSpeed; yield return new WaitForSeconds(0.2f); } else { tempSpeed = speed; }
                 while (true)
                 {                    
-                    Vector3 _dir = (targetPos - transform.localPosition).normalized;
+                    Vector3 _dir = (targetPos - firstPos).normalized;
                     //Debug.Log(name+", tp : "+targetPos+", dir : "+_dir+", lp : "+ transform.localPosition);
                     transform.Translate(_dir * Time.deltaTime * tempSpeed);
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -3 + transform.localPosition.y);
+                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -3 + transform.localPosition.y);// z값 보정.
                     Vector3 tempPos = new Vector3(transform.localPosition.x, transform.localPosition.y, targetPos.z);
                     float dist = Vector3.Distance(targetPos, tempPos); //Debug.Log(name+", dist : "+ dist);
                     
-                    if (dist < 0.1f) {
+                    if (dist < 0.1f 
+                        || ((firstPos.x > targetPos.x) && (targetPos.x > transform.localPosition.x)) 
+                        || ((firstPos.x < targetPos.x) && (targetPos.x < transform.localPosition.x))
+                        || ((firstPos.y < targetPos.y) && (targetPos.y < transform.localPosition.y))
+                        || ((firstPos.y < targetPos.y) && (targetPos.y < transform.localPosition.y))
+                        )
+                    {
                         time = 0;
                         for (int i=0; i< transform.GetChildCount(); i++) { Unit.UnitBase.UnitIdle(transform.GetChild(i).gameObject); }                        
                         //Debug.Log("moveEnd : "+name + ", "+GetComponent<UnitBase>().unitNum);                       
                         goal = true;
+
+                        if (unitID != "") { targetPos = RandomTargetPos(unitID); }
                         break;                        
                     }
                     yield return new WaitForSeconds(sec);
@@ -198,5 +211,22 @@ public class MoveupController : MonoBehaviour {
         #endregion
 
         return dir;  // 위, 아래, 오른쪽, 왼쪽 기준.
+    }
+
+    Vector3 RandomTargetPos(string unitID) {
+        Vector3 tPos = Unit.UnitBase.RandomUnitPos(20, 20);
+        float dir = tPos.y > 1.1f ? -0.1f : 0.1f;
+        for (int i = 0; i < 10; i++)
+        {
+            if (SpawnRule.SpawnPossible.UnitSpawnPossibe(unitID, tPos))//만약 위치해도 괜찮은 곳이면,
+            {
+                i = 10;//for문 종료.
+            }
+            else
+            {
+                tPos = new Vector3(tPos.x, tPos.y + dir, tPos.z + 0.1f);   //y값 증감.                
+            }
+        }
+        return tPos;
     }
 }

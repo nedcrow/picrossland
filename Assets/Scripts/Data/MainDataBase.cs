@@ -33,7 +33,7 @@ public class MainDataBase : MonoBehaviour
     }
     #endregion
 
-    public float checkTime = 2;
+    public float checkTime = 3;
     string savePath; // for Local
     string loginDataPath;
 
@@ -70,7 +70,7 @@ public class MainDataBase : MonoBehaviour
                 FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("land-of-picross-8205260@appspot.gserviceaccount.com");
                 FirebaseApp.DefaultInstance.SetEditorP12Password("notasecret");
 
-                DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+                DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference; Debug.Log("FireBaseDefaultInstanceSetting");
                 break;
             }
             time += 0.01f;
@@ -80,211 +80,230 @@ public class MainDataBase : MonoBehaviour
     }//Set realtime database.
 
     #region BaseDB
+    public void LoadBaseDB() {
+        StartCoroutine(LoadAllCheck());
+        StartCoroutine(LoadLands());
+        StartCoroutine(LoadPuzzles());
+    }
     /// <summary>
     /// 0: ID, 1:Name, 2:Size, 3:UseSpriteNum_Min, 4: UseSpriteNum_Max, 5: Type(N or S)
     /// LoadPuzzles 보다 먼저 실행.
     /// </summary>
-    public void LoadLands() {
+    IEnumerator LoadLands() {
         loadAll = false;
         Debug.Log("tryLoadLand");
-        StartCoroutine(LoadAllCheck());
 
-        if (NetworkConnectionChecker.instance.success == true)
+        float time = 0;
+        while (time < 3f)
         {
-            List<DataBase.Land> tempLandList = new List<DataBase.Land>();
-            #region LoadLandDB_Firebase
-            FirebaseDatabase.DefaultInstance.GetReference("Lands").GetValueAsync().ContinueWith
-                (
-                task =>
-                {
-                    if (task.IsFaulted)
+            if (NetworkConnectionChecker.instance.success == true)
+            {
+                List<DataBase.Land> tempLandList = new List<DataBase.Land>();
+                #region LoadLandDB_Firebase
+                FirebaseDatabase.DefaultInstance.GetReference("Lands").GetValueAsync().ContinueWith
+                    (
+                    task =>
                     {
-                        Debug.Log("Land, Handle the error");
-                            // Handle the error...
-                        }
-                    else if (task.IsCompleted)
-                    {
-                        Debug.Log("Land, TaskComplite");
-                        DataSnapshot snapshot = task.Result;
-
-                        for (int i = 1; i < snapshot.ChildrenCount; i++)
+                        if (task.IsFaulted)
                         {
-                            DataBase.Land tempLand = new DataBase.Land();
-                            string i_ = i.ToString(); //'Lands'DB 용 ID.
+                            Debug.Log("Land, Handle the error");
+                        // Handle the error...
+                    }
+                        else if (task.IsCompleted)
+                        {
+                            //Debug.Log("Land, TaskComplite");
+                            DataSnapshot snapshot = task.Result;
+
+                            for (int i = 1; i < snapshot.ChildrenCount; i++)
+                            {
+                                DataBase.Land tempLand = new DataBase.Land();
+                                string i_ = i.ToString(); //'Lands'DB 용 ID.
                             tempLand.id = Convert.ToInt32(snapshot.Child(i_).Child("0").GetValue(true)); //snapShot에서 Land ID가져오기.
                             tempLand.name = snapshot.Child(i_).Child("1").GetValue(true).ToString();
-                            tempLand.price = Convert.ToInt32(snapshot.Child(i_).Child("7").GetValue(true));
-                            string puzzleIDFront = tempLand.id < 10 ? "0" + tempLand.id : tempLand.id.ToString();
+                                tempLand.price = Convert.ToInt32(snapshot.Child(i_).Child("7").GetValue(true));
+                                string puzzleIDFront = tempLand.id < 10 ? "0" + tempLand.id : tempLand.id.ToString();
 
-                                #region puzzleList_S
-                                List<string> skillNum = new List<string>();
-                            for (int j = 0; j < 4; j++)
-                            {
-                                int tempj = 3 + j;
-
-                                string spNum = snapshot.Child(i_).Child(tempj.ToString()).GetValue(true).ToString();
-                                if (spNum != "0")
+                            #region puzzleList_S
+                            List<string> skillNum = new List<string>();
+                                for (int j = 0; j < 4; j++)
                                 {
-                                    spNum = System.Convert.ToInt32(spNum) < 10 ? "0" + spNum : spNum;
-                                    skillNum.Add(spNum);//skillPuzzleID_Back
-                                }
-                            }
-                            tempLand.puzzleList_S = new List<string>();
-                            for (int j = 0; j < skillNum.Count; j++)
-                            {
-                                tempLand.puzzleList_S.Add(puzzleIDFront + skillNum[j]);//skillPuzzleID_All
-                            }
-                                #endregion//skill Puzzle 만 모아놓기
+                                    int tempj = 3 + j;
 
-                                #region puzzleList_N
-                                List<string> normalIDList = new List<string>();
-                                //tempLand.puzzleList_N = new string[System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true))];
-                                for (int j = 0; j < System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true)); j++)
-                            {
-                                int sameCnt = 0;
-                                int max = j + 1;
-                                string puzzleIDBack = max < 10 ? "0" + max : max.ToString();
-                                foreach (string x in skillNum)
+                                    string spNum = snapshot.Child(i_).Child(tempj.ToString()).GetValue(true).ToString();
+                                    if (spNum != "0")
+                                    {
+                                        spNum = System.Convert.ToInt32(spNum) < 10 ? "0" + spNum : spNum;
+                                        skillNum.Add(spNum);//skillPuzzleID_Back
+                                }
+                                }
+                                tempLand.puzzleList_S = new List<string>();
+                                for (int j = 0; j < skillNum.Count; j++)
                                 {
-                                    if (x == puzzleIDBack) { sameCnt++; }
-                                }
-                                if (sameCnt == 0)
+                                    tempLand.puzzleList_S.Add(puzzleIDFront + skillNum[j]);//skillPuzzleID_All
+                            }
+                            #endregion//skill Puzzle 만 모아놓기
+
+                            #region puzzleList_N
+                            List<string> normalIDList = new List<string>();
+                            //tempLand.puzzleList_N = new string[System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true))];
+                            for (int j = 0; j < System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true)); j++)
                                 {
-                                    string normalID = puzzleIDFront + puzzleIDBack;
-                                    normalIDList.Add(normalID);
+                                    int sameCnt = 0;
+                                    int max = j + 1;
+                                    string puzzleIDBack = max < 10 ? "0" + max : max.ToString();
+                                    foreach (string x in skillNum)
+                                    {
+                                        if (x == puzzleIDBack) { sameCnt++; }
+                                    }
+                                    if (sameCnt == 0)
+                                    {
+                                        string normalID = puzzleIDFront + puzzleIDBack;
+                                        normalIDList.Add(normalID);
+                                    }
                                 }
-                            }
-                            tempLand.puzzleList_N = new List<string>();
-                            for (int j = 0; j < normalIDList.Count; j++)
-                            {
-                                tempLand.puzzleList_N.Add(normalIDList[j]);
-                            }
-                                #endregion // 모아놓은 skill puzzle을 제외한 normal puzzle만 모아놓기.
+                                tempLand.puzzleList_N = new List<string>();
+                                for (int j = 0; j < normalIDList.Count; j++)
+                                {
+                                    tempLand.puzzleList_N.Add(normalIDList[j]);
+                                }
+                            #endregion // 모아놓은 skill puzzle을 제외한 normal puzzle만 모아놓기.
 
 
-                                tempLandList.Add(tempLand);
+                            tempLandList.Add(tempLand);
+                            }
+                            LandManager.instance.landList = tempLandList;
+                            loadLand = true;
                         }
-                        LandManager.instance.landList = tempLandList;
-                        loadLand = true;
-                    }
 
-                }
-         );
-            #endregion
+                    }
+             );
+                #endregion
+            }
+            else
+            {
+                loadLand = true;
+                //읽씹.
+            }
+            yield return new WaitForSeconds(0.02f);
+            time += 0.02f;
         }
-        else
-        {
-            loadLand = true;
-           //읽씹.
-        }
+       
     }//After Check That Internet Connection. 
 
-    public void LoadPuzzles()
+    IEnumerator LoadPuzzles()
     {
+        loadPuzzle = false;
         loadAll = false;
 
-        if (NetworkConnectionChecker.instance.success == true)
+        float time = 0;
+        while (time < 3f)
         {
-            List<DataBase.Puzzle> tempPuzzleList = new List<DataBase.Puzzle>();
-            #region LoadPuzzleDB_Firebase
-            FirebaseDatabase.DefaultInstance.GetReference("Puzzles").GetValueAsync().ContinueWith
-              (
-              task =>
-              {
-                  if (task.IsFaulted)
+            if (NetworkConnectionChecker.instance.success == true)
+            {
+                List<DataBase.Puzzle> tempPuzzleList = new List<DataBase.Puzzle>();
+                #region LoadPuzzleDB_Firebase
+                FirebaseDatabase.DefaultInstance.GetReference("Puzzles").GetValueAsync().ContinueWith
+                  (
+                  task =>
                   {
-                      Debug.Log("Puzzle, Handle the error");
-                  } // Handle the error...
+                      if (task.IsFaulted)
+                      {
+                          Debug.Log("Puzzle, Handle the error");
+                      } // Handle the error...
                   else if (task.IsCompleted)
-                  {
-                      Debug.Log("Puzzle, TaskComplite");
-                      DataSnapshot snapshot = task.Result;
+                      {
+                          //Debug.Log("Puzzle, TaskComplite");
+                          DataSnapshot snapshot = task.Result;
 
                       #region tempPuzzleList
                       for (int i = 1; i < snapshot.ChildrenCount; i++)
-                      {
-                          DataBase.Puzzle tempPuzzle = new DataBase.Puzzle();
-                          string i_ = i.ToString();
+                          {
+                              DataBase.Puzzle tempPuzzle = new DataBase.Puzzle();
+                              string i_ = i.ToString();
 
-                          tempPuzzle.id = snapshot.Child(i_).Child("0").GetValue(true).ToString();
-                          tempPuzzle.name = snapshot.Child(i_).Child("1").GetValue(true).ToString();
-                          tempPuzzle.size = System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true));
-                          tempPuzzle.useSpriteNum1 = System.Convert.ToInt32(snapshot.Child(i_).Child("3").GetValue(true));
-                          tempPuzzle.useSpriteNum2 = System.Convert.ToInt32(snapshot.Child(i_).Child("4").GetValue(true));
-                          tempPuzzle.type = snapshot.Child(i_).Child("5").GetValue(true).ToString();
-                          tempPuzzle.spawnCount = System.Convert.ToInt32(snapshot.Child(i_).Child("6").GetValue(true));
-                          tempPuzzle.maxCount = System.Convert.ToInt32(snapshot.Child(i_).Child("7").GetValue(true));
+                              tempPuzzle.id = snapshot.Child(i_).Child("0").GetValue(true).ToString();
+                              tempPuzzle.name = snapshot.Child(i_).Child("1").GetValue(true).ToString();
+                              tempPuzzle.size = System.Convert.ToInt32(snapshot.Child(i_).Child("2").GetValue(true));
+                              tempPuzzle.useSpriteNum1 = System.Convert.ToInt32(snapshot.Child(i_).Child("3").GetValue(true));
+                              tempPuzzle.useSpriteNum2 = System.Convert.ToInt32(snapshot.Child(i_).Child("4").GetValue(true));
+                              tempPuzzle.type = snapshot.Child(i_).Child("5").GetValue(true).ToString();
+                              tempPuzzle.spawnCount = System.Convert.ToInt32(snapshot.Child(i_).Child("6").GetValue(true));
+                              tempPuzzle.maxCount = System.Convert.ToInt32(snapshot.Child(i_).Child("7").GetValue(true));
 
-                          tempPuzzleList.Add(tempPuzzle);
-                      }//칼럼 제외 이유로 i = 1 부터 시작.
+                              tempPuzzleList.Add(tempPuzzle);
+                          }//칼럼 제외 이유로 i = 1 부터 시작.
                       #endregion
 
                       List<DataBase.Puzzle[]> puzzleList = new List<DataBase.Puzzle[]>(); //tempPuzzleList의 것을 Land 별로 옮겨담을 곳.
 
                       #region puzzleList
                       int targetPuzzleListNum = 1;
-                      int puzzleCount = tempPuzzleList.Count;
+                          int puzzleCount = tempPuzzleList.Count;
 
-                      while (puzzleCount > 0)
-                      {
+                          while (puzzleCount > 0)
+                          {
                           #region tempBaseSetting
                           List<DataBase.Puzzle> tempTempPuzzleList = new List<DataBase.Puzzle>(); //tempPuzzleList의 Puzzle을 Land순서별로 담는다.
                           List<int> tempTempNum = new List<int>(); //tempTempPuzzleList의 퍼즐을 가져올때 사용할 int
                           #endregion
                           for (int i = 0; i < tempPuzzleList.Count; i++)
-                          {
-                              string targetPuzzleListStr = targetPuzzleListNum < 10 ? "0" + targetPuzzleListNum : targetPuzzleListNum.ToString();
-                              if (targetPuzzleListStr == HarimTool.EditValue.EditText.Left(tempPuzzleList[i].id, 2))
                               {
-                                  tempTempPuzzleList.Add(tempPuzzleList[i]);
-                                  tempTempNum.Add(i);
-                                  puzzleCount--;
-                              }//Debug.Log(targetPuzzleListStr +", "+ puzzleCount);
+                                  string targetPuzzleListStr = targetPuzzleListNum < 10 ? "0" + targetPuzzleListNum : targetPuzzleListNum.ToString();
+                                  if (targetPuzzleListStr == HarimTool.EditValue.EditText.Left(tempPuzzleList[i].id, 2))
+                                  {
+                                      tempTempPuzzleList.Add(tempPuzzleList[i]);
+                                      tempTempNum.Add(i);
+                                      puzzleCount--;
+                                  }//Debug.Log(targetPuzzleListStr +", "+ puzzleCount);
                           }//Land가 같은 것 끼리 모음.1번 Land부터 시작.                      
                           DataBase.Puzzle[] tempPuzzleArr = new DataBase.Puzzle[tempTempPuzzleList.Count];
-                          for (int i = 0; i < tempTempPuzzleList.Count; i++)
-                          {
-                              tempPuzzleArr[i] = tempTempPuzzleList[i];
-                          }//PuzzleList에 순차적으로 Puzzle들을 담기 위해 List를 Array로 만든다.
+                              for (int i = 0; i < tempTempPuzzleList.Count; i++)
+                              {
+                                  tempPuzzleArr[i] = tempTempPuzzleList[i];
+                              }//PuzzleList에 순차적으로 Puzzle들을 담기 위해 List를 Array로 만든다.
                           puzzleList.Add(tempPuzzleArr);
-                          tempTempPuzzleList.Clear();
-                          tempTempNum.Clear();
-                          targetPuzzleListNum++;
-                      }
+                              tempTempPuzzleList.Clear();
+                              tempTempNum.Clear();
+                              targetPuzzleListNum++;
+                          }
                       #endregion
 
                       #region PuzzleManager.puzzles
                       PuzzleManager.instance.puzzles = new DataBase.Puzzle[puzzleList.Count][];// [landCount][puzzleCount]                 
                       for (int i = 0; i < puzzleList.Count; i++)
-                      {
-                          for (int j = 0; j < puzzleList[i].Length; j++)
                           {
-
-                              Array.Sort(puzzleList[i], delegate (DataBase.Puzzle a, DataBase.Puzzle b)
+                              for (int j = 0; j < puzzleList[i].Length; j++)
                               {
-                                  return a.id.CompareTo(b.id);
-                              });//퍼즐 ID를 순서대로 정렬
+
+                                  Array.Sort(puzzleList[i], delegate (DataBase.Puzzle a, DataBase.Puzzle b)
+                                  {
+                                      return a.id.CompareTo(b.id);
+                                  });//퍼즐 ID를 순서대로 정렬
                           }
-                          PuzzleManager.instance.puzzles[i] = puzzleList[i];
-                      }
+                              PuzzleManager.instance.puzzles[i] = puzzleList[i];
+                          }
                       #endregion
 
                       loadPuzzle = true;
-                      SaveDB_Local();
-                      Debug.Log("Kind of Puzzle : Land Count : " + PuzzleManager.instance.puzzles.Length);
+                          SaveDB_Local();
+                          Debug.Log("Kind of Puzzle : Land Count : " + PuzzleManager.instance.puzzles.Length);
                       // Debug.Log(snapshot.Child("1").Child("0").GetValue(true));
                   }
-              }
-            );
-            #endregion
-        }
-        else
-        {
-            if (LoadDB_Local() == true)
-            {
-                loadPuzzle = true;
-                Debug.Log("Load_LocalDB");
+                  }
+                );
+                #endregion
+                if (loadPuzzle == true) { break; }
             }
+            else
+            {
+                if (LoadDB_Local() == true)
+                {
+                    loadPuzzle = true;
+                    Debug.Log("Load_LocalDB");
+                }
+            }
+            yield return new WaitForSeconds(0.02f);
+            time += 0.02f;
         }
     }//After Check That Internet Connection. 
 
@@ -297,9 +316,10 @@ public class MainDataBase : MonoBehaviour
             if(loadLand == true && loadPuzzle == true)
             {
                 loadAll = true;
+                time = 0;
                 break;
             }
-            else if(time>7){ SceneManager.LoadScene("TitleScene"); Debug.Log("Error_DB Load");  break; }
+            else if(time>8){ SceneManager.LoadScene("TitleScene"); Debug.Log("Error_DB Load");  break; }
             //Debug.Log(string.Format( "loadLand : {0},  loadPuzzle : {1}",loadLand, loadPuzzle));
             yield return new WaitForSeconds(0.2f);
             time = time + 0.2f;
@@ -560,7 +580,6 @@ public class MainDataBase : MonoBehaviour
 
     void SaveLocal_Game(string fileName)
     {
-
         DirectoryInfo di = new DirectoryInfo(savePath);
         if (di.Exists == false)
         {
@@ -661,13 +680,13 @@ public class MainDataBase : MonoBehaviour
             }
             else {
                 UserManager.Instance.currentUser.settingVal = new bool[] { true, true, true };
-                Debug.Log(UserManager.Instance.currentUser.settingVal);
+                Debug.Log(UserManager.Instance.currentUser.settingVal[0]);
             }// UserManager.Instance.DefaultSetting(); }
         }
         catch (Exception e)
         {
             UserManager.Instance.currentUser.settingVal = new bool[] { true, true, true };
-            Debug.Log(UserManager.Instance.currentUser.settingVal);
+            Debug.Log(UserManager.Instance.currentUser.settingVal[0]);
             Debug.Log("error : LoadSettingValue");
         }//load 필요없음.
     }
@@ -681,9 +700,9 @@ public class MainDataBase : MonoBehaviour
             if (fi.Exists)
             {
                 BinaryFormatter bf = new BinaryFormatter();
-                FileStream fs = new FileStream(loginDataPath + "/LoginData.txt", FileMode.OpenOrCreate, FileAccess.Read);
+                FileStream fs = new FileStream(loginDataPath + "/LoginData.txt", FileMode.OpenOrCreate, FileAccess.Read); 
 
-                string loginData = (string)bf.Deserialize(fs);
+                string loginData = bf.Deserialize(fs).ToString();
                 fs.Close();
 
                 success = true;

@@ -32,7 +32,7 @@ public class EventManager : MonoBehaviour
     public event WeatherChanged WeatherChangedEvent;
     public event WeatherChanged TempWeatherEvent;
 
-    public delegate void LandActivated(Vector3 target, float waitTime, bool run);
+    public delegate void LandActivated(Vector3 target, float waitTime, bool run, string unitName);
     public event LandActivated LandActivatedEvent;
 
     public delegate void NickNameChecked(bool success);
@@ -95,17 +95,19 @@ public class EventManager : MonoBehaviour
         Debug.Log("weatherChangeEnd");
     }
 
-    public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0, bool run=false)//---------------메뉴명 확인
+    public void LandActivatedFunc(Vector3 pos = new Vector3(), float waitTime=0, bool run=false, string unitID="")//---------------메뉴명 확인
     {
         try {            
             if (LandActivatedEvent != null) {
+                #region Debug
                 //Debug.Log("LandActiveatedFunc0 : "+ LandActivatedEvent.GetInvocationList().Length);
                 //foreach (LandActivated d in LandActivatedEvent.GetInvocationList())
                 //{
                 //    string unitID = HarimTool.EditValue.EditText.Left(d.Target.ToString(), 4);
                 //    Debug.Log(unitID);
                 //}
-                LandActivatedEvent(pos, waitTime, run);
+                #endregion
+                LandActivatedEvent(pos, waitTime, run, unitID);
             }            
         }
         catch { Debug.Log("Error_LandActiveatedFunc"); }

@@ -10,7 +10,8 @@ public class RabbitController : MonoBehaviour {
     {
         Unit.UnitBase.UnitIdle(transform.GetChild(0).gameObject);
         SetTransform();
-        GetComponent<MoveupController>().speed = 1.5f;
+        EventManager.instance.WeatherChangedEvent += (SetTransform);
+        GetComponent<MoveupController>().speed = 1.2f;
     }
 
     void SetTransform()
@@ -41,7 +42,8 @@ public class RabbitController : MonoBehaviour {
         }
         GetComponent<MoveupController>().twoDir = true;
         GetComponent<MoveupController>().havntGoal = true;
+        GetComponent<MoveupController>().Patrol(transform.name);
     }
-
     
+
 }
