@@ -58,7 +58,7 @@ public class LandManager : MonoBehaviour {
     /// </summary>
     public void OnLand(bool afterClear)
     {        
-        if (afterClear)
+        if (afterClear == true)
         {
             SelectLandOnly(currentLand.id);
             CurrentLand_Unit(true); //after clear

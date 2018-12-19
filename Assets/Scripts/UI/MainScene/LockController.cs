@@ -19,14 +19,14 @@ public class LockController : MonoBehaviour {
 
     public void OnLock()
     {
-        bool gotIt = false;
+        bool gotIt = false; Debug.Log("GotLandListCount : "+UserManager.Instance.currentUser.gotLandList.Count);
         for(int i=0; i< UserManager.Instance.currentUser.gotLandList.Count; i++)
         {
             if (UserManager.Instance.currentUser.gotLandList[i].id == LandManager.instance.currentLand.id) {
                 if (UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList.Count > 0) { gotIt = true; break; }
             }
         }//currentLand에 clearpuzzle이 있으면 gotit = true.
-
+        Debug.Log("gotIt : "+gotIt);
         if(gotIt == false)
         {
             lockBG.SetActive(true);

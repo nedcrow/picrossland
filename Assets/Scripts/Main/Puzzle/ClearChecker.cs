@@ -93,6 +93,7 @@ public class ClearChecker : MonoBehaviour {
         puzzleName.transform.GetChild(0).GetComponent<Text>().text = PuzzleManager.instance.currentPuzzle.name; //현재 퍼즐 이름
         #endregion
 
+        Debug.Log("CurrentLand : "+LandManager.instance.currentLand.id);
         #region ClearPuzzle In GotLandList 
         if (!UserManager.Instance.ClearPuzzleCheck(PuzzleManager.instance.currentPuzzle.id))
         {
