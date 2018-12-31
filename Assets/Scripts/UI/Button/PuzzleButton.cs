@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PuzzleButton : MonoBehaviour {
 
     public Canvas mycanvas; // raycast가 될 캔버스 
+    public GameObject hintButton;
     GraphicRaycaster gr;
     PointerEventData ped;
 
@@ -22,7 +23,7 @@ public class PuzzleButton : MonoBehaviour {
     private void Awake()
     {    
         xDist = new int[]{0,1,0,-1}; //U,R,D,L
-        yDist = new int[]{1,0,-1,0}; //U,R,D,L       
+        yDist = new int[]{1,0,-1,0}; //U,R,D,L
     }
 
     List<Coroutine> playCoList = new List<Coroutine>();
@@ -43,8 +44,7 @@ public class PuzzleButton : MonoBehaviour {
             StopCoroutine(playedCoroutine);
             if (playCoList.Count>0) playCoList.RemoveAt(playCoList.Count - 1);
             Debug.Log("playCoList.Count(remove) : " + playCoList.Count);
-        }
-        
+        }        
     }
 
     void ReStartButtonChecker_Puzzle()
@@ -215,9 +215,34 @@ public class PuzzleButton : MonoBehaviour {
     {
         if (PuzzleManager.instance.DrawEnd == true)
         {
-            PuzzleManager.instance.GetComponent<ClearChecker>().OnGoal();
+            if (UserManager.Instance.currentUser.id == "nedcrow") { PuzzleManager.instance.GetComponent<ClearChecker>().OnGoal(); }
+            else {
+                PuzzleManager.instance.hintMode = true;
+                PuzzleManager.instance.hintCount = 10;
+                hintButton.transform.GetChild(1).GetComponent<Text>().text = "10";
+                hintButton.GetComponent<Image>().color = new Vector4(0.8f, 0.7f, 0.2f, 1);
+                hintButton.transform.GetChild(0).gameObject.SetActive(true);
+                hintButton.transform.GetChild(0).GetComponent<ButtonEffect>().SideLight(36,9);
+            }
             AdMobManager.instance.ShowInterstitialAd();
         }
+    }
+
+    public void HintTileCheck() {
+        PuzzleManager.instance.hintCount--;
+        hintButton.transform.GetChild(1).GetComponent<Text>().text = PuzzleManager.instance.hintCount.ToString();
+        if (PuzzleManager.instance.hintCount <= 0)
+        {
+            PuzzleManager.instance.hintMode = false;
+            HintModeOut();
+        }
+    }
+
+    void HintModeOut()
+    {
+        hintButton.GetComponent<Image>().color = new Vector4(0.5f, 0.5f, 0.5f, 1);
+        hintButton.transform.GetChild(1).GetComponent<Text>().text = "!";
+        hintButton.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     void Timer_Move() {

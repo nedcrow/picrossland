@@ -15,6 +15,7 @@ public class CursorController : MonoBehaviour {
     int firstCheck = 0;
 
     //위치
+    List<int> childNumList = new List<int>(); // for Hint
     int posForChild;
     Vector2 cursorPos;
     List<GameObject> targetTileList;
@@ -29,7 +30,7 @@ public class CursorController : MonoBehaviour {
             lineObjs[i].GetComponent<SpriteRenderer>().color = new Vector4(1,0.8f,0.6f,0.5f); //line color
         }
         Sprite[] tileSprites = Resources.LoadAll<Sprite>("Sprite/Tile");//currentPuzzleID
-        tiles = new Sprite[4]{ tileSprites[3], tileSprites[0], tileSprites[2], tileSprites[1] };
+        tiles = new Sprite[4]{ tileSprites[3], tileSprites[0], tileSprites[2], tileSprites[1] }; //check, question, x, empty
         targetTileList = new List<GameObject>();
 
         tick = Resources.Load<AudioClip>("SFX/cursor_tick");
@@ -53,11 +54,10 @@ public class CursorController : MonoBehaviour {
         source.PlayOneShot(tick, 1);
     }
 
-    
     public void CheckOn(int num, float checkTime) {
         posForChild = CheckPosForChild();Debug.Log(posForChild);
-        GameObject target = PuzzleManager.instance.tileGroup_Active.transform.GetChild(posForChild).gameObject;
-        //Debug.Log(target.transform.position+", "+  target.GetComponent<TileController>().check+ " / targetList Count : " + targetList.Count);
+        GameObject target = PuzzleManager.instance.tileGroup_Active.transform.GetChild(posForChild).gameObject;        //Debug.Log(target.transform.position+", "+  target.GetComponent<TileController>().check+ " / targetList Count : " + targetList.Count);
+
         int sametile = 0;        
         bool possible=false;
         if (targetTileList.Count > 0)
@@ -94,6 +94,26 @@ public class CursorController : MonoBehaviour {
                 target.GetComponent<TileController>().check = num;
             }
         }
+
+        #region Hint
+        
+        if (PuzzleManager.instance.hintMode == true) {
+            bool newHint = true;
+            foreach (int childNum in childNumList) { if (childNum == posForChild) { newHint = false; break; } }
+            
+            if (newHint == true)
+            {
+                childNumList.Add(posForChild);
+                int goal = PuzzleManager.instance.currentGoal[posForChild] == true ? 1 : 0;
+                target.GetComponent<TileController>().check = goal;
+                if (goal == 1) { target.GetComponent<SpriteRenderer>().sprite = tiles[1]; }
+                else { target.GetComponent<SpriteRenderer>().sprite = tiles[2]; }
+                PuzzleManager.instance.viewCon.puzzleView.transform.GetChild(1).GetComponent<PuzzleButton>().HintTileCheck();
+            }
+
+        }//만약 HintMode면 무조건 정답으로 체크.
+        #endregion
+
         PuzzleManager.instance.puzzleKeyBrush.Bingo(cursorPos);
         PuzzleManager.instance.gameObject.GetComponent<ClearChecker>().clearCheck();
     }//방문한 타일들을 기록하고 첫 방문 타일에만 체크.
@@ -121,6 +141,10 @@ public class CursorController : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// 커서 위치(x,v)의 타일이 그룹 내 몇번째 타일인지 확인.
+    /// </summary>
+    /// <returns></returns>
     int CheckPosForChild()
     {//world 기준 0.5f씩 이동.
         int size = PuzzleManager.instance.currentPuzzleSize;

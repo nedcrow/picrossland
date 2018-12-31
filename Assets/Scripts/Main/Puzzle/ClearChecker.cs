@@ -99,8 +99,10 @@ public class ClearChecker : MonoBehaviour {
         {
             SaveData.GotLand land = UserManager.Instance.GetCurrentInGotLandList(LandManager.instance.currentLand.id);
             land.clearPuzzleList.Add(PuzzleManager.instance.currentPuzzle.id);
+
+            if (land.clearPuzzleList.Count == land.gotPuzzleList.Count) { UserManager.Instance.currentUser.ClearLandCount++; }
             //Debug.Log(PuzzleManager.instance.currentPuzzle.id);
-        }//현재 Land에서 ClearPuzzle이 없다면 해당 ClearList에 퍼즐이름 추가.
+        }//현재 Land에서 ClearPuzzle이 없다면 해당 ClearList에 퍼즐이름 추가. 
         #endregion
         int unitCnt = LandManager.instance.GetComponent<UnitManager>().UnitCountCheck(PuzzleManager.instance.currentPuzzle.id);
         int maxCnt = PuzzleManager.instance.GetPuzzleMaxCount(PuzzleManager.instance.currentPuzzle.id);
@@ -111,7 +113,8 @@ public class ClearChecker : MonoBehaviour {
         #endregion
         UserManager.Instance.currentUser.lastLand = LandManager.instance.currentLand.id;
 
-        MainDataBase.instance.OnSaveAdmin();
+
+        //MainDataBase.instance.OnSaveAdmin(true);
     }
 
     public void OnGoal_For_Editor()

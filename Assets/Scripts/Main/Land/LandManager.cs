@@ -76,13 +76,13 @@ public class LandManager : MonoBehaviour {
         {
             bool passAddWait=false;
             bool logCheck = MainDataBase.instance.LoginDataCheck(); 
-            if (MainDataBase.instance.local == true || logCheck == false) { passAddWait = true; Debug.Log("passAddWait : true"); }
+            if (MainDataBase.instance.local == true ) { passAddWait = true; Debug.Log("passAddWait : true"); }
             else { passAddWait = MainDataBase.instance.loadAdmin; } // local 아니면, loginData가 없으면, admin 불러올때까지 더 기다려야함.
             Debug.Log("LoadAll : " + MainDataBase.instance.loadAll + ", passAddWait : " + passAddWait);
             if (MainDataBase.instance.loadAll == true && passAddWait == true)
             {               
                 Debug.Log("coroutine : _OnLand / "+"PlayTime : "+ UserManager.Instance.currentUser.PlayTime);
-                if(UserManager.Instance.currentUser.PlayTime == 0)
+                if(UserManager.Instance.currentUser.gotLandList[0].clearPuzzleList.Count == 0)
                 {
                     views.firstView.SetActive(true);
                     views.firstView.GetComponent<FirstViewController>().NickNameCheck(true);
@@ -124,7 +124,7 @@ public class LandManager : MonoBehaviour {
             landObjList[i].GetComponent<LandController>().LandSettingBG(i+1); // LandSetting( Land ID );
         } // LandObjBase Setting
 
-        if (UserManager.Instance.currentUser.PlayTime == 0)
+        if (UserManager.Instance.currentUser.gotLandList[0].clearPuzzleList.Count == 0)
         {
             gotLandObjList.Add(landObjList[0]);
             gotLandObjList.Add(landObjList[1]);

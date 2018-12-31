@@ -29,9 +29,10 @@ public class PuzzleManager : MonoBehaviour {
    // public DataBase.Land currentLand;
    [HideInInspector] public GameObject currentLandObj;
 
-    public DataBase.Puzzle[][] puzzles;
+    public DataBase.Puzzle[][] puzzles; //[land][puzzle]
     public DataBase.Puzzle currentPuzzle;
     public int currentPuzzleSize;
+    public int hintCount=10;
 
     #region HierarchyObjects
     public GameObject tileGroup_Rest;
@@ -51,6 +52,7 @@ public class PuzzleManager : MonoBehaviour {
     public Color[,] currentPixels;
     public bool[] currentGoal;
     public bool DrawEnd = false;
+    public bool hintMode = false;
 
     [HideInInspector] public GameObject land_base;
     [HideInInspector] public GameObject tile_base;
@@ -70,6 +72,7 @@ public class PuzzleManager : MonoBehaviour {
         }
         else
         {
+            hintCount = 0;
             #region Key
             currentSprites = Resources.LoadAll<Sprite>("Sprite/Puzzle/" + puzzleID);//currentPuzzleID
             currentPixels = new Color[currentPuzzleSize, currentPuzzleSize]; //for test

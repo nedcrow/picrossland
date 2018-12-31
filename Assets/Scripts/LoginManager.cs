@@ -186,7 +186,7 @@ public class LoginManager : MonoBehaviour {
                     Debug.Log("FB : " + user.DisplayName.ToString() + " / Social : " + Social.localUser.userName);
 
                     googleLoginSuccess = true;
-                    MainDataBase.instance.SaveLocal_LoginData("LoginData.txt");
+                    MainDataBase.instance.OnSaveAdmin(false);
                 }
             });
         }
