@@ -643,7 +643,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 96a52d1380466a7448b630c65d32cfa2, type: 3}
     m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
@@ -655,7 +655,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: v 3.71
+  m_Text: v 3.76
 --- !u!222 &792831509
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -973,7 +973,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -1461,7 +1461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10689655, g: 0.10689655, b: 0.10689655, a: 0.2509804}
+  m_Color: {r: 0.16896552, g: 0.16896552, b: 0.16896552, a: 0.2509804}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1536,6 +1536,7 @@ GameObject:
   - component: {fileID: 1561943938}
   - component: {fileID: 1561943937}
   - component: {fileID: 1561943939}
+  - component: {fileID: 1561943940}
   m_Layer: 0
   m_Name: LandOfPicross
   m_TagString: Untagged
@@ -1579,7 +1580,6 @@ MonoBehaviour:
     gotLandList: []
     lastpuzzle: 
     ingPuzzleList: []
-  firstGame: 0
 --- !u!114 &1561943938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,6 +1611,17 @@ MonoBehaviour:
   ballot: {fileID: 0}
   money: {fileID: 0}
   icons: []
+--- !u!114 &1561943940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1561943935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c8f740ce53d494e8f28286a040a24a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1646711403
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,7 +1967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.27931035, b: 0.26698783, a: 0.2509804}
+  m_Color: {r: 0, g: 0.4448276, b: 0.42520282, a: 0.2509804}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

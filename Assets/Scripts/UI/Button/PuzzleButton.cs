@@ -99,7 +99,7 @@ public class PuzzleButton : MonoBehaviour {
                         case 3 ://TouchPhase.End
                             //Debug.Log(results[0].gameObject.name);
                             if (results[0].gameObject.tag == "MoveBtn") { mouseTimeGrade = 0; mouseTime += 0.01f; }
-                            else if (results[0].gameObject.name == "Btn_Hint") { HintClicked(); }
+                            else if (results[0].gameObject.name == "Btn_Hint") { HintButtonClicked(); }
                             else { MarkButtonOutCheck(results); }
                             break;                            
                     }
@@ -211,20 +211,28 @@ public class PuzzleButton : MonoBehaviour {
         }        
     }
 
-    public void HintClicked()
+    public void HintButtonClicked()
     {
         if (PuzzleManager.instance.DrawEnd == true)
         {
-            if (UserManager.Instance.currentUser.id == "nedcrow") { PuzzleManager.instance.GetComponent<ClearChecker>().OnGoal(); }
-            else {
-                PuzzleManager.instance.hintMode = true;
-                PuzzleManager.instance.hintCount = 10;
-                hintButton.transform.GetChild(1).GetComponent<Text>().text = "10";
-                hintButton.GetComponent<Image>().color = new Vector4(0.8f, 0.7f, 0.2f, 1);
-                hintButton.transform.GetChild(0).gameObject.SetActive(true);
-                hintButton.transform.GetChild(0).GetComponent<ButtonEffect>().SideLight(36,9);
+            //Debug.Log(UserManager.Instance.currentUser.name);
+            if (UserManager.Instance.currentUser.name == "nedcrow")// || UserManager.Instance.currentUser.name == "test")
+            {
+                PuzzleManager.instance.GetComponent<ClearChecker>().OnGoal();
             }
-            AdMobManager.instance.ShowInterstitialAd();
+            else {
+                if(hintButton.transform.GetChild(2).GetComponent<ButtonEffect>().coolDownMode == false)
+                {
+                    PuzzleManager.instance.hintMode = true;
+                    PuzzleManager.instance.hintCount = 10;
+                    hintButton.transform.GetChild(1).GetComponent<Text>().text = "10";
+                    hintButton.GetComponent<Image>().color = new Vector4(0.8f, 0.7f, 0.2f, 1);
+                    hintButton.transform.GetChild(0).gameObject.SetActive(true);
+                    hintButton.transform.GetChild(0).GetComponent<ButtonEffect>().SideLight(36, 9);
+
+                    AdMobManager.instance.ShowInterstitialAd();
+                }
+            }                       
         }
     }
 
@@ -234,15 +242,21 @@ public class PuzzleButton : MonoBehaviour {
         if (PuzzleManager.instance.hintCount <= 0)
         {
             PuzzleManager.instance.hintMode = false;
-            HintModeOut();
+            HintModeOut(false);
         }
     }
 
-    void HintModeOut()
+    public void HintModeOut(bool first)
     {
         hintButton.GetComponent<Image>().color = new Vector4(0.5f, 0.5f, 0.5f, 1);
         hintButton.transform.GetChild(1).GetComponent<Text>().text = "!";
         hintButton.transform.GetChild(0).gameObject.SetActive(false);
+
+        if (first == false)
+        {
+            hintButton.transform.GetChild(2).gameObject.SetActive(true);
+            hintButton.transform.GetChild(2).GetComponent<ButtonEffect>().CoolDownButton(60);
+        }       
     }
 
     void Timer_Move() {

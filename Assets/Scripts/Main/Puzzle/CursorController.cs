@@ -157,12 +157,12 @@ public class CursorController : MonoBehaviour {
 
     // ------ sound Test ------ //
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            source = GetComponent<AudioSource>();
-            source.PlayOneShot(tick, 1);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        source = GetComponent<AudioSource>();
+    //        source.PlayOneShot(tick, 1);
+    //    }
+    //}
 }

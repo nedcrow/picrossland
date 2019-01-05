@@ -138,7 +138,7 @@ public class PuzzleIconListController : MonoBehaviour {
 
             Vector3 newPos = PuzzleInfo.FindPuzzlePos.puzzlePos(puzzleID, weather); //find Pos
             puzzleIconList_N_Active[i].GetComponent<RectTransform>().position = new Vector3(newPos.x * addScreenX, newPos.y * addScreenY, newPos.z); //Set Convert Pos
-
+            puzzleIconList_N_Active[i].GetComponent<RectTransform>().localScale = new Vector3(1/ addScreenX, 1/ addScreenY, 1);
             puzzleIconList_N_Active[i].name = "btn_"+ puzzleID;
             if (i < normalCount)
             {                
@@ -148,8 +148,8 @@ public class PuzzleIconListController : MonoBehaviour {
         }
         for(int i=0; i < restBtns_N.transform.childCount; i++) {
             restBtns_N.transform.GetChild(i).transform.position = restBtns_N.transform.position;
-        }
-        //Debug.Log(Screen.width+ "/.0 = "+ addScreenX + ", " + Screen.height +"/.0 = "+ addScreenY);
+        }//restButton
+        //Debug.Log(Screen.width+ "/720 = "+ addScreenX + ", " + Screen.height +"/1280 = "+ addScreenY);
         #endregion
 
         #region Set Btn's Star in List

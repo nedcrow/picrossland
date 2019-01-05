@@ -28,7 +28,7 @@ public class AdminViewController : MonoBehaviour {
             clearPuzzleCount += UserManager.Instance.currentUser.gotLandList[i].clearPuzzleList.Count;
         }
         //Debug.Log("clearPuzzleCount : " + clearPuzzleCount);
-        Star.transform.GetChild(0).GetComponent<Text>().text = clearPuzzleCount.ToString();
+        Star.transform.GetChild(0).GetComponent<Text>().text = UserManager.Instance.currentUser.star.ToString();
 
         Gem.transform.GetChild(0).GetComponent<Text>().text = UserManager.Instance.currentUser.gem.ToString();
         

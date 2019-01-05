@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class PixelRainEffect : MonoBehaviour {
 
+    #region EffectProperty
     public GameObject dropObj;
-
+   
     [System.Serializable]
     public struct EffectBase {
         public float lifeTime;
@@ -36,9 +37,13 @@ public class PixelRainEffect : MonoBehaviour {
     public EffectBase effectBase = new EffectBase();
     public EffectSpeed dropSpeed = new EffectSpeed();
     public EffectAlpha dropAlpha = new EffectAlpha();
+    #endregion
+    // inspector의 이펙트 변수 설정에 사용.
 
     List<Drop> DropObjList_Active = new List<Drop>();
     List<Drop> DropObjList_Rest = new List<Drop>();
+
+    Color tColor;
 
     private void Start()
     {
@@ -63,7 +68,18 @@ public class PixelRainEffect : MonoBehaviour {
         }
     }
 
-    Color tColor;
+    void DropObjSetting()
+    {
+        int count = (Mathf.CeilToInt(((effectBase.lifeTime * dropSpeed.framePerSecond) / dropSpeed.framePerSpwan)) + 1) * effectBase.spwanCount; //Debug.Log("DropSetting : " + count);
+
+        for (int i = 0; i < count; i++)
+        {
+            DropObjList_Rest.Add(new Drop(Instantiate(dropObj)));
+            DropObjList_Rest[i].dropObj.transform.SetParent(transform);
+            DropObjList_Rest[i].dropObj.SetActive(false);
+        }
+    }
+
     void DropSpawn()
     {
         for (int i=0; i<effectBase.spwanCount; i++)
@@ -119,17 +135,7 @@ public class PixelRainEffect : MonoBehaviour {
         }
     }
 
-    void DropObjSetting()
-    {
-        int count = (Mathf.CeilToInt(((effectBase.lifeTime * dropSpeed.framePerSecond) / dropSpeed.framePerSpwan))+1) * effectBase.spwanCount; Debug.Log("DropSetting : "+count);
-       
-        for(int i=0; i<count; i++)
-        {
-            DropObjList_Rest.Add(new Drop(Instantiate(dropObj)));
-            DropObjList_Rest[i].dropObj.transform.SetParent(transform);
-            DropObjList_Rest[i].dropObj.SetActive(false);
-        }
-    }
+   
 
 }
 

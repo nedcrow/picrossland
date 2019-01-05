@@ -68,7 +68,8 @@ public class LockController : MonoBehaviour {
             {
                 unLockButton.transform.GetChild(0).gameObject.SetActive(true);
                 unLockButton.transform.GetChild(0).GetComponent<Image>().color = new Vector4(210 * 0.004f, 0, 0, 1);
-                unLockButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Gem " + LandManager.instance.currentLand.price;
+                //unLockButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Gem " + LandManager.instance.currentLand.price;
+                unLockButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "업데이트\r\n-예정-";
                 unLockButton.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate {
                     CheckGem(LandManager.instance.currentLand.price);
                 });

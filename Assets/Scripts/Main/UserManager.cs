@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class UserManager : MonoBehaviour {
@@ -27,8 +26,7 @@ public class UserManager : MonoBehaviour {
 
     [SerializeField]
     public SaveData.User currentUser = new SaveData.User();
-    
-    [SerializeField]
+       
     bool firstGame;
 
     void Awake () {
@@ -48,6 +46,7 @@ public class UserManager : MonoBehaviour {
         currentUser.lastLand = 1;
     }
 
+    #region Weather
     /// <summary>
     /// Get Weather of CurrentLand In gotLandList. (0~3).
     /// </summary>
@@ -80,6 +79,8 @@ public class UserManager : MonoBehaviour {
             }
         }
     }
+
+    #endregion
 
     public void SetStartTime()
     {

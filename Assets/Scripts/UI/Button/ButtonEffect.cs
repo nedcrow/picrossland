@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonEffect : MonoBehaviour {
 
@@ -13,10 +14,10 @@ public class ButtonEffect : MonoBehaviour {
 	public void SideLight(int sizeR, int unit = 1)
     {
         if(effect_Co != null) { StopCoroutine(effect_Co); }
-        effect_Co = StartCoroutine(sideLight_Co(sizeR, unit));        
+        effect_Co = StartCoroutine(SideLight_Co(sizeR, unit));        
     }
 
-    IEnumerator sideLight_Co(int sizeR, int unit = 1)
+    IEnumerator SideLight_Co(int sizeR, int unit = 1)
     {
         int baseSizeX = 0 - sizeR; //base localPosition
         int baseSizeY = 0 + sizeR;
@@ -31,5 +32,26 @@ public class ButtonEffect : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    public void CoolDownButton(float coolTime)
+    {
+        StartCoroutine(CoolDown(coolTime));
+    }
+
+    public bool coolDownMode = false;
+    IEnumerator CoolDown(float coolTime) {
+        coolDownMode = true;
+        Image coolDown = GetComponent<Image>();
+        float time = 0;
+        coolDown.fillAmount = 1;
+        while (coolDown.fillAmount > 0.001f)
+        {
+            coolDown.fillAmount -= 1 / coolTime * Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+            time += Time.deltaTime;            
+        }
+        coolDownMode = false;
+        gameObject.SetActive(false);
     }
 }

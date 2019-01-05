@@ -82,21 +82,23 @@ public class LandManager : MonoBehaviour {
             if (MainDataBase.instance.loadAll == true && passAddWait == true)
             {               
                 Debug.Log("coroutine : _OnLand / "+"PlayTime : "+ UserManager.Instance.currentUser.PlayTime);
-                if(UserManager.Instance.currentUser.gotLandList[0].clearPuzzleList.Count == 0)
-                {
+
+                if (UserManager.Instance.currentUser.gotLandList.Count == 0) { firstGame = true; }
+                else if (UserManager.Instance.currentUser.gotLandList[0].clearPuzzleList.Count == 0) { firstGame = true; }
+                else { firstGame = false; }
+
+                if(firstGame == true) {
                     views.firstView.SetActive(true);
                     views.firstView.GetComponent<FirstViewController>().NickNameCheck(true);
-                    views.againView.SetActive(false);
-                    firstGame = true;
-
-                    Debug.Log("firstGame");
+                    views.againView.SetActive(false); Debug.Log("firstGame");
                 }
                 else
-                {                   
+                {
                     views.firstView.SetActive(false);
-                    views.againView.SetActive(true);                    
+                    views.againView.SetActive(true);
                     //views.againView.transform.GetChild(1).GetComponent<PuzzleIconListController>().StartDragCheck();
                 }
+
                 LandObjectSetting();
                 StopCoroutine(_OnLand());
                 break;                
@@ -124,7 +126,7 @@ public class LandManager : MonoBehaviour {
             landObjList[i].GetComponent<LandController>().LandSettingBG(i+1); // LandSetting( Land ID );
         } // LandObjBase Setting
 
-        if (UserManager.Instance.currentUser.gotLandList[0].clearPuzzleList.Count == 0)
+        if (firstGame == true)
         {
             gotLandObjList.Add(landObjList[0]);
             gotLandObjList.Add(landObjList[1]);
