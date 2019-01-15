@@ -14,6 +14,7 @@ public class PopupViewController : MonoBehaviour {
     [HideInInspector] public GameObject shopPop; 
     [HideInInspector] public GameObject warningPop;
     [HideInInspector] public GameObject escapePop;
+    [HideInInspector] public GameObject tutorialPop;
 
     void Awake () {
         clearPop = transform.GetChild(0).gameObject;
@@ -24,6 +25,7 @@ public class PopupViewController : MonoBehaviour {
         shopPop = transform.GetChild(5).gameObject;
         warningPop = transform.GetChild(6).gameObject;
         escapePop = transform.GetChild(7).gameObject;
+        tutorialPop = transform.GetChild(8).gameObject;
 
         loadingPop.SetActive(true);
         warningPop.SetActive(true);

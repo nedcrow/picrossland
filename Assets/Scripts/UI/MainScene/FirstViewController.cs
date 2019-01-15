@@ -17,7 +17,7 @@ public class FirstViewController : MonoBehaviour {
         transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate
         {
             LandManager.instance.views.GetComponent<ViewController>().SceneOn(2);
-            PuzzleManager.instance.StartPuzzle("0101");
+            //PuzzleManager.instance.StartPuzzle("0101");
             LandManager.instance.views.GetComponent<ViewController>().SceneOff(0);
         });
     }

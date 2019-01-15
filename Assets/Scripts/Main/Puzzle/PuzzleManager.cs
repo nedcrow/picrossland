@@ -109,6 +109,14 @@ public class PuzzleManager : MonoBehaviour {
             
             AdMobManager.instance.ShowBannerAd();
             #endregion
+
+            #region Tutorial
+            if (UserManager.Instance.GetCurrentInGotLandList(1).clearPuzzleList.Count == 0)
+            {
+                Transform tutorial_trans = viewCon.popupView.GetComponent<PopupViewController>().tutorialPop.transform;
+                viewCon.popupView.GetComponent<PopupViewController>().tutorialPop.GetComponent<TutorialController>().Tutorial("0101", tutorial_trans);
+            }
+            #endregion
         }
     }
 
