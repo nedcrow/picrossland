@@ -11901,7 +11901,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2035088959}
   - component: {fileID: 2035088962}
-  - component: {fileID: 2035088961}
   - component: {fileID: 2035088960}
   m_Layer: 5
   m_Name: TutorialPop
@@ -11939,33 +11938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e9933ab3fd63c48a455278bc90c124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2035088961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2035088958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!222 &2035088962
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12568,7 +12540,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2071026098}
   - component: {fileID: 2071026101}
-  - component: {fileID: 2071026100}
   - component: {fileID: 2071026099}
   m_Layer: 5
   m_Name: EscapePop
@@ -12607,33 +12578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6efab9bfd11cc0b47b88f61226e7ff00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2071026100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2071026097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!222 &2071026101
 CanvasRenderer:
   m_ObjectHideFlags: 0

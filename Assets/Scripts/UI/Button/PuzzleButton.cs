@@ -216,7 +216,7 @@ public class PuzzleButton : MonoBehaviour {
         if (PuzzleManager.instance.DrawEnd == true)
         {
             //Debug.Log(UserManager.Instance.currentUser.name);
-            if (UserManager.Instance.currentUser.name == "nedcrow")// || UserManager.Instance.currentUser.name == "test")
+            if (UserManager.Instance.currentUser.name == "nedcrow" || Application.isEditor==true)
             {
                 PuzzleManager.instance.GetComponent<ClearChecker>().OnGoal();
             }

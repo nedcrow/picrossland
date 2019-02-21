@@ -52,7 +52,7 @@ public class PixelRainEffect : MonoBehaviour {
 
     IEnumerator PixelRain_Co()
     {
-        DropObjSetting();
+        DropObjCountSetting();
         float time = 0;
         float spwanTime = dropSpeed.framePerSpwan;
         while (true)
@@ -68,7 +68,7 @@ public class PixelRainEffect : MonoBehaviour {
         }
     }
 
-    void DropObjSetting()
+    void DropObjCountSetting()
     {
         int count = (Mathf.CeilToInt(((effectBase.lifeTime * dropSpeed.framePerSecond) / dropSpeed.framePerSpwan)) + 1) * effectBase.spwanCount; //Debug.Log("DropSetting : " + count);
 
