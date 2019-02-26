@@ -15,8 +15,8 @@ public class PuzzleIconListController : MonoBehaviour {
     GameObject activeBtns_N;
     GameObject restBtns_S;    
     GameObject activeBtns_S;
-    [SerializeField] float addScreenX; //screen사이즈 변화에 따른 비율변화값.
-    [SerializeField] float addScreenY;
+    [SerializeField] public float addScreenX; //screen사이즈 변화에 따른 비율변화값.
+    [SerializeField] public float addScreenY;
     #endregion
 
     #region ForSkillButtonDrag

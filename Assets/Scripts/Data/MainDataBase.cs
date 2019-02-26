@@ -80,10 +80,10 @@ public class MainDataBase : MonoBehaviour
     }//Set realtime database.
 
     #region BaseDB
-    public void LoadBaseDB() {
-        StartCoroutine(LoadAllCheck());
+    public void LoadBaseDB() {        
         StartCoroutine(LoadLands());
         StartCoroutine(LoadPuzzles());
+        StartCoroutine(LoadAllCheck());
     }
     /// <summary>
     /// 0: ID, 1:Name, 2:Size, 3:UseSpriteNum_Min, 4: UseSpriteNum_Max, 5: Type(N or S)
@@ -108,8 +108,8 @@ public class MainDataBase : MonoBehaviour
                         {
                             Debug.Log("Land, Handle the error");
                         // Handle the error...
-                    }
-                        else if (task.IsCompleted)
+                        }
+                        else if (task.IsCompleted && loadLand==false)
                         {
                             //Debug.Log("Land, TaskComplite");
                             DataSnapshot snapshot = task.Result;
@@ -171,8 +171,9 @@ public class MainDataBase : MonoBehaviour
 
                             tempLandList.Add(tempLand);
                             }
+                            LandManager.instance.landList = new List<DataBase.Land>();
                             LandManager.instance.landList = tempLandList;
-                            loadLand = true;
+                            loadLand = true; Debug.Log("land_True");
                         }
 
                     }
@@ -196,10 +197,10 @@ public class MainDataBase : MonoBehaviour
         loadAll = false;
 
         float time = 0;
-        while (time < 3f)
-        {
+        while (time < 5f)
+        {            
             if (NetworkConnectionChecker.instance.success == true)
-            {
+            {                
                 List<DataBase.Puzzle> tempPuzzleList = new List<DataBase.Puzzle>();
                 #region LoadPuzzleDB_Firebase
                 FirebaseDatabase.DefaultInstance.GetReference("Puzzles").GetValueAsync().ContinueWith
@@ -212,7 +213,7 @@ public class MainDataBase : MonoBehaviour
                       } // Handle the error...
                   else if (task.IsCompleted)
                       {
-                          //Debug.Log("Puzzle, TaskComplite");
+                          Debug.Log("Puzzle, TaskComplite");
                           DataSnapshot snapshot = task.Result;
 
                       #region tempPuzzleList
@@ -301,10 +302,15 @@ public class MainDataBase : MonoBehaviour
                     loadPuzzle = true;
                     Debug.Log("Load_LocalDB");
                 }
+                else
+                {
+                    Debug.Log("Network_Error");
+                }
             }
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.05f);
             time += 0.02f;
         }
+        Debug.Log("NeedMoreTime_LoadPuzzleDB");
     }//After Check That Internet Connection. 
 
     IEnumerator LoadAllCheck()
@@ -319,7 +325,12 @@ public class MainDataBase : MonoBehaviour
                 time = 0;
                 break;
             }
-            else if(time>8){ SceneManager.LoadScene("TitleScene"); Debug.Log("Error_DB Load");  break; }
+            else if(time>8){
+                SceneManager.LoadScene("TitleScene");
+                string errorDB = loadLand == false ? errorDB = "LandDB" : errorDB = "PuzzleDB";
+                Debug.Log("Error_DB Load_"+ errorDB);
+                break;
+            }
             //Debug.Log(string.Format( "loadLand : {0},  loadPuzzle : {1}",loadLand, loadPuzzle));
             yield return new WaitForSeconds(0.2f);
             time = time + 0.2f;

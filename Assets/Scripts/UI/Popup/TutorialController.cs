@@ -17,7 +17,11 @@ public class TutorialController : MonoBehaviour {
         if (tutorial != null) {
             tutorial.transform.SetParent(parent);
             tutorial.SetActive(true);
-            tutorial.GetComponent<RectTransform>().localPosition = Vector3.zero;//SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 48*addScreenY);
+            PuzzleIconListController puzzleIconCon = PuzzleManager.instance.viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>();
+            tutorial.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 720* puzzleIconCon.addScreenX); 
+            tutorial.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1280* puzzleIconCon.addScreenY);
+            tutorial.GetComponent<RectTransform>().localPosition = Vector3.zero;
+           
         }
         else
         {

@@ -56,19 +56,30 @@ public class NetworkConnectionChecker : MonoBehaviour {
     }
 
     IEnumerator ConnectionCheck_C(bool firstCheck)
-    {
-        float runTime=0;
+    {        
+        float runTime =0;
         if (firstCheck == true)
         {
-            Ping pinger = new Ping("216.58.216.164");//google.com
-            while (pinger.isDone == false)
-            {       
-                runTime += 0.05f;
-                yield return new WaitForSeconds(0.01f);                
-            }
+#if UNITY_EDITOR_WIN
+            Debug.Log("firstCheck(editor)=" + firstCheck);
             success = true;
-            Debug.Log("ping : "+ pinger.isDone +" / "+ pinger.time);
-        }
+#endif
+#if UNITY_ANDROID
+            if(success == false)
+            {
+                Debug.Log("firstCheck(android)=" + firstCheck);
+                Ping pinger = new Ping("216.58.216.164");//google.com
+                while (pinger.isDone == false)
+                {
+                    runTime += 0.05f;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                success = true;
+                Debug.Log("ping : " + pinger.isDone + " / " + pinger.time);
+            }            
+#endif
+
+        }        
         yield return null;
     }
 
