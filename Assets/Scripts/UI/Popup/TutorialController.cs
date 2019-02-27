@@ -18,10 +18,13 @@ public class TutorialController : MonoBehaviour {
             tutorial.transform.SetParent(parent);
             tutorial.SetActive(true);
             PuzzleIconListController puzzleIconCon = PuzzleManager.instance.viewCon.againView.transform.GetChild(2).GetComponent<PuzzleIconListController>();
-            tutorial.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 720* puzzleIconCon.addScreenX); 
-            tutorial.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1280* puzzleIconCon.addScreenY);
+            //tutorial.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.height);
+            //tutorial.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width);
+            tutorial.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 720); 
+            tutorial.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1280);
             tutorial.GetComponent<RectTransform>().localPosition = Vector3.zero;
-           
+            tutorial.GetComponent<RectTransform>().localScale = Vector3.one;
+            Debug.Log(string.Format("width : {0}, height : {1}, addScreenX : {2}", Screen.width, Screen.height, puzzleIconCon.addScreenX));
         }
         else
         {
