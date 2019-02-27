@@ -55,7 +55,7 @@ public class CursorController : MonoBehaviour {
     }
 
     public void CheckOn(int num, float checkTime) {
-        posForChild = CheckPosForChild();Debug.Log(posForChild);
+        posForChild = CheckPosForChild();//Debug.Log("posForChild  :"+posForChild);
         GameObject target = PuzzleManager.instance.tileGroup_Active.transform.GetChild(posForChild).gameObject;        //Debug.Log(target.transform.position+", "+  target.GetComponent<TileController>().check+ " / targetList Count : " + targetList.Count);
 
         int sametile = 0;        

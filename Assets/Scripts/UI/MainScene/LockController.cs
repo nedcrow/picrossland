@@ -34,12 +34,12 @@ public class LockController : MonoBehaviour {
             #region LockButtonSetting
             lockButton.SetActive(true);            
             lockButton.GetComponent <Button> (). onClick = new Button.ButtonClickedEvent ();
-            
-            //lockButton.GetComponent<Button>().onClick.RemoveAllListeners();
-            
+            lockButton.GetComponent<Image>().color = Color.white;
+
             lockButton.GetComponent<Button>().onClick.AddListener(delegate {
                 PuzzleManager.instance.viewCon.SceneOn(2);
             });
+            Debug.Log("puzzleList_S : "+LandManager.instance.currentLand.puzzleList_S.Count);
             lockButton.GetComponent<Button>().onClick.AddListener(delegate {
                 PuzzleManager.instance.StartPuzzle(LandManager.instance.currentLand.puzzleList_S[0]);
             });

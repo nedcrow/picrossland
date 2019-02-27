@@ -71,7 +71,7 @@ public class NetworkConnectionChecker : MonoBehaviour {
                 Ping pinger = new Ping("216.58.216.164");//google.com
                 while (pinger.isDone == false)
                 {
-                    runTime += 0.05f;
+                    runTime += 0.01f;
                     yield return new WaitForSeconds(0.01f);
                 }
                 success = true;

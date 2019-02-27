@@ -77,37 +77,42 @@ public class PuzzleButton : MonoBehaviour {
                 for (int i = 0; i < Input.touchCount; i++)
                 {
                     List<RaycastResult> results = TouchedObjs(i);
-                    switch (System.Convert.ToInt32 (tempTouch.phase)) 
-                    {
-                        case 0:
-                            MoveButtonCheck(results);
-                            if (PuzzleManager.instance.cursor.GetComponent<CursorController>().ready == true)
-                            {
-                                MarkButtonCheck(results);
-                            }
-                            break;
+                    if (results != null && results.Count>0) {
+                        switch (System.Convert.ToInt32(tempTouch.phase))
+                        {
+                            case 0:
+                                MoveButtonCheck(results);
+                                if (PuzzleManager.instance.cursor.GetComponent<CursorController>().ready == true)
+                                {
+                                    MarkButtonCheck(results);
+                                }
+                                break;
 
-                        case 1:
-                        case 2 :
-                            if (mouseTime > mouseFirstTime) { MoveButtonCheck(results); } else { mouseTime+=0.01f; }                            
-                            if (PuzzleManager.instance.cursor.GetComponent<CursorController>().ready == true)
-                            {
-                                MarkButtonCheck(results);
-                            }
-                            break;
+                            case 1:
+                            case 2:
+                                if (mouseTime > mouseFirstTime) { MoveButtonCheck(results); } else { mouseTime += 0.01f; }
+                                if (PuzzleManager.instance.cursor.GetComponent<CursorController>().ready == true)
+                                {
+                                    MarkButtonCheck(results);
+                                }
+                                break;
 
-                        case 3 ://TouchPhase.End
-                            //Debug.Log(results[0].gameObject.name);
-                            if (results[0].gameObject.tag == "MoveBtn") { mouseTimeGrade = 0; mouseTime += 0.01f; }
-                            else if (results[0].gameObject.name == "Btn_Hint") { HintButtonClicked(); }
-                            else { MarkButtonOutCheck(results); }
-                            break;                            
+                            case 3://TouchPhase.End
+                                   //Debug.Log(results[0].gameObject.name);
+                                if (results[0].gameObject.tag == "MoveBtn") { mouseTimeGrade = 0; mouseTime += 0.01f; }
+                                else if (results[0].gameObject.name == "Btn_Hint") { HintButtonClicked(); }
+                                else { MarkButtonOutCheck(results); }
+                                break;
+                        }
                     }
                 } 
                 if (Input.touchCount == 1)
                 {
                     List<RaycastResult> results = TouchedObjs(0);
-                    if (results[0].gameObject.tag == "CheckBtn") { mouseTimeGrade = 0; mouseTime = 0; } else { MarkButtonOutCheck(results); }
+                    if (results.Count > 0) {
+                        if (results[0].gameObject.tag == "CheckBtn") { mouseTimeGrade = 0; mouseTime = 0; }
+                        else { MarkButtonOutCheck(results); }
+                    }                    
                 }
             }
             else {
@@ -159,24 +164,28 @@ public class PuzzleButton : MonoBehaviour {
 
     void MoveButtonCheck(List<RaycastResult> results)
     {
-        GameObject obj = results[0].gameObject;
-        if (obj.name == "Btn_Cover")
+        if (results.Count > 0)
         {
-            obj.SetActive(false);
-            PuzzleManager.instance.cursor.GetComponent<CursorController>().ReadyPosition();
-        }
-        else
-        {
-            if(obj.tag == "MoveBtn")
+            foreach(RaycastResult r in results) { Debug.Log(r.gameObject.name); }
+            GameObject obj = results[0].gameObject;
+            if (obj.name == "Btn_Cover")
             {
-                if (obj.name == "Btn_Up") { MoveCursor(0); }
-                else if (obj.name == "Btn_Right") { MoveCursor(1); }
-                else if (obj.name == "Btn_Down") { MoveCursor(2); }
-                else if (obj.name == "Btn_Left") { MoveCursor(3); }               
-            }            
-        }
-        mouseTime += 0.01f;
-        Timer_Move();
+                obj.SetActive(false);
+                PuzzleManager.instance.cursor.GetComponent<CursorController>().ReadyPosition();
+            }
+            else
+            {
+                if (obj.tag == "MoveBtn")
+                {
+                    if (obj.name == "Btn_Up") { MoveCursor(0); }
+                    else if (obj.name == "Btn_Right") { MoveCursor(1); }
+                    else if (obj.name == "Btn_Down") { MoveCursor(2); }
+                    else if (obj.name == "Btn_Left") { MoveCursor(3); }
+                }
+            }
+            mouseTime += 0.01f;
+            Timer_Move();
+        }        
     }
     
     void MarkButtonCheck(List<RaycastResult> results) {       
